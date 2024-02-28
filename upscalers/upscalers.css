@@ -1,0 +1,8 @@
+main {
+    display: none;
+}
+
+canvas {
+    image-rendering: pixelated;
+    border: 2px solid var(--color-text);
+}

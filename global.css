@@ -1,0 +1,106 @@
+@font-face {
+    font-family: "ZillaSlab";
+    src: url("/assets/fonts/ZillaSlab.woff2") format("woff2");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "JetBrainsMono";
+    src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SequelRounded";
+    src: url("/assets/fonts/SequelRounded.woff2") format("woff2");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("/assets/fonts/Inter.woff2") format("woff2");
+    font-display: swap;
+}
+
+:root {
+    --color-base: #1e1e28;
+    --color-mantle: #2c2c3b;
+    --color-crust: #3a3a4c;
+    --color-surface: #47475e;
+    --color-overlay: #555570;
+    --color-subtext: #d8d8d8;
+    --color-text: #ffffff;
+    --color-red: #f06464;
+    --color-orange: #f08c5a;
+    --color-yellow: #f0c878;
+    --color-green: #a0f082;
+    --color-teal: #50c8c8;
+    --color-blue: #6496f0;
+    --color-purple: #b478f0;
+
+    --font-zilla-slab: "ZillaSlab", serif;
+    --font-jetbrains-mono: "JetBrainsMono", monospace;
+    --font-sequel-rounded: "SequelRounded", sans-serif;
+    --font-inter: "Inter", sans-serif;
+
+    --font-size-xlarge: 2.5rem;
+    --font-size-large: 2rem;
+    --font-size-medium: 1.5rem;
+    --font-size-small: 1rem;
+
+    --transition-linear: 0.15s linear;
+    --transition-ease: 0.15s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html {
+    background-color: var(--color-base);
+    box-sizing: border-box;
+    color: var(--color-text);
+}
+
+body {
+    margin: 0;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 64rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-xlarge);
+    margin: 0;
+}
+
+h2 {
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-large);
+    margin: 0;
+}
+
+p {
+    font-family: var(--font-jetbrains-mono);
+    font-size: var(--font-size-medium);
+    margin: 0;
+}
+
+a {
+    color: var(--color-blue);
+    font-family: var(--font-jetbrains-mono);
+    font-size: var(--font-size-medium);
+    text-decoration: none;
+    transition: var(--transition-ease);
+    margin: 0;
+}
+
+a:visited {
+    color: var(--color-blue);
+}
+
+a:hover {
+    color: var(--color-text);
+}
