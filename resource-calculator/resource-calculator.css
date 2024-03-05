@@ -1,0 +1,15 @@
+select {
+    font-family: var(--font-inter);
+    font-size: var(--font-size-medium);
+    border: 2px solid var(--color-text);
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: var(--color-text);
+    padding: 0.2rem 0.5rem;
+    transition: var(--transition-ease);
+    cursor: pointer;
+}
+
+select:hover {
+    border-color: var(--color-blue);
+}
