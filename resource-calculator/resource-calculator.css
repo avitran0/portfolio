@@ -13,3 +13,10 @@ select {
 select:hover {
     border-color: var(--color-blue);
 }
+
+img {
+    width: 4rem;
+    aspect-ratio: 1 / 1;
+    border: 2px solid var(--color-text);
+    image-rendering: pixelated;
+}
