@@ -36,6 +36,8 @@ schematicInput.addEventListener("input", (event) => {
     reader.readAsArrayBuffer(file);
 });
 
+console.log(calculateItem(Items["barrel"], 32));
+
 function calculateItem(item, quantity) {
     if (!item) {
         return {};
@@ -47,6 +49,7 @@ function calculateItem(item, quantity) {
     const recipe = item.ingredients;
     const result = {};
     for (const ingredient of recipe) {
+        // check if ingredient is a tag
         const ingredientItem = Items[ingredient.id];
         const ingredientQuantity = Math.ceil((quantity / item.result) * ingredient.quantity);
         const ingredientResult = calculateItem(ingredientItem, ingredientQuantity);
