@@ -7,13 +7,24 @@ format
 }
 */
 /**
- * @type {Object.<string, {name: string, base_item?: boolean, ingredients?: {id?: string, tag?: string, quantity: number}[], result?: number}>}
+ * @type {Object.<string, {name: string, id: string, base_item?: boolean, ingredients?: {id?: string, tag?: string, quantity: number}[], result?: number}>}
  */
-export const Blocks = Object.freeze({
-    acacia_button: { name: "Acacia Button", ingredients: [{ id: "acacia_planks", quantity: 1 }], result: 1 },
-    acacia_door: { name: "Acacia Door", ingredients: [{ id: "acacia_planks", quantity: 6 }], result: 3 },
+export const Items = Object.freeze({
+    acacia_button: {
+        name: "Acacia Button",
+        id: "acacia_button",
+        ingredients: [{ id: "acacia_planks", quantity: 1 }],
+        result: 1,
+    },
+    acacia_door: {
+        name: "Acacia Door",
+        id: "acacia_door",
+        ingredients: [{ id: "acacia_planks", quantity: 6 }],
+        result: 3,
+    },
     acacia_fence: {
         name: "Acacia Fence",
+        id: "acacia_fence",
         ingredients: [
             { id: "acacia_planks", quantity: 4 },
             { id: "stick", quantity: 2 },
@@ -22,6 +33,7 @@ export const Blocks = Object.freeze({
     },
     acacia_fence_gate: {
         name: "Acacia Fence Gate",
+        id: "acacia_fence_gate",
         ingredients: [
             { id: "acacia_planks", quantity: 2 },
             { id: "stick", quantity: 4 },
@@ -30,35 +42,64 @@ export const Blocks = Object.freeze({
     },
     acacia_hanging_sign: {
         name: "Acacia Hanging Sign",
+        id: "acacia_hanging_sign",
         ingredients: [
             { id: "acacia_log", quantity: 6 },
             { id: "chain", quantity: 2 },
         ],
         result: 6,
     },
-    acacia_leaves: { name: "Acacia Leaves", base_item: true },
-    acacia_log: { name: "Acacia Log", base_item: true },
-    acacia_planks: { name: "Acacia Planks", ingredients: [{ id: "acacia_log", quantity: 1 }], result: 4 },
+    acacia_leaves: { name: "Acacia Leaves", id: "acacia_leaves", base_item: true },
+    acacia_log: { name: "Acacia Log", id: "acacia_log", base_item: true },
+    acacia_planks: {
+        name: "Acacia Planks",
+        id: "acacia_planks",
+        ingredients: [{ id: "acacia_log", quantity: 1 }],
+        result: 4,
+    },
     acacia_pressure_plate: {
         name: "Acacia Pressure Plate",
+        id: "acacia_pressure_plate",
         ingredients: [{ id: "acacia_planks", quantity: 2 }],
         result: 1,
     },
-    acacia_saplilng: { name: "Acacia Sapling", base_item: true },
+    acacia_sapling: { name: "Acacia Sapling", id: "acacia_sapling", base_item: true },
     acacia_sign: {
         name: "Acacia Sign",
+        id: "acacia_sign",
         ingredients: [
             { id: "acacia_planks", quantity: 6 },
             { id: "stick", quantity: 1 },
         ],
         result: 3,
     },
-    acacia_slab: { name: "Acacia Slab", ingredients: [{ id: "acacia_planks", quantity: 3 }], result: 6 },
-    acacia_stairs: { name: "Acacia Stairs", ingredients: [{ id: "acacia_planks", quantity: 6 }], result: 4 },
-    acacia_trapdoor: { name: "Acacia Trapdoor", ingredients: [{ id: "acacia_planks", quantity: 6 }], result: 2 },
-    acacia_wood: { name: "Acacia Wood", ingredients: [{ id: "acacia_log", quantity: 4 }], result: 3 },
+    acacia_slab: {
+        name: "Acacia Slab",
+        id: "acacia_slab",
+        ingredients: [{ id: "acacia_planks", quantity: 3 }],
+        result: 6,
+    },
+    acacia_stairs: {
+        name: "Acacia Stairs",
+        id: "acacia_stairs",
+        ingredients: [{ id: "acacia_planks", quantity: 6 }],
+        result: 4,
+    },
+    acacia_trapdoor: {
+        name: "Acacia Trapdoor",
+        id: "acacia_trapdoor",
+        ingredients: [{ id: "acacia_planks", quantity: 6 }],
+        result: 2,
+    },
+    acacia_wood: {
+        name: "Acacia Wood",
+        id: "acacia_wood",
+        ingredients: [{ id: "acacia_log", quantity: 4 }],
+        result: 3,
+    },
     activator_rail: {
         name: "Activator Rail",
+        id: "activator_rail",
         ingredients: [
             { id: "iron_ingot", quantity: 6 },
             { id: "redstone_torch", quantity: 1 },
@@ -66,31 +107,68 @@ export const Blocks = Object.freeze({
         ],
         result: 6,
     },
-    allium: { name: "Allium", base_item: true },
-    amethyst_block: { name: "Block of Amethyst", ingredients: [{ id: "amethyst_shard", quantity: 4 }], result: 1 },
-    amethyst_cluster: { name: "Amethyst Cluster", base_item: true },
-    ancient_debris: { name: "Ancient Debris", base_item: true },
-    andesite: { name: "Andesite", base_item: true },
-    andesite_slab: { name: "Andesite Slab", ingredients: [{ id: "andesite", quantity: 3 }], result: 6 },
-    andesite_stairs: { name: "Andesite Stairs", ingredients: [{ id: "andesite", quantity: 6 }], result: 4 },
-    andesite_wall: { name: "Andesite Wall", ingredients: [{ id: "andesite", quantity: 6 }], result: 6 },
+    allium: { name: "Allium", id: "allium", base_item: true },
+    amethyst_block: {
+        name: "Block of Amethyst",
+        id: "amethyst_block",
+        ingredients: [{ id: "amethyst_shard", quantity: 4 }],
+        result: 1,
+    },
+    amethyst_cluster: { name: "Amethyst Cluster", id: "amethyst_cluster", base_item: true },
+    ancient_debris: { name: "Ancient Debris", id: "ancient_debris", base_item: true },
+    andesite: { name: "Andesite", id: "andesite", base_item: true },
+    andesite_slab: {
+        name: "Andesite Slab",
+        id: "andesite_slab",
+        ingredients: [{ id: "andesite", quantity: 3 }],
+        result: 6,
+    },
+    andesite_stairs: {
+        name: "Andesite Stairs",
+        id: "andesite_stairs",
+        ingredients: [{ id: "andesite", quantity: 6 }],
+        result: 4,
+    },
+    andesite_wall: {
+        name: "Andesite Wall",
+        id: "andesite_wall",
+        ingredients: [{ id: "andesite", quantity: 6 }],
+        result: 6,
+    },
     anvil: {
         name: "Anvil",
+        id: "anvil",
         ingredients: [
             { id: "iron_block", quantity: 3 },
             { id: "iron_ingot", quantity: 4 },
         ],
         result: 1,
     },
-    azalea: { name: "Azalea", base_item: true },
-    azalea_leaves: { name: "Azalea Leaves", base_item: true },
-    azure_bluet: { name: "Azure Bluet", base_item: true },
-    bamboo: { name: "Bamboo", base_item: true },
-    bamboo_block: { name: "Block of Bamboo", ingredients: [{ id: "bamboo", quantity: 9 }], result: 1 },
-    bamboo_button: { name: "Bamboo Button", ingredients: [{ id: "bamboo_planks", quantity: 1 }], result: 1 },
-    bamboo_door: { name: "Bamboo Door", ingredients: [{ id: "bamboo_planks", quantity: 6 }], result: 3 },
+    azalea: { name: "Azalea", id: "azalea", base_item: true },
+    azalea_leaves: { name: "Azalea Leaves", id: "azalea_leaves", base_item: true },
+    azure_bluet: { name: "Azure Bluet", id: "azure_bluet", base_item: true },
+    bamboo: { name: "Bamboo", id: "bamboo", base_item: true },
+    bamboo_block: {
+        name: "Block of Bamboo",
+        id: "bamboo_block",
+        ingredients: [{ id: "bamboo", quantity: 9 }],
+        result: 1,
+    },
+    bamboo_button: {
+        name: "Bamboo Button",
+        id: "bamboo_button",
+        ingredients: [{ id: "bamboo_planks", quantity: 1 }],
+        result: 1,
+    },
+    bamboo_door: {
+        name: "Bamboo Door",
+        id: "bamboo_door",
+        ingredients: [{ id: "bamboo_planks", quantity: 6 }],
+        result: 3,
+    },
     bamboo_fence: {
         name: "Bamboo Fence",
+        id: "bamboo_fence",
         ingredients: [
             { id: "bamboo_planks", quantity: 4 },
             { id: "stick", quantity: 2 },
@@ -99,6 +177,7 @@ export const Blocks = Object.freeze({
     },
     bamboo_fence_gate: {
         name: "Bamboo Fence Gate",
+        id: "bamboo_fence_gate",
         ingredients: [
             { id: "bamboo_planks", quantity: 2 },
             { id: "stick", quantity: 4 },
@@ -107,49 +186,85 @@ export const Blocks = Object.freeze({
     },
     bamboo_hanging_sign: {
         name: "Bamboo Hanging Sign",
+        id: "bamboo_hanging_sign",
         ingredients: [
             { id: "bamboo_block", quantity: 6 },
             { id: "chain", quantity: 2 },
         ],
         result: 6,
     },
-    bamboo_mosaic: { name: "Bamboo Mosaic", ingredients: [{ id: "bamboo_slab", quantity: 2 }], result: 1 },
-    bamboo_mosaic_slab: { name: "Bamboo Mosaic Slab", ingredients: [{ id: "bamboo_mosaic", quantity: 3 }], result: 6 },
+    bamboo_mosaic: {
+        name: "Bamboo Mosaic",
+        id: "bamboo_mosaic",
+        ingredients: [{ id: "bamboo_slab", quantity: 2 }],
+        result: 1,
+    },
+    bamboo_mosaic_slab: {
+        name: "Bamboo Mosaic Slab",
+        id: "bamboo_mosaic_slab",
+        ingredients: [{ id: "bamboo_mosaic", quantity: 3 }],
+        result: 6,
+    },
     bamboo_mosaic_stairs: {
         name: "Bamboo Mosaic Stairs",
+        id: "bamboo_mosaic_stairs",
         ingredients: [{ id: "bamboo_mosaic", quantity: 6 }],
         result: 4,
     },
-    bamboo_planks: { name: "Bamboo Planks", ingredients: [{ id: "bamboo_block", quantity: 1 }], result: 2 },
+    bamboo_planks: {
+        name: "Bamboo Planks",
+        id: "bamboo_planks",
+        ingredients: [{ id: "bamboo_block", quantity: 1 }],
+        result: 2,
+    },
     bamboo_pressure_plate: {
         name: "Bamboo Pressure Plate",
+        id: "bamboo_pressure_plate",
         ingredients: [{ id: "bamboo_planks", quantity: 2 }],
         result: 1,
     },
-    bamboo_shoot: { name: "Bamboo Shoot", base_item: true },
+    bamboo_shoot: { name: "Bamboo Shoot", id: "bamboo_shoot", base_item: true },
     bamboo_sign: {
         name: "Bamboo Sign",
+        id: "bamboo_sign",
         ingredients: [
             { id: "bamboo_planks", quantity: 6 },
             { id: "stick", quantity: 1 },
         ],
         result: 3,
     },
-    bamboo_slab: { name: "Bamboo Slab", ingredients: [{ id: "bamboo_planks", quantity: 3 }], result: 6 },
-    bamboo_stairs: { name: "Bamboo Stairs", ingredients: [{ id: "bamboo_planks", quantity: 6 }], result: 4 },
-    bamboo_trapdoor: { name: "Bamboo Trapdoor", ingredients: [{ id: "bamboo_planks", quantity: 6 }], result: 2 },
+    bamboo_slab: {
+        name: "Bamboo Slab",
+        id: "bamboo_slab",
+        ingredients: [{ id: "bamboo_planks", quantity: 3 }],
+        result: 6,
+    },
+    bamboo_stairs: {
+        name: "Bamboo Stairs",
+        id: "bamboo_stairs",
+        ingredients: [{ id: "bamboo_planks", quantity: 6 }],
+        result: 4,
+    },
+    bamboo_trapdoor: {
+        name: "Bamboo Trapdoor",
+        id: "bamboo_trapdoor",
+        ingredients: [{ id: "bamboo_planks", quantity: 6 }],
+        result: 2,
+    },
     barrel: {
         name: "Barrel",
+        id: "barrel",
         ingredients: [
             { tag: "planks", quantity: 6 },
             { tag: "wood_slabs", quantity: 2 },
         ],
         result: 1,
     },
-    barrier: { name: "Barrier", base_item: true },
-    basalt: { name: "Basalt", base_item: true },
+    barrier: { name: "Barrier", id: "barrier", base_item: true },
+    basalt: { name: "Basalt", id: "basalt", base_item: true },
     beacon: {
         name: "Beacon",
+        id: "beacon",
         ingredients: [
             { id: "glass", quantity: 5 },
             { id: "nether_star", quantity: 1 },
@@ -157,23 +272,30 @@ export const Blocks = Object.freeze({
         ],
         result: 1,
     },
-    bedrock: { name: "Bedrock", base_item: true },
-    bee_nest: { name: "Bee Nest", base_item: true },
+    bedrock: { name: "Bedrock", id: "bedrock", base_item: true },
+    bee_nest: { name: "Bee Nest", id: "bee_nest", base_item: true },
     beehive: {
         name: "Beehive",
+        id: "beehive",
         ingredients: [
             { tag: "planks", quantity: 6 },
             { id: "honeycomb", quantity: 3 },
         ],
         result: 1,
     },
-    beetroots: { name: "Beetroots", ingredients: [{ id: "beetroot_seeds", quantity: 1 }], result: 1 },
-    bell: { name: "Bell", base_item: true },
-    big_dripleaf: { name: "Big Dripleaf", base_item: true },
-    birch_button: { name: "Birch Button", ingredients: [{ id: "birch_planks", quantity: 1 }], result: 1 },
-    birch_door: { name: "Birch Door", ingredients: [{ id: "birch_planks", quantity: 6 }], result: 3 },
+    beetroots: { name: "Beetroots", id: "beetroots", ingredients: [{ id: "beetroot_seeds", quantity: 1 }], result: 1 },
+    bell: { name: "Bell", id: "bell", base_item: true },
+    big_dripleaf: { name: "Big Dripleaf", id: "big_dripleaf", base_item: true },
+    birch_button: {
+        name: "Birch Button",
+        id: "birch_button",
+        ingredients: [{ id: "birch_planks", quantity: 1 }],
+        result: 1,
+    },
+    birch_door: { name: "Birch Door", id: "birch_door", ingredients: [{ id: "birch_planks", quantity: 6 }], result: 3 },
     birch_fence: {
         name: "Birch Fence",
+        id: "birch_fence",
         ingredients: [
             { id: "birch_planks", quantity: 4 },
             { id: "stick", quantity: 2 },
@@ -182,6 +304,7 @@ export const Blocks = Object.freeze({
     },
     birch_fence_gate: {
         name: "Birch Fence Gate",
+        id: "birch_fence_gate",
         ingredients: [
             { id: "birch_planks", quantity: 2 },
             { id: "stick", quantity: 4 },
@@ -190,35 +313,54 @@ export const Blocks = Object.freeze({
     },
     birch_hanging_sign: {
         name: "Birch Hanging Sign",
+        id: "birch_hanging_sign",
         ingredients: [
             { id: "birch_log", quantity: 6 },
             { id: "chain", quantity: 2 },
         ],
         result: 6,
     },
-    birch_leaves: { name: "Birch Leaves", base_item: true },
-    birch_log: { name: "Birch Log", base_item: true },
-    birch_planks: { name: "Birch Planks", ingredients: [{ id: "birch_log", quantity: 1 }], result: 4 },
+    birch_leaves: { name: "Birch Leaves", id: "birch_leaves", base_item: true },
+    birch_log: { name: "Birch Log", id: "birch_log", base_item: true },
+    birch_planks: {
+        name: "Birch Planks",
+        id: "birch_planks",
+        ingredients: [{ id: "birch_log", quantity: 1 }],
+        result: 4,
+    },
     birch_pressure_plate: {
         name: "Birch Pressure Plate",
+        id: "birch_pressure_plate",
         ingredients: [{ id: "birch_planks", quantity: 2 }],
         result: 1,
     },
-    birch_saplilng: { name: "Birch Sapling", base_item: true },
+    birch_sapling: { name: "Birch Sapling", id: "birch_sapling", base_item: true },
     birch_sign: {
         name: "Birch Sign",
+        id: "birch_sign",
         ingredients: [
             { id: "birch_planks", quantity: 6 },
             { id: "stick", quantity: 1 },
         ],
         result: 3,
     },
-    birch_slab: { name: "Birch Slab", ingredients: [{ id: "birch_planks", quantity: 3 }], result: 6 },
-    birch_stairs: { name: "Birch Stairs", ingredients: [{ id: "birch_planks", quantity: 6 }], result: 4 },
-    birch_trapdoor: { name: "Birch Trapdoor", ingredients: [{ id: "birch_planks", quantity: 6 }], result: 2 },
-    birch_wood: { name: "Birch Wood", ingredients: [{ id: "birch_log", quantity: 4 }], result: 3 },
+    birch_slab: { name: "Birch Slab", id: "birch_slab", ingredients: [{ id: "birch_planks", quantity: 3 }], result: 6 },
+    birch_stairs: {
+        name: "Birch Stairs",
+        id: "birch_stairs",
+        ingredients: [{ id: "birch_planks", quantity: 6 }],
+        result: 4,
+    },
+    birch_trapdoor: {
+        name: "Birch Trapdoor",
+        id: "birch_trapdoor",
+        ingredients: [{ id: "birch_planks", quantity: 6 }],
+        result: 2,
+    },
+    birch_wood: { name: "Birch Wood", id: "birch_wood", ingredients: [{ id: "birch_log", quantity: 4 }], result: 3 },
     black_banner: {
         name: "Black Banner",
+        id: "black_banner",
         ingredients: [
             { id: "black_wool", quantity: 6 },
             { id: "stick", quantity: 1 },
@@ -227,6 +369,7 @@ export const Blocks = Object.freeze({
     },
     black_bed: {
         name: "Black Bed",
+        id: "black_bed",
         ingredients: [
             { id: "black_wool", quantity: 3 },
             { id: "planks", quantity: 3 },
@@ -235,16 +378,28 @@ export const Blocks = Object.freeze({
     },
     black_candle: {
         name: "Black Candle",
+        id: "black_candle",
         ingredients: [
             { id: "black_dye", quantity: 1 },
             { id: "candle", quantity: 1 },
         ],
         result: 1,
     },
-    black_carpet: { name: "Black Carpet", ingredients: [{ id: "black_wool", quantity: 2 }], result: 3 },
-    black_concrete: { name: "Black Concrete", ingredients: [{ id: "black_concrete_powder", quantity: 1 }], result: 1 },
+    black_carpet: {
+        name: "Black Carpet",
+        id: "black_carpet",
+        ingredients: [{ id: "black_wool", quantity: 2 }],
+        result: 3,
+    },
+    black_concrete: {
+        name: "Black Concrete",
+        id: "black_concrete",
+        ingredients: [{ id: "black_concrete_powder", quantity: 1 }],
+        result: 1,
+    },
     black_concrete_powder: {
         name: "Black Concrete Powder",
+        id: "black_concrete_powder",
         ingredients: [
             { id: "black_dye", quantity: 1 },
             { id: "gravel", quantity: 4 },
@@ -254,11 +409,13 @@ export const Blocks = Object.freeze({
     },
     black_glazed_terracotta: {
         name: "Black Glazed Terracotta",
+        id: "black_glazed_terracotta",
         ingredients: [{ id: "black_terracotta", quantity: 1 }],
         result: 1,
     },
     black_shulker_box: {
         name: "Black Shulker Box",
+        id: "black_shulker_box",
         ingredients: [
             { id: "black_dye", quantity: 1 },
             { tag: "shulker_box", quantity: 1 },
@@ -267,6 +424,7 @@ export const Blocks = Object.freeze({
     },
     black_stained_glass: {
         name: "Black Stained Glass",
+        id: "black_stained_glass",
         ingredients: [
             { id: "black_dye", quantity: 1 },
             { id: "glass", quantity: 8 },
@@ -275,6 +433,7 @@ export const Blocks = Object.freeze({
     },
     black_stained_glass_pane: {
         name: "Black Stained Glass Pane",
+        id: "black_stained_glass_pane",
         ingredients: [
             { id: "black_dye", quantity: 1 },
             { id: "glass_pane", quantity: 8 },
@@ -283,6 +442,7 @@ export const Blocks = Object.freeze({
     },
     black_terractotta: {
         name: "Black Terracotta",
+        id: "black_terractotta",
         ingredients: [
             { id: "black_dye", quantity: 1 },
             { id: "terracotta", quantity: 8 },
@@ -291,18 +451,35 @@ export const Blocks = Object.freeze({
     },
     black_wool: {
         name: "Black Wool",
+        id: "black_wool",
         ingredients: [
             { id: "black_dye", quantity: 1 },
             { tag: "wool", quantity: 1 },
         ],
         result: 1,
     },
-    blackstone: { name: "Blackstone", base_item: true },
-    blackstone_slab: { name: "Blackstone Slab", ingredients: [{ id: "blackstone", quantity: 3 }], result: 6 },
-    blackstone_stairs: { name: "Blackstone Stairs", ingredients: [{ id: "blackstone", quantity: 6 }], result: 4 },
-    blackstone_wall: { name: "Blackstone Wall", ingredients: [{ id: "blackstone", quantity: 6 }], result: 6 },
+    blackstone: { name: "Blackstone", id: "blackstone", base_item: true },
+    blackstone_slab: {
+        name: "Blackstone Slab",
+        id: "blackstone_slab",
+        ingredients: [{ id: "blackstone", quantity: 3 }],
+        result: 6,
+    },
+    blackstone_stairs: {
+        name: "Blackstone Stairs",
+        id: "blackstone_stairs",
+        ingredients: [{ id: "blackstone", quantity: 6 }],
+        result: 4,
+    },
+    blackstone_wall: {
+        name: "Blackstone Wall",
+        id: "blackstone_wall",
+        ingredients: [{ id: "blackstone", quantity: 6 }],
+        result: 6,
+    },
     blast_furnace: {
         name: "Blast Furnace",
+        id: "blast_furnace",
         ingredients: [
             { id: "furnace", quantity: 1 },
             { id: "iron_ingot", quantity: 5 },
@@ -310,9 +487,9 @@ export const Blocks = Object.freeze({
         ],
         result: 1,
     },
-    // todo: resource blocks
     blue_banner: {
         name: "Blue Banner",
+        id: "blue_banner",
         ingredients: [
             { id: "blue_wool", quantity: 6 },
             { id: "stick", quantity: 1 },
@@ -321,6 +498,7 @@ export const Blocks = Object.freeze({
     },
     blue_bed: {
         name: "Blue Bed",
+        id: "blue_bed",
         ingredients: [
             { id: "blue_wool", quantity: 3 },
             { tag: "planks", quantity: 3 },
@@ -329,16 +507,23 @@ export const Blocks = Object.freeze({
     },
     blue_candle: {
         name: "Blue Candle",
+        id: "blue_candle",
         ingredients: [
             { id: "blue_dye", quantity: 1 },
             { id: "candle", quantity: 1 },
         ],
         result: 1,
     },
-    blue_carpet: { name: "Blue Carpet", ingredients: [{ id: "blue_wool", quantity: 2 }], result: 3 },
-    blue_concrete: { name: "Blue Concrete", ingredients: [{ id: "blue_concrete_powder", quantity: 1 }], result: 1 },
+    blue_carpet: { name: "Blue Carpet", id: "blue_carpet", ingredients: [{ id: "blue_wool", quantity: 2 }], result: 3 },
+    blue_concrete: {
+        name: "Blue Concrete",
+        id: "blue_concrete",
+        ingredients: [{ id: "blue_concrete_powder", quantity: 1 }],
+        result: 1,
+    },
     blue_concrete_powder: {
         name: "Blue Concrete Powder",
+        id: "blue_concrete_powder",
         ingredients: [
             { id: "blue_dye", quantity: 1 },
             { id: "gravel", quantity: 4 },
@@ -348,13 +533,15 @@ export const Blocks = Object.freeze({
     },
     blue_glazed_terracotta: {
         name: "Blue Glazed Terracotta",
+        id: "blue_glazed_terracotta",
         ingredients: [{ id: "blue_terracotta", quantity: 1 }],
         result: 1,
     },
-    blue_ice: { name: "Blue Ice", base_item: true },
-    blue_orchid: { name: "Blue Orchid", base_item: true },
+    blue_ice: { name: "Blue Ice", id: "blue_ice", base_item: true },
+    blue_orchid: { name: "Blue Orchid", id: "blue_orchid", base_item: true },
     blue_shulker_box: {
         name: "Blue Shulker Box",
+        id: "blue_shulker_box",
         ingredients: [
             { id: "blue_dye", quantity: 1 },
             { tag: "shulker_box", quantity: 1 },
@@ -363,6 +550,7 @@ export const Blocks = Object.freeze({
     },
     blue_stained_glass: {
         name: "Blue Stained Glass",
+        id: "blue_stained_glass",
         ingredients: [
             { id: "blue_dye", quantity: 1 },
             { id: "glass", quantity: 8 },
@@ -371,6 +559,7 @@ export const Blocks = Object.freeze({
     },
     blue_stained_glass_pane: {
         name: "Blue Stained Glass Pane",
+        id: "blue_stained_glass_pane",
         ingredients: [
             { id: "blue_dye", quantity: 1 },
             { id: "glass_pane", quantity: 8 },
@@ -379,6 +568,7 @@ export const Blocks = Object.freeze({
     },
     blue_terracotta: {
         name: "Blue Terracotta",
+        id: "blue_terracotta",
         ingredients: [
             { id: "blue_dye", quantity: 1 },
             { id: "terracotta", quantity: 8 },
@@ -387,38 +577,42 @@ export const Blocks = Object.freeze({
     },
     blue_wool: {
         name: "Blue Wool",
+        id: "blue_wool",
         ingredients: [
             { id: "blue_dye", quantity: 1 },
             { tag: "wool", quantity: 1 },
         ],
         result: 1,
     },
-    bone_block: { name: "Bone Block", ingredients: [{ id: "bone_meal", quantity: 9 }], result: 1 },
+    bone_block: { name: "Bone Block", id: "bone_block", ingredients: [{ id: "bone_meal", quantity: 9 }], result: 1 },
     bookshelf: {
         name: "Bookshelf",
+        id: "bookshelf",
         ingredients: [
             { id: "book", quantity: 3 },
             { tag: "planks", quantity: 6 },
         ],
         result: 1,
     },
-    brain_coral: { name: "Brain Coral", base_item: true },
-    brain_coral_block: { name: "Brain Coral Block", base_item: true },
-    brain_coral_fan: { name: "Brain Coral Fan", base_item: true },
+    brain_coral: { name: "Brain Coral", id: "brain_coral", base_item: true },
+    brain_coral_block: { name: "Brain Coral Block", id: "brain_coral_block", base_item: true },
+    brain_coral_fan: { name: "Brain Coral Fan", id: "brain_coral_fan", base_item: true },
     brewing_stand: {
         name: "Brewing Stand",
+        id: "brewing_stand",
         ingredients: [
             { id: "blaze_rod", quantity: 1 },
             { tag: "cobblestone", quantity: 3 },
         ],
         result: 1,
     },
-    brick_slab: { name: "Brick Slab", ingredients: [{ id: "brick", quantity: 3 }], result: 6 },
-    brick_stairs: { name: "Brick Stairs", ingredients: [{ id: "brick", quantity: 6 }], result: 4 },
-    brick_wall: { name: "Brick Wall", ingredients: [{ id: "brick", quantity: 6 }], result: 6 },
-    bricks: { name: "Bricks", ingredients: [{ id: "brick", quantity: 4 }], result: 1 },
+    brick_slab: { name: "Brick Slab", id: "brick_slab", ingredients: [{ id: "brick", quantity: 3 }], result: 6 },
+    brick_stairs: { name: "Brick Stairs", id: "brick_stairs", ingredients: [{ id: "brick", quantity: 6 }], result: 4 },
+    brick_wall: { name: "Brick Wall", id: "brick_wall", ingredients: [{ id: "brick", quantity: 6 }], result: 6 },
+    bricks: { name: "Bricks", id: "bricks", ingredients: [{ id: "brick", quantity: 4 }], result: 1 },
     brown_banner: {
         name: "Brown Banner",
+        id: "brown_banner",
         ingredients: [
             { id: "brown_wool", quantity: 6 },
             { id: "stick", quantity: 1 },
@@ -427,6 +621,7 @@ export const Blocks = Object.freeze({
     },
     brown_bed: {
         name: "Brown Bed",
+        id: "brown_bed",
         ingredients: [
             { id: "brown_wool", quantity: 3 },
             { tag: "planks", quantity: 3 },
@@ -435,16 +630,28 @@ export const Blocks = Object.freeze({
     },
     brown_candle: {
         name: "Brown Candle",
+        id: "brown_candle",
         ingredients: [
             { id: "brown_dye", quantity: 1 },
             { id: "candle", quantity: 1 },
         ],
         result: 1,
     },
-    brown_carpet: { name: "Brown Carpet", ingredients: [{ id: "brown_wool", quantity: 2 }], result: 3 },
-    brown_concrete: { name: "Brown Concrete", ingredients: [{ id: "brown_concrete_powder", quantity: 1 }], result: 1 },
+    brown_carpet: {
+        name: "Brown Carpet",
+        id: "brown_carpet",
+        ingredients: [{ id: "brown_wool", quantity: 2 }],
+        result: 3,
+    },
+    brown_concrete: {
+        name: "Brown Concrete",
+        id: "brown_concrete",
+        ingredients: [{ id: "brown_concrete_powder", quantity: 1 }],
+        result: 1,
+    },
     brown_concrete_powder: {
         name: "Brown Concrete Powder",
+        id: "brown_concrete_powder",
         ingredients: [
             { id: "brown_dye", quantity: 1 },
             { id: "gravel", quantity: 4 },
@@ -454,13 +661,15 @@ export const Blocks = Object.freeze({
     },
     brown_glazed_terracotta: {
         name: "Brown Glazed Terracotta",
+        id: "brown_glazed_terracotta",
         ingredients: [{ id: "brown_terracotta", quantity: 1 }],
         result: 1,
     },
-    brown_mushroom: { name: "Brown Mushroom", base_item: true },
-    brown_mushroom_block: { name: "Brown Mushroom Block", base_item: true },
+    brown_mushroom: { name: "Brown Mushroom", id: "brown_mushroom", base_item: true },
+    brown_mushroom_block: { name: "Brown Mushroom Block", id: "brown_mushroom_block", base_item: true },
     brown_shulker_box: {
         name: "Brown Shulker Box",
+        id: "brown_shulker_box",
         ingredients: [
             { id: "brown_dye", quantity: 1 },
             { tag: "shulker_box", quantity: 1 },
@@ -469,6 +678,7 @@ export const Blocks = Object.freeze({
     },
     brown_stained_glass: {
         name: "Brown Stained Glass",
+        id: "brown_stained_glass",
         ingredients: [
             { id: "brown_dye", quantity: 1 },
             { id: "glass", quantity: 8 },
@@ -477,6 +687,7 @@ export const Blocks = Object.freeze({
     },
     brown_stained_glass_pane: {
         name: "Brown Stained Glass Pane",
+        id: "brown_stained_glass_pane",
         ingredients: [
             { id: "brown_dye", quantity: 1 },
             { id: "glass_pane", quantity: 8 },
@@ -485,6 +696,7 @@ export const Blocks = Object.freeze({
     },
     brown_terracotta: {
         name: "Brown Terracotta",
+        id: "brown_terracotta",
         ingredients: [
             { id: "brown_dye", quantity: 1 },
             { id: "terracotta", quantity: 8 },
@@ -493,19 +705,21 @@ export const Blocks = Object.freeze({
     },
     brown_wool: {
         name: "Brown Wool",
+        id: "brown_wool",
         ingredients: [
             { id: "brown_dye", quantity: 1 },
             { tag: "wool", quantity: 1 },
         ],
         result: 1,
     },
-    bubble_coral: { name: "Bubble Coral", base_item: true },
-    bubble_coral_block: { name: "Bubble Coral Block", base_item: true },
-    bubble_coral_fan: { name: "Bubble Coral Fan", base_item: true },
-    budding_amethyst: { name: "Budding Amethyst", base_item: true },
-    cactus: { name: "Cactus", base_item: true },
+    bubble_coral: { name: "Bubble Coral", id: "bubble_coral", base_item: true },
+    bubble_coral_block: { name: "Bubble Coral Block", id: "bubble_coral_block", base_item: true },
+    bubble_coral_fan: { name: "Bubble Coral Fan", id: "bubble_coral_fan", base_item: true },
+    budding_amethyst: { name: "Budding Amethyst", id: "budding_amethyst", base_item: true },
+    cactus: { name: "Cactus", id: "cactus", base_item: true },
     cake: {
         name: "Cake",
+        id: "cake",
         ingredients: [
             { id: "egg", quantity: 1 },
             { id: "milk_bucket", quantity: 3 },
@@ -514,9 +728,10 @@ export const Blocks = Object.freeze({
         ],
         result: 1,
     },
-    calcite: { name: "Calcite", base_item: true },
+    calcite: { name: "Calcite", id: "calcite", base_item: true },
     calibrated_sculk_sensor: {
         name: "Calibrated Sculk Sensor",
+        id: "calibrated_sculk_sensor",
         ingredients: [
             { id: "amethyst_shard", quantity: 3 },
             { id: "sculk_sensor", quantity: 1 },
@@ -525,6 +740,7 @@ export const Blocks = Object.freeze({
     },
     campfire: {
         name: "Campfire",
+        id: "campfire",
         ingredients: [
             { id: "charcoal", quantity: 1 },
             { id: "stick", quantity: 3 },
@@ -534,39 +750,49 @@ export const Blocks = Object.freeze({
     },
     candle: {
         name: "Candle",
+        id: "candle",
         ingredients: [
             { id: "honeycomb", quantity: 1 },
             { id: "string", quantity: 1 },
         ],
         result: 4,
     },
-    carrots: { name: "Carrots", ingredients: [{ id: "carrot", quantity: 1 }], result: 1 },
+    carrots: { name: "Carrots", id: "carrots", ingredients: [{ id: "carrot", quantity: 1 }], result: 1 },
     cartography_table: {
         name: "Cartography Table",
+        id: "cartography_table",
         ingredients: [
             { id: "paper", quantity: 2 },
             { tag: "planks", quantity: 4 },
         ],
         result: 1,
     },
-    carved_pumpkin: { name: "Carved Pumpkin", ingredients: [{ id: "pumpkin", quantity: 1 }], result: 1 },
+    carved_pumpkin: {
+        name: "Carved Pumpkin",
+        id: "carved_pumpkin",
+        ingredients: [{ id: "pumpkin", quantity: 1 }],
+        result: 1,
+    },
     cauldron: {
         name: "Cauldron",
+        id: "cauldron",
         ingredients: [{ id: "iron_ingot", quantity: 7 }],
         result: 1,
     },
-    cave_vines: { name: "Cave Vines", base_item: true },
+    cave_vines: { name: "Cave Vines", id: "cave_vines", base_item: true },
     chain: {
         name: "Chain",
+        id: "chain",
         ingredients: [
             { id: "iron_ingot", quantity: 1 },
             { id: "iron_nugget", quantity: 2 },
         ],
         result: 1,
     },
-    chain_command_block: { name: "Chain Command Block", base_item: true },
+    chain_command_block: { name: "Chain Command Block", id: "chain_command_block", base_item: true },
     chest: {
         name: "Chest",
+        id: "chest",
         ingredients: [{ tag: "planks", quantity: 8 }],
         result: 1,
     },
@@ -2238,7 +2464,11 @@ export const Blocks = Object.freeze({
     podzol: { name: "Podzol", base_item: true },
     pointed_dripstone: { name: "Pointed Dripstone", base_item: true },
     polished_andesite: { name: "Polished Andesite", ingredients: [{ id: "andesite", quantity: 4 }], result: 4 },
-    polished_andesite_slab: { name: "Polished Andesite Slab", ingredients: [{ id: "polished_andesite", quantity: 3 }], result: 6 },
+    polished_andesite_slab: {
+        name: "Polished Andesite Slab",
+        ingredients: [{ id: "polished_andesite", quantity: 3 }],
+        result: 6,
+    },
     polished_andesite_stairs: {
         name: "Polished Andesite Stairs",
         ingredients: [{ id: "polished_andesite", quantity: 6 }],
@@ -2261,7 +2491,11 @@ export const Blocks = Object.freeze({
         ingredients: [{ id: "polished_blackstone_bricks", quantity: 6 }],
         result: 6,
     },
-    polished_blackstone_bricks: { name: "Polished Blackstone Bricks", ingredients: [{ id: "blackstone", quantity: 4 }], result: 4 },
+    polished_blackstone_bricks: {
+        name: "Polished Blackstone Bricks",
+        ingredients: [{ id: "blackstone", quantity: 4 }],
+        result: 4,
+    },
     polished_blackstone_button: {
         name: "Polished Blackstone Button",
         ingredients: [{ id: "polished_blackstone", quantity: 1 }],
@@ -2288,7 +2522,11 @@ export const Blocks = Object.freeze({
         result: 6,
     },
     polished_deepslate: { name: "Polished Deepslate", ingredients: [{ id: "deepslate", quantity: 4 }], result: 4 },
-    polished_deepslate_slab: { name: "Polished Deepslate Slab", ingredients: [{ id: "polished_deepslate", quantity: 3 }], result: 6 },
+    polished_deepslate_slab: {
+        name: "Polished Deepslate Slab",
+        ingredients: [{ id: "polished_deepslate", quantity: 3 }],
+        result: 6,
+    },
     polished_deepslate_stairs: {
         name: "Polished Deepslate Stairs",
         ingredients: [{ id: "polished_deepslate", quantity: 6 }],
@@ -2300,14 +2538,22 @@ export const Blocks = Object.freeze({
         result: 6,
     },
     polished_diorite: { name: "Polished Diorite", ingredients: [{ id: "diorite", quantity: 4 }], result: 4 },
-    polished_diorite_slab: { name: "Polished Diorite Slab", ingredients: [{ id: "polished_diorite", quantity: 3 }], result: 6 },
+    polished_diorite_slab: {
+        name: "Polished Diorite Slab",
+        ingredients: [{ id: "polished_diorite", quantity: 3 }],
+        result: 6,
+    },
     polished_diorite_stairs: {
         name: "Polished Diorite Stairs",
         ingredients: [{ id: "polished_diorite", quantity: 6 }],
         result: 4,
     },
     polished_granite: { name: "Polished Granite", ingredients: [{ id: "granite", quantity: 4 }], result: 4 },
-    polished_granite_slab: { name: "Polished Granite Slab", ingredients: [{ id: "polished_granite", quantity: 3 }], result: 6 },
+    polished_granite_slab: {
+        name: "Polished Granite Slab",
+        ingredients: [{ id: "polished_granite", quantity: 3 }],
+        result: 6,
+    },
     polished_granite_stairs: {
         name: "Polished Granite Stairs",
         ingredients: [{ id: "polished_granite", quantity: 6 }],
@@ -2326,7 +2572,11 @@ export const Blocks = Object.freeze({
         result: 6,
     },
     prismarine: { name: "Prismarine", ingredients: [{ id: "prismarine_shard", quantity: 4 }], result: 1 },
-    prismarine_brick_slab: { name: "Prismarine Brick Slab", ingredients: [{ id: "prismarine_bricks", quantity: 3 }], result: 6 },
+    prismarine_brick_slab: {
+        name: "Prismarine Brick Slab",
+        ingredients: [{ id: "prismarine_bricks", quantity: 3 }],
+        result: 6,
+    },
     prismarine_brick_stairs: {
         name: "Prismarine Brick Stairs",
         ingredients: [{ id: "prismarine_bricks", quantity: 6 }],
@@ -2363,7 +2613,11 @@ export const Blocks = Object.freeze({
         result: 1,
     },
     purple_carpet: { name: "Purple Carpet", ingredients: [{ id: "purple_wool", quantity: 2 }], result: 3 },
-    purple_concrete: { name: "Purple Concrete", ingredients: [{ id: "purple_concrete_powder", quantity: 1 }], result: 1 },
+    purple_concrete: {
+        name: "Purple Concrete",
+        ingredients: [{ id: "purple_concrete_powder", quantity: 1 }],
+        result: 1,
+    },
 });
 
 /** @type {Object.<string, string[]}>} */
