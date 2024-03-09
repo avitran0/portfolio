@@ -22,27 +22,32 @@ export function loadSchematic(data) {
             blockStates[key] = value["Name"];
         }
         const length = Object.keys(blockStates).length;
-        const bitsPerBlock = Math.ceil(Math.log2(length));
+        // minimum of 2 bits per block
+        const bitsPerBlock = Math.max(2, Math.ceil(Math.log2(length)));
+
+        /** @type {BigUint64Array} */
+        const blockArray = region["BlockStates"];
+        const blockView = new DataView(blockArray.buffer);
 
         const numBlocks = region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"];
-        // convert bigint array into uint32 array
-        const uint32Array = new Uint32Array(region["BlockStates"].buffer);
         const bitMask = (1 << bitsPerBlock) - 1;
-        //printArrayAsBits(uint32Array);
 
         // todo: fix blocks not being read correctly
         for (let i = 0; i < numBlocks; i++) {
             const startOffset = i * bitsPerBlock;
-            const startIndex = startOffset / 32 | 0;
-            const endIndex = (startOffset + bitsPerBlock) / 32 | 0;
+            const startIndex = (startOffset / 32) | 0;
+            const endIndex = ((startOffset + bitsPerBlock) / 32) | 0;
             const startBit = startOffset % 32;
 
             let block = 0;
             if (startIndex === endIndex) {
-                // Adjust the condition for startIndex and endIndex
-                block = (uint32Array[startIndex] >>> startBit) & bitMask;
+                // simulate unsigned right shift by applying a bit mask
+                block = (blockView.getInt32(startIndex) >>> startBit) & bitMask;
             } else {
-                block = ((uint32Array[startIndex] >>> startBit) | (uint32Array[endIndex] << (32 - startBit))) & bitMask;
+                block =
+                    ((blockView.getInt32(startIndex) >>> startBit) |
+                        (blockView.getInt32(endIndex) << (32 - startBit))) &
+                    bitMask;
             }
             blocks[blockStates[block]] = (blocks[blockStates[block]] || 0) + 1;
         }
@@ -145,7 +150,7 @@ class Parser {
     [Tags.LongArray] = () => {
         // bigint64array does not take odd offsets
         const length = this[Tags.Int]();
-        const array = new BigUint64Array(this.buffer.slice(this.offset, this.offset + length * 8));
+        const array = new BigInt64Array(this.buffer.slice(this.offset, this.offset + length * 8));
         this.offset += length * 8;
         return array;
     };
@@ -184,10 +189,17 @@ class Parser {
     };
 }
 
+/**
+ * @param {DataView} array
+ */
 function printArrayAsBits(array) {
     let str = "";
-    for (let i = 0; i < array.length; i++) {
-        str += array[i].toString(2).padStart(32, "0") + " ";
+    for (let i = 0; i < array.byteLength; i++) {
+        const byte = array.getUint8(i);
+        for (let j = 0; j < 8; j++) {
+            str += (byte & (1 << j)) >> j;
+        }
     }
     console.log(str);
+    return str;
 }
