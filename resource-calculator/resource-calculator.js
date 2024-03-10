@@ -1,11 +1,9 @@
 import { Items, Tags } from "./recipes.js";
 import { loadSchematic } from "./schematic.js";
 
-console.log(Items);
-console.log(Tags);
-
 const schematicInput = document.getElementById("schematic");
 const datalist = document.getElementById("item-list");
+// todo: display items and recipe tree?
 const itemsDiv = document.getElementById("items");
 
 let items = {};
@@ -35,6 +33,9 @@ schematicInput.addEventListener("input", (event) => {
     reader.readAsArrayBuffer(file);
 });
 
+/**
+ * @returns {Object.<string, number>} rawIngredients
+ */
 function calculateAllItems() {
     const rawIngredients = {};
     for (const [key, value] of Object.entries(items)) {
@@ -47,7 +48,7 @@ function calculateAllItems() {
             }
         }
     }
-    console.log(rawIngredients);
+    return rawIngredients;
 }
 
 function calculateItem(item, quantity) {
@@ -78,6 +79,15 @@ function calculateItem(item, quantity) {
     }
     return result;
 }
+
+/**
+ * @param {Object.<string, number>} data
+ * @returns {number}
+ */
+function calculateTotalItems(data) {
+    return Object.values(data).reduce((a, b) => a + b, 0);
+}
+
 
 function displayItems() {
     const ordered = Object.keys(items).sort().reduce(
