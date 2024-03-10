@@ -1,4 +1,7 @@
 import { inflate } from "./pako.js";
+import init, { get_litematica_blocks } from "./schematics/pkg/schematics.js";
+
+init();
 
 /**
  * @param {ArrayBuffer} data
@@ -29,27 +32,12 @@ export function loadSchematic(data) {
         const blockArray = region["BlockStates"];
         const blockView = new DataView(blockArray.buffer);
 
-        const numBlocks = region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"];
-        const bitMask = (1 << bitsPerBlock) - 1;
+        const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
-        // todo: fix blocks not being read correctly
-        for (let i = 0; i < numBlocks; i++) {
-            const startOffset = i * bitsPerBlock;
-            const startIndex = (startOffset / 32) | 0;
-            const endIndex = ((startOffset + bitsPerBlock) / 32) | 0;
-            const startBit = startOffset % 32;
-
-            let block = 0;
-            if (startIndex === endIndex) {
-                // simulate unsigned right shift by applying a bit mask
-                block = (blockView.getInt32(startIndex) >>> startBit) & bitMask;
-            } else {
-                block =
-                    ((blockView.getInt32(startIndex) >>> startBit) |
-                        (blockView.getInt32(endIndex) << (32 - startBit))) &
-                    bitMask;
-            }
-            blocks[blockStates[block]] = (blocks[blockStates[block]] || 0) + 1;
+        const blocksTemp = get_litematica_blocks(blockArray, bitsPerBlock, numBlocks);
+        console.log({ blocksTemp, blockStates });
+        for (const [key, value] of blocksTemp.entries()) {
+            blocks[blockStates[key]] = value;
         }
     }
     return blocks;
@@ -142,7 +130,7 @@ class Parser {
 
     [Tags.IntArray] = () => {
         const length = this[Tags.Int]();
-        const array = new Int32Array(this.buffer, this.offset, length);
+        const array = new Int32Array(this.buffer.slice(this.offset, this.offset + length * 4));
         this.offset += length * 4;
         return array;
     };
