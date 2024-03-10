@@ -1,13 +1,19 @@
 import { inflate } from "./pako.js";
-import init, { get_litematica_blocks } from "./schematics/pkg/schematics.js";
+import init, { get_litematica_blocks, get_schematica_blocks } from "./wasm/schematics.js";
 
 init();
+
+const FileExtensions = Object.freeze({
+    litematica: getLitematicaBlocks,
+    litematic: getLitematicaBlocks,
+    schem: getSchematicaBlocks,
+});
 
 /**
  * @param {ArrayBuffer} data
  * @returns {Object<string, number>}
  */
-export function loadSchematic(data) {
+export function loadSchematic(data, fileType) {
     if (hasGzipHeader(data)) {
         data = inflate(data).buffer;
     }
@@ -15,14 +21,24 @@ export function loadSchematic(data) {
     const view = new DataView(data);
 
     const nbt = parse(view, data);
-    console.log(nbt);
 
+    const blocks = FileExtensions[fileType](nbt);
+
+    return blocks;
+}
+
+/**
+ *
+ * @param {*} nbt litematica nbt parsed to json
+ * @returns {Object<string, number>}
+ */
+function getLitematicaBlocks(nbt) {
     const blocks = {};
 
     for (const [name, region] of Object.entries(nbt["Regions"])) {
         const blockStates = {};
         for (const [key, value] of Object.entries(region["BlockStatePalette"])) {
-            blockStates[key] = value["Name"];
+            blockStates[key] = value["Name"].split(":").pop();
         }
         const length = Object.keys(blockStates).length;
         // minimum of 2 bits per block
@@ -30,18 +46,59 @@ export function loadSchematic(data) {
 
         /** @type {BigUint64Array} */
         const blockArray = region["BlockStates"];
-        const blockView = new DataView(blockArray.buffer);
 
         const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
         const blocksTemp = get_litematica_blocks(blockArray, bitsPerBlock, numBlocks);
-        console.log({ blocksTemp, blockStates });
         for (const [key, value] of blocksTemp.entries()) {
             blocks[blockStates[key]] = value;
         }
     }
+
     return blocks;
 }
+
+/**
+ * @param {*} nbt schematica nbt parsed to json
+ * @returns {Object<string, number>}
+ */
+function getSchematicaBlocks(nbt) {
+    nbt = nbt["Schematic"];
+    console.log(nbt);
+    const blocks = {};
+
+    const blockPalette = {};
+    // entries are in format "minecraft:stone[type=...]": id
+    // convert to id: "stone"
+    for (const [name, id] of Object.entries(nbt["Blocks"]["Palette"])) {
+        blockPalette[id] = name.split(":")[1].split("[")[0];
+    }
+
+    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
+    /** @type {Int8Array} */
+    const blockArray = nbt["Blocks"]["Data"];
+
+    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
+    for (const [key, value] of blocksTemp.entries()) {
+        blocks[blockPalette[key]] = value;
+    }
+
+    return blocks;
+}
+
+function readVarInt(array, offset) {
+    let result = 0;
+    let shift = 0;
+    let byte;
+    do {
+        byte = array[offset];
+        result |= (byte & 0x7f) << shift;
+        shift += 7;
+    } while (byte & 0x80);
+    return { value: result, length: shift / 7 };
+}
+
+//-----------NBT-------------//
 
 function hasGzipHeader(data) {
     const header = new Uint8Array(data, 0, 2);
@@ -175,19 +232,4 @@ class Parser {
         }
         return compound;
     };
-}
-
-/**
- * @param {DataView} array
- */
-function printArrayAsBits(array) {
-    let str = "";
-    for (let i = 0; i < array.byteLength; i++) {
-        const byte = array.getUint8(i);
-        for (let j = 0; j < 8; j++) {
-            str += (byte & (1 << j)) >> j;
-        }
-    }
-    console.log(str);
-    return str;
 }

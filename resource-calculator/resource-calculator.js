@@ -8,7 +8,7 @@ const schematicInput = document.getElementById("schematic");
 const select = document.getElementById("items");
 const imageDiv = document.getElementById("images");
 
-let blocks = {};
+let items = {};
 
 for (const [key, value] of Object.entries(Items)) {
     const option = document.createElement("option");
@@ -27,16 +27,27 @@ schematicInput.addEventListener("input", (event) => {
     const reader = new FileReader();
     reader.onload = (event) => {
         const arrayBuffer = event.target.result;
-        blocks = loadSchematic(arrayBuffer);
-        console.log(blocks);
-        for (const [id, count] of Object.entries(blocks)) {
-            console.log(calculateItem(Items[id], count));
-        }
+        const extension = file.name.split(".").pop();
+        items = loadSchematic(arrayBuffer, extension);
+        calculateAllItems();
     };
     reader.readAsArrayBuffer(file);
 });
 
-console.log(calculateItem(Items["barrel"], 32));
+function calculateAllItems() {
+    const rawIngredients = {};
+    for (const [key, value] of Object.entries(items)) {
+        const result = calculateItem(Items[key], value);
+        for (const [key, value] of Object.entries(result)) {
+            if (key in rawIngredients) {
+                rawIngredients[key] += value;
+            } else {
+                rawIngredients[key] = value;
+            }
+        }
+    }
+    console.log(rawIngredients);
+}
 
 function calculateItem(item, quantity) {
     if (!item) {

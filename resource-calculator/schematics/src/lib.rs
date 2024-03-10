@@ -39,3 +39,32 @@ pub fn get_litematica_blocks(data: &[i64], bits_per_block: isize, length: isize)
     }
     js_map
 }
+
+#[wasm_bindgen]
+pub fn get_schematica_blocks(data: &[i8], length: isize) -> Map {
+    let mut blocks: HashMap<usize, usize> = HashMap::new();
+    // data is an i8 array of varints
+    let mut i: usize = 0;
+    while i < length as usize {
+        let mut num = 0;
+        let mut num_read = 0;
+        #[allow(unused)]
+        let mut value = 0;
+        loop {
+            value = data[i] as u8;
+            num |= ((value & 0x7F) as usize) << num_read;
+            num_read += 7;
+            i += 1;
+            if value & 0x80 == 0 {
+                break;
+            }
+        }
+        // increment block count
+        *blocks.entry(num).or_insert(0) += 1;
+    }
+    let js_map = Map::new();
+    for (key, value) in blocks.iter() {
+        js_map.set(&JsValue::from(*key as u32), &JsValue::from(*value as u32));
+    }
+    js_map
+}
