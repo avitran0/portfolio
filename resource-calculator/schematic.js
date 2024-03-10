@@ -7,6 +7,7 @@ const FileExtensions = Object.freeze({
     litematica: getLitematicaBlocks,
     litematic: getLitematicaBlocks,
     schem: getSchematicaBlocks,
+    schematic: getOldSchematicBlocks,
 });
 
 /**
@@ -86,6 +87,17 @@ function getSchematicaBlocks(nbt) {
     return blocks;
 }
 
+function getOldSchematicBlocks(nbt) {
+    nbt = nbt["Schematic"];
+    console.log(nbt);
+    const blocks = {};
+
+    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
+    console.log(numBlocks);
+
+    return {};
+}
+
 function readVarInt(array, offset) {
     let result = 0;
     let shift = 0;
@@ -127,7 +139,8 @@ const Tags = Object.freeze({
  */
 function parse(view, buffer) {
     const parser = new Parser(view, buffer);
-    return parser[Tags.Compound]()[""];
+    const nbt = parser[Tags.Compound]();
+    return nbt[""] !== undefined ? nbt[""] : nbt;
 }
 
 class Parser {

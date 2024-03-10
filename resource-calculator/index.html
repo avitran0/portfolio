@@ -12,9 +12,12 @@
         <main>
             <h1>Felix Fröhlich</h1>
             <h2>Resource Calculator</h2>
-            <select name="items" id="items"></select>
-            <input type="file" name="schematic" id="schematic">
-            <div id="images"></div>
+            <!-- todo: custom dropdown -->
+            <label for="items">Select Item:</label>
+            <input list="item-list" name="items-input" id="items-input" autocomplete="on" />
+            <datalist id="item-list"></datalist>
+            <input type="file" name="schematic" id="schematic" />
+            <div id="items"></div>
         </main>
         <script type="module" src="resource-calculator.js"></script>
     </body>

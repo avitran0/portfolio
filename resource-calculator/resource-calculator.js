@@ -5,8 +5,8 @@ console.log(Items);
 console.log(Tags);
 
 const schematicInput = document.getElementById("schematic");
-const select = document.getElementById("items");
-const imageDiv = document.getElementById("images");
+const datalist = document.getElementById("item-list");
+const itemsDiv = document.getElementById("items");
 
 let items = {};
 
@@ -14,7 +14,7 @@ for (const [key, value] of Object.entries(Items)) {
     const option = document.createElement("option");
     option.value = key;
     option.textContent = value.name ? value.name : key;
-    select.appendChild(option);
+    datalist.appendChild(option);
 
     /*const image = document.createElement("img");
     image.src = "/assets/textures/" + key + ".png";
@@ -29,6 +29,7 @@ schematicInput.addEventListener("input", (event) => {
         const arrayBuffer = event.target.result;
         const extension = file.name.split(".").pop();
         items = loadSchematic(arrayBuffer, extension);
+        displayItems();
         calculateAllItems();
     };
     reader.readAsArrayBuffer(file);
@@ -53,7 +54,7 @@ function calculateItem(item, quantity) {
     if (!item) {
         return {};
     }
-    if (item.base_item) {
+    if (item.baseItem) {
         return { [item.id]: quantity };
     }
 
@@ -72,7 +73,28 @@ function calculateItem(item, quantity) {
             }
         }
     }
+    if (Object.keys(result).length === 0) {
+        console.error("No result for " + item.id, item);
+    }
     return result;
+}
+
+function displayItems() {
+    const ordered = Object.keys(items).sort().reduce(
+        (obj, key) => {
+          obj[key] = items[key];
+          return obj;
+        },
+        {}
+      );
+    const itemsDiv = document.getElementById("items");
+    itemsDiv.innerHTML = "";
+    for (const [key, value] of Object.entries(ordered)) {
+        if (key === "air") continue;
+        const itemDiv = document.createElement("div");
+        itemDiv.textContent = key + ": " + value;
+        itemsDiv.appendChild(itemDiv);
+    }
 }
 
 function testDataIntegrity(blocks) {
