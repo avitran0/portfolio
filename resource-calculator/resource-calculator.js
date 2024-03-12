@@ -1,4 +1,4 @@
-import { Items, Tags } from "./recipes.js";
+import { ItemConversion, Items, Tags } from "./recipes.js";
 import { loadSchematic } from "./schematic.js";
 
 const schematicInput = document.getElementById("schematic");
@@ -7,6 +7,7 @@ const datalist = document.getElementById("item-list");
 const itemsDiv = document.getElementById("items");
 
 let items = {};
+let ingredients = {};
 
 for (const [key, value] of Object.entries(Items)) {
     const option = document.createElement("option");
@@ -27,8 +28,12 @@ schematicInput.addEventListener("input", (event) => {
         const arrayBuffer = event.target.result;
         const extension = file.name.split(".").pop();
         items = loadSchematic(arrayBuffer, extension);
-        displayItems();
-        calculateAllItems();
+        ingredients = calculateAllItems(items);
+        clearDisplayedItems();
+        displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
+        displayItems(items);
+        displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
+        displayItems(ingredients);
     };
     reader.readAsArrayBuffer(file);
 });
@@ -36,10 +41,21 @@ schematicInput.addEventListener("input", (event) => {
 /**
  * @returns {Object.<string, number>} rawIngredients
  */
-function calculateAllItems() {
+function calculateAllItems(toCalculate) {
     const rawIngredients = {};
-    for (const [key, value] of Object.entries(items)) {
-        const result = calculateItem(Items[key], value);
+    for (const [key, value] of Object.entries(toCalculate)) {
+        if (key === "air") continue;
+        let item = Items[key];
+        if (!item) {
+            const id = ItemConversion[key];
+            if (!id) {
+                console.error("Item not found", key);
+                continue;
+            }
+            if (id === "air") continue;
+            item = Items[id];
+        }
+        const result = calculateItem(item, value);
         for (const [key, value] of Object.entries(result)) {
             if (key in rawIngredients) {
                 rawIngredients[key] += value;
@@ -64,6 +80,7 @@ function calculateItem(item, quantity) {
     for (const ingredient of recipe) {
         // check if ingredient is a tag
         const ingredientItem = Items[ingredient.id];
+
         const ingredientQuantity = Math.ceil((quantity / item.result) * ingredient.quantity);
         const ingredientResult = calculateItem(ingredientItem, ingredientQuantity);
         for (const [key, value] of Object.entries(ingredientResult)) {
@@ -73,9 +90,9 @@ function calculateItem(item, quantity) {
                 result[key] = value;
             }
         }
-    }
-    if (Object.keys(result).length === 0) {
-        console.error("No result for " + item.id, item);
+        if (Object.keys(ingredientResult).length === 0) {
+            console.error("No result for " + item.id, item);
+        }
     }
     return result;
 }
@@ -88,34 +105,62 @@ function calculateTotalItems(data) {
     return Object.values(data).reduce((a, b) => a + b, 0);
 }
 
-
-function displayItems() {
-    const ordered = Object.keys(items).sort().reduce(
-        (obj, key) => {
-          obj[key] = items[key];
-          return obj;
-        },
-        {}
-      );
-    const itemsDiv = document.getElementById("items");
+function clearDisplayedItems() {
     itemsDiv.innerHTML = "";
-    for (const [key, value] of Object.entries(ordered)) {
+}
+
+function displayItems(toDisplay) {
+    for (const [key, value] of Object.entries(toDisplay)) {
         if (key === "air") continue;
+        let item = Items[key];
+        if (!item) {
+            const id = ItemConversion[key];
+            if (!id) {
+                console.error("Item not found", key);
+                continue;
+            }
+            if (id === "air") continue;
+            item = Items[id];
+        }
+        const name = item.name;
         const itemDiv = document.createElement("div");
-        itemDiv.textContent = key + ": " + value;
+        itemDiv.className = "item";
+        const image = document.createElement("img");
+        image.src = "/assets/textures/" + item.id + ".png";
+        //image.alt = name;
+        image.title = name;
+        itemDiv.appendChild(image);
+        const textDiv = document.createElement("div");
+        textDiv.className = "item-text";
+        const text1 = document.createElement("span");
+        text1.textContent = name;
+        const text2 = document.createElement("span");
+        text2.textContent = value.toLocaleString() + "x";
+        textDiv.appendChild(text1);
+        textDiv.appendChild(text2);
+        itemDiv.appendChild(textDiv);
         itemsDiv.appendChild(itemDiv);
     }
 }
 
-function testDataIntegrity(blocks) {
-    for (const [id, item] of Object.entries(blocks)) {
+function displaySeparator(text) {
+    const separator = document.createElement("div");
+    separator.className = "separator";
+    separator.textContent = text;
+    itemsDiv.appendChild(separator);
+}
+
+function testDataIntegrity(items) {
+    for (const [id, item] of Object.entries(items)) {
         if (id !== item.id) {
             console.error("ID mismatch", id, item.id);
         }
         if (!item.name) {
             console.error("No name", id);
         }
+        calculateItem(item, 1);
     }
 }
 
+calculateItem(Items["black_terracotta"], 1);
 testDataIntegrity(Items);
