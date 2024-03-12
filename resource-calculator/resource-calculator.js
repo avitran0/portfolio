@@ -27,13 +27,19 @@ schematicInput.addEventListener("input", (event) => {
     reader.onload = (event) => {
         const arrayBuffer = event.target.result;
         const extension = file.name.split(".").pop();
-        items = loadSchematic(arrayBuffer, extension);
-        ingredients = calculateAllItems(items);
-        clearDisplayedItems();
-        displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
-        displayItems(items);
-        displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
-        displayItems(ingredients);
+        const worker = new Worker("schematic-webworker.js", { type: "module" });
+        //items = loadSchematic(arrayBuffer, extension);
+        worker.postMessage({ arrayBuffer, extension });
+        worker.onmessage = (event) => {
+            items = event.data;
+            ingredients = calculateAllItems(items);
+            clearDisplayedItems();
+            displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
+            displayItems(items);
+            displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
+            displayItems(ingredients);
+            worker.terminate();
+        };
     };
     reader.readAsArrayBuffer(file);
 });
