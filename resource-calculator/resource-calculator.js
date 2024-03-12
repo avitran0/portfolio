@@ -108,7 +108,13 @@ function calculateItem(item, quantity) {
  * @returns {number}
  */
 function calculateTotalItems(data) {
-    return Object.values(data).reduce((a, b) => a + b, 0);
+    // don't count air
+    let total = 0;
+    for (const [key, value] of Object.entries(data)) {
+        if (key === "air") continue;
+        total += value;
+    }
+    return total;
 }
 
 function clearDisplayedItems() {
