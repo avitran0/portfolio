@@ -10,6 +10,9 @@ const itemsDiv = document.getElementById("items");
 const sample = document.getElementById("sample");
 const spinner = document.getElementById("spinner");
 
+const start = document.getElementById("start");
+const clear = document.getElementById("clear");
+
 // get first item's id
 let selectedId = Object.keys(Items)[0];
 
@@ -57,13 +60,32 @@ itemSelectRemove.addEventListener("click", (event) => {
     display(items, ingredients);
 });
 
-// sample is a select element
-sample.onchange = async (event) => {
-    const fileName = sample.value;
-    const file = await fetch("/assets/schematics/" + fileName);
-    const arrayBuffer = await file.arrayBuffer();
-    const extension = fileName.split(".").pop();
-    startWorker(arrayBuffer, extension);
+start.onclick = async (event) => {
+    // check schematicInput for file
+    if (schematicInput.files.length > 0) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const arrayBuffer = event.target.result;
+            const extension = file.name.split(".").pop();
+            startWorker(arrayBuffer, extension);
+        };
+        reader.readAsArrayBuffer(file);
+    } else {
+        // load selected sample
+        const fileName = sample.value;
+        const file = await fetch("/assets/schematics/" + fileName);
+        const arrayBuffer = await file.arrayBuffer();
+        const extension = fileName.split(".").pop();
+        startWorker(arrayBuffer, extension);
+    }
+};
+
+clear.onclick = (event) => {
+    items = {};
+    ingredients = {};
+    clearDisplayedItems();
+    schematicInput.value = "";
 };
 
 for (const [key, value] of Object.entries(Items)) {
@@ -112,18 +134,6 @@ for (let i = 0; i < itemSelect.children.length; i++) {
         button.classList.add("selected");
     }
 }
-
-schematicInput.addEventListener("input", (event) => {
-    // read file to array buffer
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        const arrayBuffer = event.target.result;
-        const extension = file.name.split(".").pop();
-        startWorker(arrayBuffer, extension);
-    };
-    reader.readAsArrayBuffer(file);
-});
 
 /**
  * @param {ArrayBuffer} arrayBuffer
