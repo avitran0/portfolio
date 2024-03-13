@@ -10,10 +10,25 @@ format
  * @type {Object.<string, {name: string, id: string, baseItem?: boolean, ingredients?: {id?: string, tag?: string, quantity: number}[], result?: number}>}
  */
 export const Items = Object.freeze({
+    acacia_boat: {
+        name: "Acacia Boat",
+        id: "acacia_boat",
+        ingredients: [{ id: "acacia_planks", quantity: 5 }],
+        result: 1,
+    },
     acacia_button: {
         name: "Acacia Button",
         id: "acacia_button",
         ingredients: [{ id: "acacia_planks", quantity: 1 }],
+        result: 1,
+    },
+    acacia_chest_boat: {
+        name: "Acacia Chest Boat",
+        id: "acacia_chest_boat",
+        ingredients: [
+            { id: "acacia_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     acacia_door: {

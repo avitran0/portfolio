@@ -14,7 +14,7 @@ let ingredients = {};
 for (const [key, value] of Object.entries(Items)) {
     const button = document.createElement("button");
     button.value = key;
-    const image = getImage(key);
+    const image = getLazyImage(key);
     button.appendChild(image);
     // add text after image
     const text = document.createElement("span");
@@ -25,6 +25,21 @@ for (const [key, value] of Object.entries(Items)) {
     /*const image = document.createElement("img");
     image.src = "/assets/textures/" + key + ".png";
     imageDiv.appendChild(image);*/
+}
+
+// create intersection observer to load images in itemSelect
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            const image = entry.target;
+            image.src = image.dataset.src;
+            observer.unobserve(image);
+        }
+    });
+});
+for (const button of itemSelect.children) {
+    const image = button.querySelector("img");
+    observer.observe(image);
 }
 
 for (let i = 0; i < itemSelect.children.length; i++) {
@@ -191,6 +206,17 @@ function displaySeparator(text) {
 function getImage(id) {
     const image = document.createElement("img");
     image.src = "/assets/textures/" + id + ".png";
+    image.loading = "lazy";
+    return image;
+}
+
+/**
+ * @param {string} id
+ * @returns {HTMLImageElement}
+ */
+function getLazyImage(id) {
+    const image = document.createElement("img");
+    image.dataset.src = "/assets/textures/" + id + ".png";
     image.loading = "lazy";
     return image;
 }
