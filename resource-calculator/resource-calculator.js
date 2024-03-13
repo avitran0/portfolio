@@ -63,7 +63,7 @@ itemSelectRemove.addEventListener("click", (event) => {
 start.onclick = async (event) => {
     // check schematicInput for file
     if (schematicInput.files.length > 0) {
-        const file = event.target.files[0];
+        const file = schematicInput.files[0];
         const reader = new FileReader();
         reader.onload = (event) => {
             const arrayBuffer = event.target.result;
