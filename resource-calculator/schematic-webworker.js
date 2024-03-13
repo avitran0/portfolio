@@ -11,13 +11,6 @@ onmessage = async function (e) {
     this.postMessage(items);
 };
 
-const FileExtensions = Object.freeze({
-    litematica: getLitematicaBlocks,
-    litematic: getLitematicaBlocks,
-    schem: getSchematicaBlocks,
-    schematic: getOldSchematicBlocks,
-});
-
 /**
  * @param {ArrayBuffer} data
  * @returns {Object<string, number>}
@@ -31,9 +24,20 @@ function loadSchematic(data, fileType) {
 
     const nbt = parse(view, data);
 
-    const blocks = FileExtensions[fileType](nbt);
+    if (nbt[""]) {
+        if (nbt[""]["Regions"]) {
+            return getLitematicaBlocks(nbt);
+        }
+        if (nbt[""]["Schematic"]["Blocks"]["Palette"]) {
+            return getSchematicaBlocks(nbt);
+        }
+    }
+    if (nbt["Schematic"]["Blocks"]) {
+        return getOldSchematicBlocks(nbt);
+    }
 
-    return blocks;
+    console.error("Unknown schematic format", nbt);
+    return {};
 }
 
 /**
@@ -44,7 +48,7 @@ function loadSchematic(data, fileType) {
 function getLitematicaBlocks(nbt) {
     const blocks = {};
 
-    for (const [name, region] of Object.entries(nbt["Regions"])) {
+    for (const [name, region] of Object.entries(nbt[""]["Regions"])) {
         const blockStates = {};
         for (const [key, value] of Object.entries(region["BlockStatePalette"])) {
             blockStates[key] = value["Name"].split(":").pop();
@@ -72,7 +76,7 @@ function getLitematicaBlocks(nbt) {
  * @returns {Object<string, number>}
  */
 function getSchematicaBlocks(nbt) {
-    nbt = nbt["Schematic"];
+    nbt = nbt[""]["Schematic"];
     const blocks = {};
 
     const blockPalette = {};
@@ -143,8 +147,7 @@ const Tags = Object.freeze({
  */
 function parse(view, buffer) {
     const parser = new Parser(view, buffer);
-    const nbt = parser[Tags.Compound]();
-    return nbt[""] !== undefined ? nbt[""] : nbt;
+    return parser[Tags.Compound]();
 }
 
 class Parser {
