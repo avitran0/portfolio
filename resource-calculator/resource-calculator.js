@@ -2,6 +2,9 @@ import { ItemConversion, Items } from "./recipes.js";
 
 const schematicInput = document.getElementById("schematic");
 const itemSelect = document.getElementById("item-select");
+const itemSelectAmount = document.getElementById("item-select-amount");
+const itemSelectAdd = document.getElementById("item-select-add");
+const itemSelectRemove = document.getElementById("item-select-remove");
 // todo: display items and recipe tree?
 const itemsDiv = document.getElementById("items");
 
@@ -10,6 +13,47 @@ let selectedId = Object.keys(Items)[0];
 
 let items = {};
 let ingredients = {};
+
+itemSelectAdd.addEventListener("click", (event) => {
+    const amount = parseInt(itemSelectAmount.value);
+    if (isNaN(amount)) {
+        console.error("Invalid amount");
+        return;
+    }
+    const item = Items[selectedId];
+    if (!item) {
+        console.error("Item not found", selectedId);
+        return;
+    }
+    if (items[selectedId]) {
+        items[selectedId] += amount;
+    } else {
+        items[selectedId] = amount;
+    }
+    ingredients = calculateAllItems(items);
+    display(items, ingredients);
+});
+
+itemSelectRemove.addEventListener("click", (event) => {
+    const amount = parseInt(itemSelectAmount.value);
+    if (isNaN(amount)) {
+        console.error("Invalid amount");
+        return;
+    }
+    const item = Items[selectedId];
+    if (!item) {
+        console.error("Item not found", selectedId);
+        return;
+    }
+    if (items[selectedId]) {
+        items[selectedId] -= amount;
+        if (items[selectedId] <= 0) {
+            delete items[selectedId];
+        }
+    }
+    ingredients = calculateAllItems(items);
+    display(items, ingredients);
+});
 
 for (const [key, value] of Object.entries(Items)) {
     const button = document.createElement("button");
@@ -52,7 +96,6 @@ for (let i = 0; i < itemSelect.children.length; i++) {
         }
         // add class to selected button
         button.classList.add("selected");
-        console.log(selectedId);
     });
     if (i === 0) {
         button.classList.add("selected");
@@ -156,6 +199,14 @@ function calculateTotalItems(data) {
     return total;
 }
 
+function display(items, ingredients) {
+    clearDisplayedItems();
+    displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
+    displayItems(items);
+    displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
+    displayItems(ingredients);
+}
+
 function clearDisplayedItems() {
     itemsDiv.innerHTML = "";
 }
@@ -222,15 +273,23 @@ function getLazyImage(id) {
 }
 
 function testDataIntegrity(items) {
+    let i = 0;
     for (const [id, item] of Object.entries(items)) {
+        let success = true;
         if (id !== item.id) {
             console.error("ID mismatch", id, item.id);
+            success = false;
         }
         if (!item.name) {
             console.error("No name", id);
+            success = false;
         }
         calculateItem(item, 1);
+        if (success) {
+            i++;
+        }
     }
+    console.log("successfully loaded " + i + " items");
 }
 
 calculateItem(Items["black_terracotta"], 1);

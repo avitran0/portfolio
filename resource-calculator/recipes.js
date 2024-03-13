@@ -165,6 +165,21 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
+    armor_stand: {
+        name: "Armor Stand",
+        id: "armor_stand",
+        ingredients: [
+            { id: "stick", quantity: 6 },
+            { id: "smooth_stone_slab", quantity: 1 },
+        ],
+        result: 1,
+    },
+    axolotl_bucket: {
+        name: "Bucket of Axolotl",
+        id: "axolotl_bucket",
+        ingredients: [{ id: "bucket", quantity: 1 }],
+        result: 1,
+    },
     azalea: { name: "Azalea", id: "azalea", baseItem: true },
     azalea_leaves: { name: "Azalea Leaves", id: "azalea_leaves", baseItem: true },
     azure_bluet: { name: "Azure Bluet", id: "azure_bluet", baseItem: true },
@@ -179,6 +194,15 @@ export const Items = Object.freeze({
         name: "Bamboo Button",
         id: "bamboo_button",
         ingredients: [{ id: "bamboo_planks", quantity: 1 }],
+        result: 1,
+    },
+    bamboo_chest_raft: {
+        name: "Bamboo Chest Raft",
+        id: "bamboo_chest_raft",
+        ingredients: [
+            { id: "bamboo_raft", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     bamboo_door: {
@@ -242,6 +266,12 @@ export const Items = Object.freeze({
         name: "Bamboo Pressure Plate",
         id: "bamboo_pressure_plate",
         ingredients: [{ id: "bamboo_planks", quantity: 2 }],
+        result: 1,
+    },
+    bamboo_raft: {
+        name: "Bamboo Raft",
+        id: "bamboo_raft",
+        ingredients: [{ id: "bamboo_planks", quantity: 5 }],
         result: 1,
     },
     bamboo_shoot: { name: "Bamboo Shoot", id: "bamboo_shoot", baseItem: true },
@@ -308,10 +338,25 @@ export const Items = Object.freeze({
     beetroots: { name: "Beetroots", id: "beetroots", ingredients: [{ id: "beetroot_seeds", quantity: 1 }], result: 1 },
     bell: { name: "Bell", id: "bell", baseItem: true },
     big_dripleaf: { name: "Big Dripleaf", id: "big_dripleaf", baseItem: true },
+    birch_boat: {
+        name: "Birch Boat",
+        id: "birch_boat",
+        ingredients: [{ id: "birch_planks", quantity: 5 }],
+        result: 1,
+    },
     birch_button: {
         name: "Birch Button",
         id: "birch_button",
         ingredients: [{ id: "birch_planks", quantity: 1 }],
+        result: 1,
+    },
+    birch_chest_boat: {
+        name: "Birch Chest Boat",
+        id: "birch_chest_boat",
+        ingredients: [
+            { id: "birch_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     birch_door: { name: "Birch Door", id: "birch_door", ingredients: [{ id: "birch_planks", quantity: 6 }], result: 3 },
@@ -845,12 +890,6 @@ export const Items = Object.freeze({
         result: 1,
     },
     chain_command_block: { name: "Chain Command Block", id: "chain_command_block", baseItem: true },
-    chest: {
-        name: "Chest",
-        id: "chest",
-        ingredients: [{ id: "tag_planks", quantity: 8 }],
-        result: 1,
-    },
     cherry_button: {
         name: "Cherry Button",
         id: "cherry_button",
@@ -937,6 +976,12 @@ export const Items = Object.freeze({
         id: "cherry_wood",
         ingredients: [{ id: "cherry_log", quantity: 4 }],
         result: 3,
+    },
+    chest: {
+        name: "Chest",
+        id: "chest",
+        ingredients: [{ id: "tag_planks", quantity: 8 }],
+        result: 1,
     },
     chest_minecart: {
         name: "Minecart with Chest",
@@ -1705,6 +1750,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     ender_pearl: { name: "Ender Pearl", id: "ender_pearl", baseItem: true },
+    experience_bottle: { name: "Bottle o' Enchanting", id: "experience_bottle", baseItem: true },
     exposed_copper: {
         name: "Exposed Copper",
         id: "exposed_copper",
@@ -1758,6 +1804,15 @@ export const Items = Object.freeze({
         name: "Furnace",
         id: "furnace",
         ingredients: [{ id: "cobblestone", quantity: 8 }],
+        result: 1,
+    },
+    furnace_minecart: {
+        name: "Minecart with Furnace",
+        id: "furnace_minecart",
+        ingredients: [
+            { id: "furnace", quantity: 1 },
+            { id: "minecart", quantity: 1 },
+        ],
         result: 1,
     },
     gilded_blackstone: { name: "Gilded Blackstone", id: "gilded_blackstone", baseItem: true },
@@ -3969,6 +4024,7 @@ export const Items = Object.freeze({
     },
     rooted_dirt: { name: "Rooted Dirt", id: "rooted_dirt", baseItem: true },
     rose_bush: { name: "Rose Bush", id: "rose_bush", baseItem: true },
+    saddle: { name: "Saddle", id: "saddle", baseItem: true },
     sand: { name: "Sand", id: "sand", baseItem: true },
     sandstone: {
         name: "Sandstone",
@@ -4443,6 +4499,15 @@ export const Items = Object.freeze({
         ingredients: [
             { id: "sand", quantity: 4 },
             { id: "gunpowder", quantity: 5 },
+        ],
+        result: 1,
+    },
+    tnt_minecart: {
+        name: "Minecart with TNT",
+        id: "tnt_minecart",
+        ingredients: [
+            { id: "minecart", quantity: 1 },
+            { id: "tnt", quantity: 1 },
         ],
         result: 1,
     },
