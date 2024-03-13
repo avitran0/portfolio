@@ -7,6 +7,7 @@ const itemSelectAdd = document.getElementById("item-select-add");
 const itemSelectRemove = document.getElementById("item-select-remove");
 // todo: display items and recipe tree?
 const itemsDiv = document.getElementById("items");
+const spinner = document.getElementById("spinner");
 
 // get first item's id
 let selectedId = Object.keys(Items)[0];
@@ -112,6 +113,7 @@ schematicInput.addEventListener("input", (event) => {
         const worker = new Worker("schematic-webworker.js", { type: "module" });
         //items = loadSchematic(arrayBuffer, extension);
         worker.postMessage({ arrayBuffer, extension });
+        spinner.style.display = "block";
         worker.onmessage = (event) => {
             items = event.data;
             ingredients = calculateAllItems(items);
@@ -121,6 +123,7 @@ schematicInput.addEventListener("input", (event) => {
             displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
             displayItems(ingredients);
             worker.terminate();
+            spinner.style.display = "none";
         };
     };
     reader.readAsArrayBuffer(file);

@@ -170,3 +170,30 @@ img {
     font-size: var(--font-size-large);
     font-family: var(--font-zilla-slab);
 }
+
+#spinner {
+    width: 4rem;
+    height: 4rem;
+    display: none;
+}
+
+#spinner:after {
+    content: " ";
+    display: block;
+    width: 3.2rem;
+    height: 3.2rem;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

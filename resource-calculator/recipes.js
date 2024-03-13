@@ -1677,13 +1677,83 @@ export const Items = Object.freeze({
         result: 6,
     },
     diamond: { name: "Diamond", id: "diamond", ingredients: [{ id: "diamond_ore", quantity: 1 }], result: 2 },
+    diamond_axe: {
+        name: "Diamond Axe",
+        id: "diamond_axe",
+        ingredients: [
+            { id: "diamond", quantity: 3 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
     diamond_block: {
         name: "Block of Diamond",
         id: "diamond_block",
         ingredients: [{ id: "diamond", quantity: 9 }],
         result: 1,
     },
+    diamond_boots: {
+        name: "Diamond Boots",
+        id: "diamond_boots",
+        ingredients: [{ id: "diamond", quantity: 4 }],
+        result: 1,
+    },
+    diamond_chestplate: {
+        name: "Diamond Chestplate",
+        id: "diamond_chestplate",
+        ingredients: [{ id: "diamond", quantity: 8 }],
+        result: 1,
+    },
+    diamond_helmet: {
+        name: "Diamond Helmet",
+        id: "diamond_helmet",
+        ingredients: [{ id: "diamond", quantity: 5 }],
+        result: 1,
+    },
+    diamond_hoe: {
+        name: "Diamond Hoe",
+        id: "diamond_hoe",
+        ingredients: [
+            { id: "diamond", quantity: 2 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    diamond_horse_armor: { name: "Diamond Horse Armor", id: "diamond_horse_armor", baseItem: true },
+    diamond_leggings: {
+        name: "Diamond Leggings",
+        id: "diamond_leggings",
+        ingredients: [{ id: "diamond", quantity: 7 }],
+        result: 1,
+    },
     diamond_ore: { name: "Diamond Ore", id: "diamond_ore", baseItem: true },
+    diamond_pickaxe: {
+        name: "Diamond Pickaxe",
+        id: "diamond_pickaxe",
+        ingredients: [
+            { id: "diamond", quantity: 3 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    diamond_shovel: {
+        name: "Diamond Shovel",
+        id: "diamond_shovel",
+        ingredients: [
+            { id: "diamond", quantity: 1 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    diamond_sword: {
+        name: "Diamond Sword",
+        id: "diamond_sword",
+        ingredients: [
+            { id: "diamond", quantity: 2 },
+            { id: "stick", quantity: 1 },
+        ],
+        result: 1,
+    },
     diorite: { name: "Diorite", id: "diorite", baseItem: true },
     diorite_slab: {
         name: "Diorite Slab",

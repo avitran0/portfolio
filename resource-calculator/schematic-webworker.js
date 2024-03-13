@@ -24,15 +24,16 @@ function loadSchematic(data, fileType) {
 
     const nbt = parse(view, data);
 
-    if (nbt[""]) {
-        if (nbt[""]["Regions"]) {
-            return getLitematicaBlocks(nbt);
-        }
-        if (nbt[""]["Schematic"]["Blocks"]["Palette"]) {
-            return getSchematicaBlocks(nbt);
-        }
+    if (nbt["Regions"]) {
+        return getLitematicaBlocks(nbt);
     }
-    if (nbt["Schematic"]["Blocks"]) {
+    if (nbt["Schematic"]) {
+        return getSchematicaBlocks(nbt);
+    }
+    if (nbt["BlockData"]) {
+        return getWorldEditSchemBlocks(nbt);
+    }
+    if (nbt["Blocks"]) {
         return getOldSchematicBlocks(nbt);
     }
 
@@ -48,7 +49,7 @@ function loadSchematic(data, fileType) {
 function getLitematicaBlocks(nbt) {
     const blocks = {};
 
-    for (const [name, region] of Object.entries(nbt[""]["Regions"])) {
+    for (const [name, region] of Object.entries(nbt["Regions"])) {
         const blockStates = {};
         for (const [key, value] of Object.entries(region["BlockStatePalette"])) {
             blockStates[key] = value["Name"].split(":").pop();
@@ -76,7 +77,7 @@ function getLitematicaBlocks(nbt) {
  * @returns {Object<string, number>}
  */
 function getSchematicaBlocks(nbt) {
-    nbt = nbt[""]["Schematic"];
+    nbt = ["Schematic"];
     const blocks = {};
 
     const blockPalette = {};
@@ -99,7 +100,6 @@ function getSchematicaBlocks(nbt) {
 }
 
 function getOldSchematicBlocks(nbt) {
-    nbt = nbt["Schematic"];
     const blocks = {};
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
@@ -113,6 +113,28 @@ function getOldSchematicBlocks(nbt) {
 
     for (const [id, count] of Object.entries(blocksTemp)) {
         blocks[BlockIDs[id]] = count;
+    }
+
+    return blocks;
+}
+
+function getWorldEditSchemBlocks(nbt) {
+    const blocks = {};
+
+    const blockPalette = {};
+    // entries are in format "minecraft:stone[type=...]": id
+    // convert to id: "stone"
+    for (const [name, id] of Object.entries(nbt["Palette"])) {
+        blockPalette[id] = name.split(":")[1].split("[")[0];
+    }
+
+    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
+    /** @type {Int8Array} */
+    const blockArray = nbt["BlockData"];
+
+    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
+    for (const [key, value] of blocksTemp.entries()) {
+        blocks[blockPalette[key]] = value;
     }
 
     return blocks;
@@ -147,7 +169,9 @@ const Tags = Object.freeze({
  */
 function parse(view, buffer) {
     const parser = new Parser(view, buffer);
-    return parser[Tags.Compound]();
+    const nbt = parser[Tags.Compound]();
+    // discard first object nesting
+    return nbt[Object.keys(nbt)[0]];
 }
 
 class Parser {
