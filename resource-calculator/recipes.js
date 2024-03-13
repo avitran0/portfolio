@@ -4834,7 +4834,7 @@ export const Items = Object.freeze({
     wither_rose: { name: "Wither Rose", id: "wither_rose", baseItem: true },
     wither_skeleton_skull: { name: "Wither Skeleton Skull", id: "wither_skeleton_skull", baseItem: true },
     yellow_banner: {
-        name: "yellow Banner",
+        name: "Yellow Banner",
         id: "yellow_banner",
         ingredients: [
             { id: "yellow_wool", quantity: 6 },
@@ -4843,7 +4843,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     yellow_bed: {
-        name: "yellow Bed",
+        name: "Yellow Bed",
         id: "yellow_bed",
         ingredients: [
             { id: "yellow_wool", quantity: 3 },
@@ -4852,7 +4852,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     yellow_candle: {
-        name: "yellow Candle",
+        name: "Yellow Candle",
         id: "yellow_candle",
         ingredients: [
             { id: "yellow_dye", quantity: 1 },
@@ -4861,19 +4861,19 @@ export const Items = Object.freeze({
         result: 1,
     },
     yellow_carpet: {
-        name: "yellow Carpet",
+        name: "Yellow Carpet",
         id: "yellow_carpet",
         ingredients: [{ id: "yellow_wool", quantity: 2 }],
         result: 3,
     },
     yellow_concrete: {
-        name: "yellow Concrete",
+        name: "Yellow Concrete",
         id: "yellow_concrete",
         ingredients: [{ id: "yellow_concrete_powder", quantity: 1 }],
         result: 1,
     },
     yellow_concrete_powder: {
-        name: "yellow Concrete Powder",
+        name: "Yellow Concrete Powder",
         id: "yellow_concrete_powder",
         ingredients: [
             { id: "sand", quantity: 4 },
@@ -4884,13 +4884,13 @@ export const Items = Object.freeze({
     },
     yellow_dye: { name: "yellow Dye", id: "yellow_dye", ingredients: [{ id: "dandelion", quantity: 1 }], result: 1 },
     yellow_glazed_terracotta: {
-        name: "yellow Glazed Terracotta",
+        name: "Yellow Glazed Terracotta",
         id: "yellow_glazed_terracotta",
         ingredients: [{ id: "yellow_terracotta", quantity: 1 }],
         result: 1,
     },
     yellow_shulker_box: {
-        name: "yellow Shulker Box",
+        name: "Yellow Shulker Box",
         id: "yellow_shulker_box",
         ingredients: [
             { id: "tag_shulker_box", quantity: 1 },
@@ -4899,7 +4899,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     yellow_stained_glass: {
-        name: "yellow Stained Glass",
+        name: "Yellow Stained Glass",
         id: "yellow_stained_glass",
         ingredients: [
             { id: "glass", quantity: 8 },
@@ -4908,7 +4908,7 @@ export const Items = Object.freeze({
         result: 8,
     },
     yellow_stained_glass_pane: {
-        name: "yellow Stained Glass Pane",
+        name: "Yellow Stained Glass Pane",
         id: "yellow_stained_glass_pane",
         ingredients: [
             { id: "yellow_stained_glass", quantity: 8 },
@@ -4917,7 +4917,7 @@ export const Items = Object.freeze({
         result: 8,
     },
     yellow_terracotta: {
-        name: "yellow Terracotta",
+        name: "Yellow Terracotta",
         id: "yellow_terracotta",
         ingredients: [
             { id: "terracotta", quantity: 8 },
@@ -4926,7 +4926,7 @@ export const Items = Object.freeze({
         result: 8,
     },
     yellow_wool: {
-        name: "yellow Wool",
+        name: "Yellow Wool",
         id: "yellow_wool",
         ingredients: [
             { id: "tag_wool", quantity: 1 },

@@ -20,6 +20,71 @@ img {
     image-rendering: pixelated;
 }
 
+#item-select {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 2px solid var(--color-text);
+    border-radius: 0.5rem;
+    width: 24rem;
+    height: 4rem;
+    overflow: hidden;
+    transition: var(--transition-ease);
+}
+
+#item-select:hover {
+    border-color: var(--color-blue);
+    overflow-y: scroll;
+    height: 24rem;
+}
+
+#item-select:hover > button {
+    display: block flex;
+}
+
+#item-select > button > img {
+    width: 4rem;
+    height: 4rem;
+    margin-right: 0.5rem;
+}
+
+#item-select > button {
+    display: none;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-medium);
+    text-align: left;
+    background-color: transparent;
+    color: var(--color-text);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-bottom: 2px solid var(--color-text);
+    /*transition: var(--transition-ease);*/
+}
+
+#item-select > button:last-child {
+    border-bottom: none;
+}
+
+#item-select > button:hover {
+    background-color: var(--color-blue);
+    color: var(--color-base);
+}
+
+#item-select > button.selected {
+    display: block flex;
+    border-bottom: none;
+}
+
+#item-select:hover > button.selected {
+    border-bottom: 2px solid var(--color-text);
+    background-color: var(--color-blue);
+    color: var(--color-base);
+}
+
 #items {
     display: flex;
     flex-wrap: wrap;

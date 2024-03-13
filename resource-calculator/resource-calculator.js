@@ -1,23 +1,47 @@
-import { ItemConversion, Items, Tags } from "./recipes.js";
-import { loadSchematic } from "./schematic.js";
+import { ItemConversion, Items } from "./recipes.js";
 
 const schematicInput = document.getElementById("schematic");
-const datalist = document.getElementById("item-list");
+const itemSelect = document.getElementById("item-select");
 // todo: display items and recipe tree?
 const itemsDiv = document.getElementById("items");
+
+// get first item's id
+let selectedId = Object.keys(Items)[0];
 
 let items = {};
 let ingredients = {};
 
 for (const [key, value] of Object.entries(Items)) {
-    const option = document.createElement("option");
-    option.value = key;
-    option.textContent = value.name ? value.name : key;
-    datalist.appendChild(option);
+    const button = document.createElement("button");
+    button.value = key;
+    const image = getImage(key);
+    button.appendChild(image);
+    // add text after image
+    const text = document.createElement("span");
+    text.textContent = value.name ? value.name : key;
+    button.appendChild(text);
+    itemSelect.appendChild(button);
 
     /*const image = document.createElement("img");
     image.src = "/assets/textures/" + key + ".png";
     imageDiv.appendChild(image);*/
+}
+
+for (let i = 0; i < itemSelect.children.length; i++) {
+    const button = itemSelect.children[i];
+    button.addEventListener("click", (event) => {
+        selectedId = button.value;
+        // remove classes from all other buttons
+        for (const button of itemSelect.children) {
+            button.classList.remove("selected");
+        }
+        // add class to selected button
+        button.classList.add("selected");
+        console.log(selectedId);
+    });
+    if (i === 0) {
+        button.classList.add("selected");
+    }
 }
 
 schematicInput.addEventListener("input", (event) => {
@@ -137,9 +161,7 @@ function displayItems(toDisplay) {
         const name = item.name;
         const itemDiv = document.createElement("div");
         itemDiv.className = "item";
-        const image = document.createElement("img");
-        image.src = "/assets/textures/" + item.id + ".png";
-        //image.alt = name;
+        const image = getImage(item.id);
         image.title = name;
         itemDiv.appendChild(image);
         const textDiv = document.createElement("div");
@@ -160,6 +182,17 @@ function displaySeparator(text) {
     separator.className = "separator";
     separator.textContent = text;
     itemsDiv.appendChild(separator);
+}
+
+/**
+ * @param {string} id
+ * @returns {HTMLImageElement}
+ */
+function getImage(id) {
+    const image = document.createElement("img");
+    image.src = "/assets/textures/" + id + ".png";
+    image.loading = "lazy";
+    return image;
 }
 
 function testDataIntegrity(items) {
