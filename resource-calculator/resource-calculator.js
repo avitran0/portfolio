@@ -7,6 +7,7 @@ const itemSelectAdd = document.getElementById("item-select-add");
 const itemSelectRemove = document.getElementById("item-select-remove");
 // todo: display items and recipe tree?
 const itemsDiv = document.getElementById("items");
+const sample = document.getElementById("sample");
 const spinner = document.getElementById("spinner");
 
 // get first item's id
@@ -55,6 +56,15 @@ itemSelectRemove.addEventListener("click", (event) => {
     ingredients = calculateAllItems(items);
     display(items, ingredients);
 });
+
+// sample is a select element
+sample.onchange = async (event) => {
+    const fileName = sample.value;
+    const file = await fetch("/assets/schematics/" + fileName);
+    const arrayBuffer = await file.arrayBuffer();
+    const extension = fileName.split(".").pop();
+    startWorker(arrayBuffer, extension);
+};
 
 for (const [key, value] of Object.entries(Items)) {
     const button = document.createElement("button");
@@ -110,24 +120,32 @@ schematicInput.addEventListener("input", (event) => {
     reader.onload = (event) => {
         const arrayBuffer = event.target.result;
         const extension = file.name.split(".").pop();
-        const worker = new Worker("schematic-webworker.js", { type: "module" });
-        //items = loadSchematic(arrayBuffer, extension);
-        worker.postMessage({ arrayBuffer, extension });
-        spinner.style.display = "block";
-        worker.onmessage = (event) => {
-            items = event.data;
-            ingredients = calculateAllItems(items);
-            clearDisplayedItems();
-            displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
-            displayItems(items);
-            displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
-            displayItems(ingredients);
-            worker.terminate();
-            spinner.style.display = "none";
-        };
+        startWorker(arrayBuffer, extension);
     };
     reader.readAsArrayBuffer(file);
 });
+
+/**
+ * @param {ArrayBuffer} arrayBuffer
+ * @param {string} extension
+ */
+function startWorker(arrayBuffer, extension) {
+    const worker = new Worker("schematic-webworker.js", { type: "module" });
+    //items = loadSchematic(arrayBuffer, extension);
+    worker.postMessage({ arrayBuffer, extension });
+    spinner.style.display = "block";
+    worker.onmessage = (event) => {
+        items = event.data;
+        ingredients = calculateAllItems(items);
+        clearDisplayedItems();
+        displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
+        displayItems(items);
+        displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
+        displayItems(ingredients);
+        worker.terminate();
+        spinner.style.display = "none";
+    };
+}
 
 /**
  * @returns {Object.<string, number>} rawIngredients

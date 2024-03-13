@@ -171,6 +171,10 @@ img {
     font-family: var(--font-zilla-slab);
 }
 
+#sample {
+    width: 12rem;
+}
+
 #spinner {
     width: 4rem;
     height: 4rem;
@@ -186,10 +190,10 @@ img {
     border-radius: 50%;
     border: 6px solid #fff;
     border-color: #fff transparent #fff transparent;
-    animation: lds-dual-ring 1s linear infinite;
+    animation: spinner 1s linear infinite;
 }
 
-@keyframes lds-dual-ring {
+@keyframes spinner {
     0% {
         transform: rotate(0deg);
     }

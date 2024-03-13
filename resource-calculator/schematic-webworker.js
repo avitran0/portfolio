@@ -6,8 +6,21 @@ import init, { get_litematica_blocks, get_schematica_blocks } from "./wasm/schem
 
 onmessage = async function (e) {
     const { arrayBuffer, extension } = e.data;
+    const startTime = performance.now();
     await init(); // initializes the wasm module
     const items = loadSchematic(arrayBuffer, extension);
+    const blockCount = Object.values(items).reduce((a, b) => a + b, 0);
+    // write time and block throuput per second
+    const endTime = performance.now();
+    console.log(
+        "processed " +
+            blockCount +
+            " blocks in " +
+            (endTime - startTime) +
+            "ms (" +
+            ((blockCount / (endTime - startTime)) * 1000).toLocaleString() +
+            " blocks/s)"
+    );
     this.postMessage(items);
 };
 
