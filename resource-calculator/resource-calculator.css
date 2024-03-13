@@ -151,7 +151,6 @@ img {
     padding: 0.5rem;
     border-radius: 0.5rem;
     transition: var(--transition-ease);
-    cursor: pointer;
     border: 2px solid var(--color-text);
     border-radius: 0.5rem;
     font-size: var(--font-size-small);
