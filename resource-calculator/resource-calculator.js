@@ -179,7 +179,7 @@ function calculateItem(item, quantity) {
             }
         }
         if (Object.keys(ingredientResult).length === 0) {
-            console.error("No result for " + item.id, item);
+            console.error("No result for " + ingredient.id + " in " + item.id, item);
         }
     }
     return result;
@@ -212,6 +212,7 @@ function clearDisplayedItems() {
 }
 
 function displayItems(toDisplay) {
+    toDisplay = sortObject(toDisplay);
     for (const [key, value] of Object.entries(toDisplay)) {
         if (key === "air") continue;
         let item = Items[key];
@@ -270,6 +271,15 @@ function getLazyImage(id) {
     image.dataset.src = "/assets/textures/" + id + ".png";
     image.loading = "lazy";
     return image;
+}
+
+function sortObject(obj) {
+    return Object.keys(obj)
+        .sort()
+        .reduce((result, key) => {
+            result[key] = obj[key];
+            return result;
+        }, {});
 }
 
 function testDataIntegrity(items) {

@@ -165,6 +165,7 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
+    apple: { name: "Apple", id: "apple", baseItem: true },
     armor_stand: {
         name: "Armor Stand",
         id: "armor_stand",
@@ -173,6 +174,16 @@ export const Items = Object.freeze({
             { id: "smooth_stone_slab", quantity: 1 },
         ],
         result: 1,
+    },
+    arrow: {
+        name: "Arrow",
+        id: "arrow",
+        ingredients: [
+            { id: "flint", quantity: 1 },
+            { id: "stick", quantity: 1 },
+            { id: "feather", quantity: 1 },
+        ],
+        result: 4,
     },
     axolotl_bucket: {
         name: "Bucket of Axolotl",
@@ -857,6 +868,15 @@ export const Items = Object.freeze({
         result: 4,
     },
     carrot: { name: "Carrot", id: "carrot", baseItem: true },
+    carrot_on_a_stick: {
+        name: "Carrot on a Stick",
+        id: "carrot_on_a_stick",
+        ingredients: [
+            { id: "fishing_rod", quantity: 1 },
+            { id: "carrot", quantity: 1 },
+        ],
+        result: 1,
+    },
     carrots: { name: "Carrots", id: "carrots", ingredients: [{ id: "carrot", quantity: 1 }], result: 1 },
     cartography_table: {
         name: "Cartography Table",
@@ -890,10 +910,32 @@ export const Items = Object.freeze({
         result: 1,
     },
     chain_command_block: { name: "Chain Command Block", id: "chain_command_block", baseItem: true },
+    charcoal: { name: "Charcoal", id: "charcoal", ingredients: [{ id: "tag_logs", quantity: 1 }], result: 1 },
+    charcoal_block: {
+        name: "Block of Charcoal",
+        id: "charcoal_block",
+        ingredients: [{ id: "charcoal", quantity: 9 }],
+        result: 1,
+    },
+    cherry_boat: {
+        name: "Cherry Boat",
+        id: "cherry_boat",
+        ingredients: [{ id: "cherry_planks", quantity: 5 }],
+        result: 1,
+    },
     cherry_button: {
         name: "Cherry Button",
         id: "cherry_button",
         ingredients: [{ id: "cherry_planks", quantity: 1 }],
+        result: 1,
+    },
+    cherry_chest_boat: {
+        name: "Cherry Chest Boat",
+        id: "cherry_chest_boat",
+        ingredients: [
+            { id: "cherry_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     cherry_door: {
@@ -1412,10 +1454,25 @@ export const Items = Object.freeze({
         result: 1,
     },
     dandelion: { name: "Dandelion", id: "dandelion", baseItem: true },
+    dark_oak_boat: {
+        name: "Dark Oak Boat",
+        id: "dark_oak_boat",
+        ingredients: [{ id: "dark_oak_planks", quantity: 5 }],
+        result: 1,
+    },
     dark_oak_button: {
         name: "Dark Oak Button",
         id: "dark_oak_button",
         ingredients: [{ id: "dark_oak_planks", quantity: 1 }],
+        result: 1,
+    },
+    dark_oak_chest_boat: {
+        name: "Dark Oak Chest Boat",
+        id: "dark_oak_chest_boat",
+        ingredients: [
+            { id: "dark_oak_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     dark_oak_door: {
@@ -1678,6 +1735,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     egg: { name: "Egg", id: "egg", baseItem: true },
+    elytra: { name: "Elytra", id: "elytra", baseItem: true },
     emerald: { name: "Emerald", id: "emerald", ingredients: [{ id: "emerald_ore", quantity: 1 }], result: 2 },
     emerald_block: {
         name: "Block of Emerald",
@@ -1776,11 +1834,21 @@ export const Items = Object.freeze({
         result: 1,
     },
     farmland: { name: "Farmland", id: "farmland", ingredients: [{ id: "dirt", quantity: 1 }], result: 1 },
+    feather: { name: "Feather", id: "feather", baseItem: true },
     fern: { name: "Fern", id: "fern", baseItem: true },
     fire: { name: "Fire", id: "fire", baseItem: true },
     fire_coral: { name: "Fire Coral", id: "fire_coral", baseItem: true },
     fire_coral_block: { name: "Fire Coral Block", id: "fire_coral_block", baseItem: true },
     fire_coral_fan: { name: "Fire Coral Fan", id: "fire_coral_fan", baseItem: true },
+    fishing_rod: {
+        name: "Fishing Rod",
+        id: "fishing_rod",
+        ingredients: [
+            { id: "stick", quantity: 3 },
+            { id: "string", quantity: 2 },
+        ],
+        result: 1,
+    },
     fletching_table: {
         name: "Fletching Table",
         id: "fletching_table",
@@ -1791,6 +1859,15 @@ export const Items = Object.freeze({
         result: 1,
     },
     flint: { name: "Flint", id: "flint", ingredients: [{ id: "gravel", quantity: 1 }], result: 1 },
+    flint_and_steel: {
+        name: "Flint and Steel",
+        id: "flint_and_steel",
+        ingredients: [
+            { id: "flint", quantity: 1 },
+            { id: "iron_ingot", quantity: 1 },
+        ],
+        result: 1,
+    },
     flower_pot: {
         name: "Flower Pot",
         id: "flower_pot",
@@ -1838,7 +1915,101 @@ export const Items = Object.freeze({
         ingredients: [{ id: "raw_gold", quantity: 1 }],
         result: 1,
     },
+    gold_nugget: {
+        name: "Gold Nugget",
+        id: "gold_nugget",
+        ingredients: [{ id: "gold_ingot", quantity: 1 }],
+        result: 9,
+    },
     gold_ore: { name: "Gold Ore", id: "gold_ore", baseItem: true },
+    golden_apple: {
+        name: "Golden Apple",
+        id: "golden_apple",
+        ingredients: [
+            { id: "apple", quantity: 1 },
+            { id: "gold_ingot", quantity: 8 },
+        ],
+        result: 1,
+    },
+    golden_axe: {
+        name: "Golden Axe",
+        id: "golden_axe",
+        ingredients: [
+            { id: "gold_ingot", quantity: 3 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    golden_boots: {
+        name: "Golden Boots",
+        id: "golden_boots",
+        ingredients: [{ id: "gold_ingot", quantity: 4 }],
+        result: 1,
+    },
+    golden_carrot: {
+        name: "Golden Carrot",
+        id: "golden_carrot",
+        ingredients: [
+            { id: "carrot", quantity: 1 },
+            { id: "gold_nugget", quantity: 8 },
+        ],
+        result: 1,
+    },
+    golden_chestplate: {
+        name: "Golden Chestplate",
+        id: "golden_chestplate",
+        ingredients: [{ id: "gold_ingot", quantity: 8 }],
+        result: 1,
+    },
+    golden_helmet: {
+        name: "Golden Helmet",
+        id: "golden_helmet",
+        ingredients: [{ id: "gold_ingot", quantity: 5 }],
+        result: 1,
+    },
+    golden_hoe: {
+        name: "Golden Hoe",
+        id: "golden_hoe",
+        ingredients: [
+            { id: "gold_ingot", quantity: 2 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    golden_horse_armor: { name: "Golden Horse Armor", id: "golden_horse_armor", baseItem: true },
+    golden_leggings: {
+        name: "Golden Leggings",
+        id: "golden_leggings",
+        ingredients: [{ id: "gold_ingot", quantity: 7 }],
+        result: 1,
+    },
+    golden_pickaxe: {
+        name: "Golden Pickaxe",
+        id: "golden_pickaxe",
+        ingredients: [
+            { id: "gold_ingot", quantity: 3 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    golden_shovel: {
+        name: "Golden Shovel",
+        id: "golden_shovel",
+        ingredients: [
+            { id: "gold_ingot", quantity: 1 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    golden_sword: {
+        name: "Golden Sword",
+        id: "golden_sword",
+        ingredients: [
+            { id: "gold_ingot", quantity: 2 },
+            { id: "stick", quantity: 1 },
+        ],
+        result: 1,
+    },
     granite: { name: "Granite", id: "granite", baseItem: true },
     granite_slab: {
         name: "Granite Slab",
@@ -2113,6 +2284,15 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
+    hopper_minecart: {
+        name: "Minecart with Hopper",
+        id: "hopper_minecart",
+        ingredients: [
+            { id: "hopper", quantity: 1 },
+            { id: "minecart", quantity: 1 },
+        ],
+        result: 1,
+    },
     horn_coral: { name: "Horn Coral", id: "horn_coral", baseItem: true },
     horn_coral_block: { name: "Horn Coral Block", id: "horn_coral_block", baseItem: true },
     horn_coral_fan: { name: "Horn Coral Fan", id: "horn_coral_fan", baseItem: true },
@@ -2183,10 +2363,25 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
+    jungle_boat: {
+        name: "Jungle Boat",
+        id: "jungle_boat",
+        ingredients: [{ id: "jungle_planks", quantity: 5 }],
+        result: 1,
+    },
     jungle_button: {
         name: "Jungle Button",
         id: "jungle_button",
         ingredients: [{ id: "jungle_planks", quantity: 1 }],
+        result: 1,
+    },
+    jungle_chest_boat: {
+        name: "Jungle Chest Boat",
+        id: "jungle_chest_boat",
+        ingredients: [
+            { id: "jungle_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     jungle_door: {
@@ -2788,10 +2983,25 @@ export const Items = Object.freeze({
         result: 1,
     },
     magma_block: { name: "Magma Block", id: "magma_block", baseItem: true },
+    mangrove_boat: {
+        name: "Mangrove Boat",
+        id: "mangrove_boat",
+        ingredients: [{ id: "mangrove_planks", quantity: 5 }],
+        result: 1,
+    },
     mangrove_button: {
         name: "Mangrove Button",
         id: "mangrove_button",
         ingredients: [{ id: "mangrove_planks", quantity: 1 }],
+        result: 1,
+    },
+    mangrove_chest_boat: {
+        name: "Mangrove Chest Boat",
+        id: "mangrove_chest_boat",
+        ingredients: [
+            { id: "mangrove_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     mangrove_door: {
@@ -3058,7 +3268,22 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
+    oak_boat: {
+        name: "Oak Boat",
+        id: "oak_boat",
+        ingredients: [{ id: "oak_planks", quantity: 5 }],
+        result: 1,
+    },
     oak_button: { name: "Oak Button", id: "oak_button", ingredients: [{ id: "oak_planks", quantity: 1 }], result: 1 },
+    oak_chest_boat: {
+        name: "Oak Chest Boat",
+        id: "oak_chest_boat",
+        ingredients: [
+            { id: "oak_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
+        result: 1,
+    },
     oak_door: { name: "Oak Door", id: "oak_door", ingredients: [{ id: "oak_planks", quantity: 6 }], result: 3 },
     oak_fence: {
         name: "Oak Fence",
@@ -4064,6 +4289,7 @@ export const Items = Object.freeze({
     sculk_sensor: { name: "Sculk Sensor", id: "sculk_sensor", baseItem: true },
     sculk_shrieker: { name: "Sculk Shrieker", id: "sculk_shrieker", baseItem: true },
     sculk_vein: { name: "Sculk Vein", id: "sculk_vein", baseItem: true },
+    scute: { name: "Scute", id: "scute", baseItem: true },
     sea_lantern: {
         name: "Sea Lantern",
         id: "sea_lantern",
@@ -4224,10 +4450,25 @@ export const Items = Object.freeze({
     },
     sponge: { name: "Sponge", id: "sponge", baseItem: true },
     spore_blossom: { name: "Spore Blossom", id: "spore_blossom", baseItem: true },
+    spruce_boat: {
+        name: "Spruce Boat",
+        id: "spruce_boat",
+        ingredients: [{ id: "spruce_planks", quantity: 5 }],
+        result: 1,
+    },
     spruce_button: {
         name: "Spruce Button",
         id: "spruce_button",
         ingredients: [{ id: "spruce_planks", quantity: 1 }],
+        result: 1,
+    },
+    spruce_chest_boat: {
+        name: "Spruce Chest Boat",
+        id: "spruce_chest_boat",
+        ingredients: [
+            { id: "spruce_boat", quantity: 1 },
+            { id: "chest", quantity: 1 },
+        ],
         result: 1,
     },
     spruce_door: {
@@ -4310,6 +4551,15 @@ export const Items = Object.freeze({
         result: 1,
     },
     stone: { name: "Stone", id: "stone", baseItem: true },
+    stone_axe: {
+        name: "Stone Axe",
+        id: "stone_axe",
+        ingredients: [
+            { id: "cobblestone", quantity: 2 },
+            { id: "stick", quantity: 1 },
+        ],
+        result: 1,
+    },
     stone_brick_slab: {
         name: "Stone Brick Slab",
         id: "stone_brick_slab",
@@ -4340,10 +4590,37 @@ export const Items = Object.freeze({
         ingredients: [{ id: "stone", quantity: 1 }],
         result: 1,
     },
+    stone_hoe: {
+        name: "Stone Hoe",
+        id: "stone_hoe",
+        ingredients: [
+            { id: "tag_cobblestone", quantity: 2 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    stone_pickaxe: {
+        name: "Stone Pickaxe",
+        id: "stone_pickaxe",
+        ingredients: [
+            { id: "tag_cobblestone", quantity: 3 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
     stone_pressure_plate: {
         name: "Stone Pressure Plate",
         id: "stone_pressure_plate",
         ingredients: [{ id: "stone", quantity: 2 }],
+        result: 1,
+    },
+    stone_shovel: {
+        name: "Stone Shovel",
+        id: "stone_shovel",
+        ingredients: [
+            { id: "tag_cobblestone", quantity: 1 },
+            { id: "stick", quantity: 2 },
+        ],
         result: 1,
     },
     stone_slab: {
@@ -4357,6 +4634,15 @@ export const Items = Object.freeze({
         id: "stone_stairs",
         ingredients: [{ id: "stone", quantity: 6 }],
         result: 4,
+    },
+    stone_sword: {
+        name: "Stone Sword",
+        id: "stone_sword",
+        ingredients: [
+            { id: "tag_cobblestone", quantity: 2 },
+            { id: "stick", quantity: 1 },
+        ],
+        result: 1,
     },
     stonecutter: {
         name: "Stonecutter",
@@ -4547,6 +4833,12 @@ export const Items = Object.freeze({
     tube_coral_fan: { name: "Tube Coral Fan", id: "tube_coral_fan", baseItem: true },
     tuff: { name: "Tuff", id: "tuff", baseItem: true },
     turtle_egg: { name: "Turtle Egg", id: "turtle_egg", baseItem: true },
+    turtle_helmet: {
+        name: "Turtle Shell",
+        id: "turtle_helmet",
+        ingredients: [{ id: "scute", quantity: 5 }],
+        result: 1,
+    },
     twisting_vines: { name: "Twisting Vines", id: "twisting_vines", baseItem: true },
     verdant_froglight: { name: "Verdant Froglight", id: "verdant_froglight", baseItem: true },
     vine: { name: "Vines", id: "vine", baseItem: true },
@@ -4581,6 +4873,15 @@ export const Items = Object.freeze({
         result: 1,
     },
     warped_fungus: { name: "Warped Fungus", id: "warped_fungus", baseItem: true },
+    warped_fungus_on_a_stick: {
+        name: "Warped Fungus on a Stick",
+        id: "warped_fungus_on_a_stick",
+        ingredients: [
+            { id: "warped_fungus", quantity: 1 },
+            { id: "fishing_rod", quantity: 1 },
+        ],
+        result: 1,
+    },
     warped_hanging_sign: {
         name: "Warped Hanging Sign",
         id: "warped_hanging_sign",
@@ -4913,6 +5214,51 @@ export const Items = Object.freeze({
     white_wool: { name: "White Wool", id: "white_wool", baseItem: true },
     wither_rose: { name: "Wither Rose", id: "wither_rose", baseItem: true },
     wither_skeleton_skull: { name: "Wither Skeleton Skull", id: "wither_skeleton_skull", baseItem: true },
+    wooden_axe: {
+        name: "Wooden Axe",
+        id: "wooden_axe",
+        ingredients: [
+            { id: "tag_planks", quantity: 2 },
+            { id: "stick", quantity: 1 },
+        ],
+        result: 1,
+    },
+    wooden_hoe: {
+        name: "Wooden Hoe",
+        id: "wooden_hoe",
+        ingredients: [
+            { id: "tag_planks", quantity: 2 },
+            { id: "stick", quantity: 1 },
+        ],
+        result: 1,
+    },
+    wooden_pickaxe: {
+        name: "Wooden Pickaxe",
+        id: "wooden_pickaxe",
+        ingredients: [
+            { id: "tag_planks", quantity: 3 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    wooden_shovel: {
+        name: "Wooden Shovel",
+        id: "wooden_shovel",
+        ingredients: [
+            { id: "tag_planks", quantity: 1 },
+            { id: "stick", quantity: 2 },
+        ],
+        result: 1,
+    },
+    wooden_sword: {
+        name: "Wooden Sword",
+        id: "wooden_sword",
+        ingredients: [
+            { id: "tag_planks", quantity: 2 },
+            { id: "stick", quantity: 1 },
+        ],
+        result: 1,
+    },
     yellow_banner: {
         name: "Yellow Banner",
         id: "yellow_banner",
