@@ -146,6 +146,13 @@ function startWorker(arrayBuffer, extension) {
     spinner.style.display = "block";
     worker.onmessage = (event) => {
         items = event.data;
+        if (items.error) {
+            clearDisplayedItems();
+            displaySeparator(e);
+            worker.terminate();
+            spinner.style.display = "none";
+            return;
+        }
         ingredients = calculateAllItems(items);
         clearDisplayedItems();
         displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());

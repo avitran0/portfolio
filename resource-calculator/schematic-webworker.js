@@ -5,6 +5,7 @@ import init, { get_litematica_blocks, get_schematica_blocks } from "./wasm/schem
 //importScripts("./wasm/schematics.js");
 
 onmessage = async function (e) {
+    try {
     const { arrayBuffer, extension } = e.data;
     const startTime = performance.now();
     await init(); // initializes the wasm module
@@ -21,7 +22,10 @@ onmessage = async function (e) {
             ((blockCount / (endTime - startTime)) * 1000).toLocaleString() +
             " blocks/s)"
     );
-    this.postMessage(items);
+    this.postMessage(items);}
+    catch (e) {
+        this.postMessage({error: e});
+    }
 };
 
 /**
