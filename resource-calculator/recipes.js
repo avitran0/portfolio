@@ -3853,6 +3853,312 @@ export const Items = Object.freeze({
     poppy: { name: "Poppy", id: "poppy", baseItem: true },
     potato: { name: "Potato", id: "potato", baseItem: true },
     potatoes: { name: "Potatoes", id: "potatoes", ingredients: [{ id: "potato", quantity: 1 }], result: 1 },
+    potted_acacia_sapling: {
+        name: "Potted Acacia Sapling",
+        id: "potted_acacia_sapling",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "acacia_sapling", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_allium: {
+        name: "Potted Allium",
+        id: "potted_allium",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "allium", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_azalea: {
+        name: "Potted Azalea",
+        id: "potted_azalea",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "azalea", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_azure_bluet: {
+        name: "Potted Azure Bluet",
+        id: "potted_azure_bluet",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "azure_bluet", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_bamboo: {
+        name: "Potted Bamboo",
+        id: "potted_bamboo",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "bamboo", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_birch_sapling: {
+        name: "Potted Birch Sapling",
+        id: "potted_birch_sapling",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "birch_sapling", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_blue_orchid: {
+        name: "Potted Blue Orchid",
+        id: "potted_blue_orchid",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "blue_orchid", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_brown_mushroom: {
+        name: "Potted Brown Mushroom",
+        id: "potted_brown_mushroom",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "brown_mushroom", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_cactus: {
+        name: "Potted Cactus",
+        id: "potted_cactus",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "cactus", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_cherry_sapling: {
+        name: "Potted Cherry Sapling",
+        id: "potted_cherry_sapling",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "cherry_sapling", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_cornflower: {
+        name: "Potted Cornflower",
+        id: "potted_cornflower",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "cornflower", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_crimson_fungus: {
+        name: "Potted Crimson Fungus",
+        id: "potted_crimson_fungus",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "crimson_fungus", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_crimson_roots: {
+        name: "Potted Crimson Roots",
+        id: "potted_crimson_roots",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "crimson_roots", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_dandelion: {
+        name: "Potted Dandelion",
+        id: "potted_dandelion",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "dandelion", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_dark_oak_sapling: {
+        name: "Potted Dark Oak Sapling",
+        id: "potted_dark_oak_sapling",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "dark_oak_sapling", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_dead_bush: {
+        name: "Potted Dead Bush",
+        id: "potted_dead_bush",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "dead_bush", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_fern: {
+        name: "Potted Fern",
+        id: "potted_fern",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "fern", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_flowering_azalea: {
+        name: "Potted Flowering Azalea",
+        id: "potted_flowering_azalea",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "flowering_azalea", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_jungle_sapling: {
+        name: "Potted Jungle Sapling",
+        id: "potted_jungle_sapling",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "jungle_sapling", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_lily_of_the_valley: {
+        name: "Potted Lily of the Valley",
+        id: "potted_lily_of_the_valley",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "lily_of_the_valley", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_mangrove_propagule: {
+        name: "Potted Mangrove Propagule",
+        id: "potted_mangrove_propagule",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "mangrove_propagule", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_oak_sapling: {
+        name: "Potted Oak Sapling",
+        id: "potted_oak_sapling",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "oak_sapling", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_orange_tulip: {
+        name: "Potted Orange Tulip",
+        id: "potted_orange_tulip",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "orange_tulip", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_oxeye_daisy: {
+        name: "Potted Oxeye Daisy",
+        id: "potted_oxeye_daisy",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "oxeye_daisy", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_pink_tulip: {
+        name: "Potted Pink Tulip",
+        id: "potted_pink_tulip",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "pink_tulip", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_poppy: {
+        name: "Potted Poppy",
+        id: "potted_poppy",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "poppy", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_red_mushroom: {
+        name: "Potted Red Mushroom",
+        id: "potted_red_mushroom",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "red_mushroom", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_red_tulip: {
+        name: "Potted Red Tulip",
+        id: "potted_red_tulip",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "red_tulip", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_spruce_sapling: {
+        name: "Potted Spruce Sapling",
+        id: "potted_spruce_sapling",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "spruce_sapling", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_torchflower: {
+        name: "Potted Torchflower",
+        id: "potted_torchflower",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "torchflower", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_warped_fungus: {
+        name: "Potted Warped Fungus",
+        id: "potted_warped_fungus",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "warped_fungus", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_warped_roots: {
+        name: "Potted Warped Roots",
+        id: "potted_warped_roots",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "warped_roots", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_white_tulip: {
+        name: "Potted White Tulip",
+        id: "potted_white_tulip",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "white_tulip", quantity: 1 },
+        ],
+        result: 1,
+    },
+    potted_wither_rose: {
+        name: "Potted Wither Rose",
+        id: "potted_wither_rose",
+        ingredients: [
+            { id: "flower_pot", quantity: 1 },
+            { id: "wither_rose", quantity: 1 },
+        ],
+        result: 1,
+    },
     powder_snow: { name: "Powder Snow", id: "powder_snow", baseItem: true },
     powered_rail: {
         name: "Powered Rail",
@@ -4519,6 +4825,7 @@ export const Items = Object.freeze({
         ],
         result: 4,
     },
+    spawner: { name: "Spawner", id: "spawner", baseItem: true },
     sponge: { name: "Sponge", id: "sponge", baseItem: true },
     spore_blossom: { name: "Spore Blossom", id: "spore_blossom", baseItem: true },
     spruce_boat: {
@@ -5567,7 +5874,15 @@ export const Tags = Object.freeze({
 
 /** @type {Object<string, string>} */
 export const ItemConversion = Object.freeze({
+    black_wall_banner: "black_banner",
+    brick_block: "bricks",
+    bubble_column: "water",
+    cave_air: "air",
+    damaged_anvil: "anvil",
+    double_stone_slab: "stone_slab",
     piston_head: "air",
     redstone_wall_torch: "redstone_torch",
+    wall_torch: "torch",
     weeping_vines_plant: "weeping_vines",
+    void_air: "air",
 });
