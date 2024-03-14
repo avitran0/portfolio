@@ -78,7 +78,9 @@ function getLitematicaBlocks(nbt) {
 
         const blocksTemp = get_litematica_blocks(blockArray, bitsPerBlock, numBlocks);
         for (const [key, value] of blocksTemp.entries()) {
-            blocks[blockStates[key]] = value;
+            // account for multiples of the same block having a different key
+            // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
+            blocks[blockStates[key]] = (blocks[blockStates[key]] || 0) + value;
         }
     }
 
@@ -106,7 +108,7 @@ function getSchematicaBlocks(nbt) {
 
     const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
     for (const [key, value] of blocksTemp.entries()) {
-        blocks[blockPalette[key]] = value;
+        blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
     }
 
     return blocks;
@@ -125,7 +127,7 @@ function getOldSchematicBlocks(nbt) {
     }
 
     for (const [id, count] of Object.entries(blocksTemp)) {
-        blocks[BlockIDs[id]] = count;
+        blocks[BlockIDs[id]] = (blocks[BlockIDs[id]] || 0) + count;
     }
 
     return blocks;
