@@ -149,6 +149,7 @@ function startWorker(arrayBuffer, extension) {
     //items = loadSchematic(arrayBuffer, extension);
     worker.postMessage({ arrayBuffer, extension });
     spinner.style.display = "block";
+    clearDisplayedItems();
     worker.onmessage = (event) => {
         items = event.data;
 
