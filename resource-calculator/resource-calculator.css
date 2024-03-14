@@ -162,6 +162,24 @@ img {
     flex-direction: column;
 }
 
+.item > button {
+    width: 1.8rem;
+    aspect-ratio: 1 / 1;
+    border: 2px solid var(--color-text);
+    background-color: transparent;
+    color: var(--color-text);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition-ease);
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-small);
+}
+
+.item > button:hover {
+    background-color: var(--color-blue);
+    color: var(--color-base);
+}
+
 .separator {
     width: 100%;
     padding: 0.2rem 0.5rem;

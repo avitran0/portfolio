@@ -11,7 +11,9 @@ const sample = document.getElementById("sample");
 const spinner = document.getElementById("spinner");
 
 const start = document.getElementById("start");
-const clear = document.getElementById("clear");
+
+const clearItems = document.getElementById("clear");
+const fileClear = document.getElementById("clear-file");
 
 // get first item's id
 let selectedId = Object.keys(Items)[0];
@@ -81,10 +83,13 @@ start.onclick = async (event) => {
     }
 };
 
-clear.onclick = (event) => {
+clearItems.onclick = (event) => {
     items = {};
     ingredients = {};
     clearDisplayedItems();
+};
+
+fileClear.onclick = (event) => {
     schematicInput.value = "";
 };
 
@@ -146,19 +151,16 @@ function startWorker(arrayBuffer, extension) {
     spinner.style.display = "block";
     worker.onmessage = (event) => {
         items = event.data;
+
         if (items.error) {
+            console.error(items.error);
             clearDisplayedItems();
-            displaySeparator(e);
-            worker.terminate();
-            spinner.style.display = "none";
-            return;
+            displaySeparator("Could not load schematic.");
+        } else {
+            ingredients = calculateAllItems(items);
+            display(items, ingredients);
         }
-        ingredients = calculateAllItems(items);
-        clearDisplayedItems();
-        displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
-        displayItems(items);
-        displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
-        displayItems(ingredients);
+
         worker.terminate();
         spinner.style.display = "none";
     };
@@ -240,7 +242,7 @@ function calculateTotalItems(data) {
 function display(items, ingredients) {
     clearDisplayedItems();
     displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
-    displayItems(items);
+    displayItems(items, true);
     displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
     displayItems(ingredients);
 }
@@ -249,7 +251,7 @@ function clearDisplayedItems() {
     itemsDiv.innerHTML = "";
 }
 
-function displayItems(toDisplay) {
+function displayItems(toDisplay, deletable = false) {
     toDisplay = sortObject(toDisplay);
     for (const [key, value] of Object.entries(toDisplay)) {
         if (key === "air") continue;
@@ -263,23 +265,46 @@ function displayItems(toDisplay) {
             if (id === "air") continue;
             item = Items[id];
         }
-        const name = item.name;
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "item";
-        const image = getImage(item.id);
-        image.title = name;
-        itemDiv.appendChild(image);
-        const textDiv = document.createElement("div");
-        textDiv.className = "item-text";
-        const text1 = document.createElement("span");
-        text1.textContent = name;
-        const text2 = document.createElement("span");
-        text2.textContent = value.toLocaleString() + "x";
-        textDiv.appendChild(text1);
-        textDiv.appendChild(text2);
-        itemDiv.appendChild(textDiv);
-        itemsDiv.appendChild(itemDiv);
+        if (deletable) {
+            const itemDiv = createDeletableItemDiv(item, value);
+            itemsDiv.appendChild(itemDiv);
+        } else {
+            const itemDiv = createItemDiv(item, value);
+            itemsDiv.appendChild(itemDiv);
+        }
     }
+}
+
+function createItemDiv(item, count) {
+    const name = item.name;
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "item";
+    const image = getImage(item.id);
+    image.title = name;
+    itemDiv.appendChild(image);
+    const textDiv = document.createElement("div");
+    textDiv.className = "item-text";
+    const text1 = document.createElement("span");
+    text1.textContent = name;
+    const text2 = document.createElement("span");
+    text2.textContent = count.toLocaleString() + "x";
+    textDiv.appendChild(text1);
+    textDiv.appendChild(text2);
+    itemDiv.appendChild(textDiv);
+    return itemDiv;
+}
+
+function createDeletableItemDiv(item, count) {
+    const itemDiv = createItemDiv(item, count);
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "X";
+    deleteButton.onclick = (event) => {
+        delete items[item.id];
+        ingredients = calculateAllItems(items);
+        display(items, ingredients);
+    };
+    itemDiv.appendChild(deleteButton);
+    return itemDiv;
 }
 
 function displaySeparator(text) {
