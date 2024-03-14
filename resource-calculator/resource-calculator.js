@@ -157,8 +157,19 @@ function startWorker(arrayBuffer, extension) {
             clearDisplayedItems();
             displaySeparator("Could not load schematic.");
         } else {
+            const metadata = items.__metadata;
+            delete items.__metadata;
             ingredients = calculateAllItems(items);
             display(items, ingredients);
+            displaySeparator(
+                "Processed " +
+                    metadata.blockCount +
+                    " blocks in " +
+                    metadata.time +
+                    "ms. (" +
+                    metadata.blockThroughput.toLocaleString() +
+                    " blocks/s)"
+            );
         }
 
         worker.terminate();

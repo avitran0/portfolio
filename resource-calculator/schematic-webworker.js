@@ -13,15 +13,23 @@ onmessage = async function (e) {
         const blockCount = Object.values(items).reduce((a, b) => a + b, 0);
         // write time and block throuput per second
         const endTime = performance.now();
+        const time = endTime - startTime;
+        const blockThroughput = (blockCount / time) * 1000;
         console.log(
             "processed " +
                 blockCount +
                 " blocks in " +
-                (endTime - startTime) +
+                time +
                 "ms (" +
-                ((blockCount / (endTime - startTime)) * 1000).toLocaleString() +
+                blockThroughput.toLocaleString() +
                 " blocks/s)"
         );
+        // set metadata object in items
+        items["__metadata"] = {
+            time: time,
+            blockCount: blockCount,
+            blockThroughput: blockThroughput,
+        };
         this.postMessage(items);
     } catch (e) {
         this.postMessage({ error: e });

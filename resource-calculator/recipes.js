@@ -2099,6 +2099,7 @@ export const Items = Object.freeze({
         ingredients: [{ id: "granite", quantity: 6 }],
         result: 6,
     },
+    grass: { name: "Grass", id: "grass", baseItem: true },
     grass_block: { name: "Grass Block", id: "grass_block", baseItem: true },
     gravel: { name: "Gravel", id: "gravel", baseItem: true },
     gray_banner: {
@@ -5568,4 +5569,5 @@ export const Tags = Object.freeze({
 export const ItemConversion = Object.freeze({
     piston_head: "air",
     redstone_wall_torch: "redstone_torch",
+    weeping_vines_plant: "weeping_vines",
 });
