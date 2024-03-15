@@ -194,6 +194,7 @@ export const Items = Object.freeze({
     azalea: { name: "Azalea", id: "azalea", baseItem: true },
     azalea_leaves: { name: "Azalea Leaves", id: "azalea_leaves", baseItem: true },
     azure_bluet: { name: "Azure Bluet", id: "azure_bluet", baseItem: true },
+    baked_potato: { name: "Baked Potato", id: "baked_potato", ingredients: [{ id: "potato", quantity: 1 }], result: 1 },
     bamboo: { name: "Bamboo", id: "bamboo", baseItem: true },
     bamboo_block: {
         name: "Block of Bamboo",
@@ -285,7 +286,7 @@ export const Items = Object.freeze({
         ingredients: [{ id: "bamboo_planks", quantity: 5 }],
         result: 1,
     },
-    bamboo_shoot: { name: "Bamboo Shoot", id: "bamboo_shoot", baseItem: true },
+    bamboo_sapling: { name: "Bamboo Shoot", id: "bamboo_sapling", baseItem: true },
     bamboo_sign: {
         name: "Bamboo Sign",
         id: "bamboo_sign",
@@ -335,6 +336,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     bedrock: { name: "Bedrock", id: "bedrock", baseItem: true },
+    beef: { name: "Raw Beef", id: "beef", baseItem: true },
     bee_nest: { name: "Bee Nest", id: "bee_nest", baseItem: true },
     beehive: {
         name: "Beehive",
@@ -704,6 +706,12 @@ export const Items = Object.freeze({
     brain_coral: { name: "Brain Coral", id: "brain_coral", baseItem: true },
     brain_coral_block: { name: "Brain Coral Block", id: "brain_coral_block", baseItem: true },
     brain_coral_fan: { name: "Brain Coral Fan", id: "brain_coral_fan", baseItem: true },
+    bread: {
+        name: "Bread",
+        id: "bread",
+        ingredients: [{ id: "wheat", quantity: 3 }],
+        result: 1,
+    },
     brewing_stand: {
         name: "Brewing Stand",
         id: "brewing_stand",
@@ -911,12 +919,6 @@ export const Items = Object.freeze({
     },
     chain_command_block: { name: "Chain Command Block", id: "chain_command_block", baseItem: true },
     charcoal: { name: "Charcoal", id: "charcoal", ingredients: [{ id: "tag_logs", quantity: 1 }], result: 1 },
-    charcoal_block: {
-        name: "Block of Charcoal",
-        id: "charcoal_block",
-        ingredients: [{ id: "charcoal", quantity: 9 }],
-        result: 1,
-    },
     cherry_boat: {
         name: "Cherry Boat",
         id: "cherry_boat",
@@ -1034,6 +1036,7 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
+    chicken: { name: "Raw Chicken", id: "chicken", baseItem: true },
     chiseled_bookshelf: {
         name: "Chiseled Bookshelf",
         id: "chiseled_bookshelf",
@@ -1084,6 +1087,58 @@ export const Items = Object.freeze({
         id: "chiseled_stone_bricks",
         ingredients: [{ id: "stone_brick_slab", quantity: 2 }],
         result: 1,
+    },
+    cod: { name: "Raw Cod", id: "cod", baseItem: true },
+    cooked_beef: {
+        name: "Steak",
+        id: "cooked_beef",
+        ingredients: [{ id: "beef", quantity: 1 }],
+        result: 1,
+    },
+    cooked_chicken: {
+        name: "Cooked Chicken",
+        id: "cooked_chicken",
+        ingredients: [{ id: "chicken", quantity: 1 }],
+        result: 1,
+    },
+    cooked_cod: {
+        name: "Cooked Cod",
+        id: "cooked_cod",
+        ingredients: [{ id: "cod", quantity: 1 }],
+        result: 1,
+    },
+    cooked_mutton: {
+        name: "Cooked Mutton",
+        id: "cooked_mutton",
+        ingredients: [{ id: "mutton", quantity: 1 }],
+        result: 1,
+    },
+    cooked_porkchop: {
+        name: "Cooked Porkchop",
+        id: "cooked_porkchop",
+        ingredients: [{ id: "porkchop", quantity: 1 }],
+        result: 1,
+    },
+    cooked_rabbit: {
+        name: "Cooked Rabbit",
+        id: "cooked_rabbit",
+        ingredients: [{ id: "rabbit", quantity: 1 }],
+        result: 1,
+    },
+    cooked_salmon: {
+        name: "Cooked Salmon",
+        id: "cooked_salmon",
+        ingredients: [{ id: "salmon", quantity: 1 }],
+        result: 1,
+    },
+    cookie: {
+        name: "Cookie",
+        id: "cookie",
+        ingredients: [
+            { id: "cocoa_beans", quantity: 1 },
+            { id: "wheat", quantity: 2 },
+        ],
+        result: 8,
     },
     chorus_flower: { name: "Chorus Flower", id: "chorus_flower", baseItem: true },
     chorus_fruit: {
@@ -1906,7 +1961,6 @@ export const Items = Object.freeze({
     farmland: { name: "Farmland", id: "farmland", ingredients: [{ id: "dirt", quantity: 1 }], result: 1 },
     feather: { name: "Feather", id: "feather", baseItem: true },
     fern: { name: "Fern", id: "fern", baseItem: true },
-    fire: { name: "Fire", id: "fire", baseItem: true },
     fire_coral: { name: "Fire Coral", id: "fire_coral", baseItem: true },
     fire_coral_block: { name: "Fire Coral Block", id: "fire_coral_block", baseItem: true },
     fire_coral_fan: { name: "Fire Coral Fan", id: "fire_coral_fan", baseItem: true },
@@ -1973,6 +2027,12 @@ export const Items = Object.freeze({
     glass_pane: { name: "Glass Pane", id: "glass_pane", ingredients: [{ id: "glass", quantity: 6 }], result: 16 },
     glow_lichen: { name: "Glow Lichen", id: "glow_lichen", baseItem: true },
     glowstone: { name: "Glowstone", id: "glowstone", baseItem: true },
+    glowstone_dust: {
+        name: "Glowstone Dust",
+        id: "glowstone_dust",
+        ingredients: [{ id: "glowstone", quantity: 1 }],
+        result: 4,
+    },
     gold_block: {
         name: "Block of Gold",
         id: "gold_block",
@@ -2099,7 +2159,6 @@ export const Items = Object.freeze({
         ingredients: [{ id: "granite", quantity: 6 }],
         result: 6,
     },
-    grass: { name: "Grass", id: "grass", baseItem: true },
     grass_block: { name: "Grass Block", id: "grass_block", baseItem: true },
     gravel: { name: "Gravel", id: "gravel", baseItem: true },
     gray_banner: {
@@ -2568,6 +2627,15 @@ export const Items = Object.freeze({
     large_amethyst_bud: { name: "Large Amethyst Bud", id: "large_amethyst_bud", baseItem: true },
     large_fern: { name: "Large Fern", id: "large_fern", baseItem: true },
     lava: { name: "Lava", id: "lava", baseItem: true },
+    lead: {
+        name: "Lead",
+        id: "lead",
+        ingredients: [
+            { id: "string", quantity: 4 },
+            { id: "slime_ball", quantity: 1 },
+        ],
+        result: 2,
+    },
     leather: { name: "Leather", id: "leather", baseItem: true },
     lectern: {
         name: "Lectern",
@@ -3160,6 +3228,7 @@ export const Items = Object.freeze({
     medium_amethyst_bud: { name: "Medium Amethyst Bud", id: "medium_amethyst_bud", baseItem: true },
     melon: { name: "Melon", id: "melon", baseItem: true },
     melon_seeds: { name: "Melon Seeds", id: "melon_seeds", baseItem: true },
+    melon_slice: { name: "Melon Slice", id: "melon_slice", ingredients: [{ id: "melon", quantity: 1 }], result: 6 },
     melon_stem: { name: "Melon Stem", id: "melon_stem", ingredients: [{ id: "melon_seeds", quantity: 1 }], result: 1 },
     milk_bucket: {
         name: "Milk Bucket",
@@ -3256,6 +3325,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     mushroom_stem: { name: "Mushroom Stem", id: "mushroom_stem", baseItem: true },
+    mutton: { name: "Raw Mutton", id: "mutton", baseItem: true },
     mycelium: { name: "Mycelium", id: "mycelium", baseItem: true },
     nautilus_shell: { name: "Nautilus Shell", id: "nautilus_shell", baseItem: true },
     nether_brick: {
@@ -3568,6 +3638,15 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
+    painting: {
+        name: "Painting",
+        id: "painting",
+        ingredients: [
+            { id: "stick", quantity: 8 },
+            { id: "white_wool", quantity: 1 },
+        ],
+        result: 1,
+    },
     paper: {
         name: "Paper",
         id: "paper",
@@ -3851,6 +3930,7 @@ export const Items = Object.freeze({
         result: 1,
     },
     poppy: { name: "Poppy", id: "poppy", baseItem: true },
+    porkchop: { name: "Raw Porkchop", id: "porkchop", baseItem: true },
     potato: { name: "Potato", id: "potato", baseItem: true },
     potatoes: { name: "Potatoes", id: "potatoes", ingredients: [{ id: "potato", quantity: 1 }], result: 1 },
     potted_acacia_sapling: {
@@ -3871,9 +3951,9 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
-    potted_azalea: {
+    potted_azalea_bush: {
         name: "Potted Azalea",
-        id: "potted_azalea",
+        id: "potted_azalea_bush",
         ingredients: [
             { id: "flower_pot", quantity: 1 },
             { id: "azalea", quantity: 1 },
@@ -4006,9 +4086,9 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
-    potted_flowering_azalea: {
+    potted_flowering_azalea_bush: {
         name: "Potted Flowering Azalea",
-        id: "potted_flowering_azalea",
+        id: "potted_flowering_azalea_bush",
         ingredients: [
             { id: "flower_pot", quantity: 1 },
             { id: "flowering_azalea", quantity: 1 },
@@ -4386,6 +4466,7 @@ export const Items = Object.freeze({
         ingredients: [{ id: "quartz_block", quantity: 6 }],
         result: 4,
     },
+    rabbit: { name: "Raw Rabbit", id: "rabbit", baseItem: true },
     rail: {
         name: "Rail",
         id: "rail",
@@ -4627,6 +4708,7 @@ export const Items = Object.freeze({
     rooted_dirt: { name: "Rooted Dirt", id: "rooted_dirt", baseItem: true },
     rose_bush: { name: "Rose Bush", id: "rose_bush", baseItem: true },
     saddle: { name: "Saddle", id: "saddle", baseItem: true },
+    salmon: { name: "Raw Salmon", id: "salmon", baseItem: true },
     sand: { name: "Sand", id: "sand", baseItem: true },
     sandstone: {
         name: "Sandstone",
@@ -4678,6 +4760,12 @@ export const Items = Object.freeze({
     },
     sea_pickle: { name: "Sea Pickle", id: "sea_pickle", baseItem: true },
     seagrass: { name: "Seagrass", id: "seagrass", baseItem: true },
+    shears: {
+        name: "Shears",
+        id: "shears",
+        ingredients: [{ id: "iron_ingot", quantity: 2 }],
+        result: 1,
+    },
     short_grass: { name: "Short Grass", id: "short_grass", baseItem: true },
     shroomlight: { name: "Shroomlight", id: "shroomlight", baseItem: true },
     shulker_box: {
@@ -4803,7 +4891,6 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
-    soul_fire: { name: "Soul Fire", id: "soul_fire", baseItem: true },
     soul_lantern: {
         name: "Soul Lantern",
         id: "soul_lantern",
@@ -4821,7 +4908,7 @@ export const Items = Object.freeze({
         ingredients: [
             { id: "coal", quantity: 1 },
             { id: "stick", quantity: 1 },
-            { id: "tag_soul_sand", quantity: 1 },
+            { id: "soul_sand", quantity: 1 },
         ],
         result: 4,
     },
@@ -5135,6 +5222,12 @@ export const Items = Object.freeze({
     sunflower: { name: "Sunflower", id: "sunflower", baseItem: true },
     suspicious_gravel: { name: "Suspicious Gravel", id: "suspicious_gravel", baseItem: true },
     suspicious_sand: { name: "Suspicious Sand", id: "suspicious_sand", baseItem: true },
+    sweet_berries: {
+        name: "Sweet Berries",
+        id: "sweet_berries",
+        ingredients: [{ id: "sweet_berry_bush", quantity: 1 }],
+        result: 4,
+    },
     sweet_berry_bush: { name: "Sweet Berry Bush", id: "sweet_berry_bush", baseItem: true },
     tall_grass: { name: "Tall Grass", id: "tall_grass", baseItem: true },
     tall_seagrass: { name: "Tall Seagrass", id: "tall_seagrass", baseItem: true },
@@ -5325,9 +5418,9 @@ export const Items = Object.freeze({
         ingredients: [{ id: "glass_bottle", quantity: 1 }],
         result: 1,
     },
-    waxed_copper: {
+    waxed_copper_block: {
         name: "Waxed Block of Copper",
-        id: "waxed_copper",
+        id: "waxed_copper_block",
         ingredients: [
             { id: "copper_block", quantity: 1 },
             { id: "honeycomb", quantity: 1 },
@@ -5740,11 +5833,11 @@ export const Items = Object.freeze({
     },
     zombie_head: { name: "Zombie Head", id: "zombie_head", baseItem: true },
 
-    tag_cobblestone: { name: "Cobblestone", id: "tag_cobblestone", baseItem: true },
-    tag_logs: { name: "Logs", id: "tag_logs", baseItem: true },
-    tag_planks: { name: "Planks", id: "tag_planks", ingredients: [{ id: "tag_logs", quantity: 1 }], result: 4 },
+    tag_cobblestone: { name: "Any Cobblestone", id: "tag_cobblestone", baseItem: true },
+    tag_logs: { name: "Any Logs", id: "tag_logs", baseItem: true },
+    tag_planks: { name: "Any Planks", id: "tag_planks", ingredients: [{ id: "tag_logs", quantity: 1 }], result: 4 },
     tag_shulker_box: {
-        name: "Shulker Box",
+        name: "Any Shulker Box",
         id: "tag_shulker_box",
         ingredients: [
             { id: "chest", quantity: 2 },
@@ -5752,15 +5845,14 @@ export const Items = Object.freeze({
         ],
         result: 1,
     },
-    tag_soul_sand: { name: "Soul Sand", id: "tag_soul_sand", baseItem: true },
     tag_wood_slabs: {
-        name: "Wood Slabs",
+        name: "Any Wood Slabs",
         id: "tag_wood_slabs",
         ingredients: [{ id: "tag_planks", quantity: 3 }],
         result: 6,
     },
-    tag_wood: { name: "Wood", id: "tag_wood", ingredients: [{ id: "tag_logs", quantity: 1 }], result: 4 },
-    tag_wool: { name: "Wool", id: "tag_wool", baseItem: true },
+    tag_wood: { name: "Any Wood", id: "tag_wood", ingredients: [{ id: "tag_logs", quantity: 1 }], result: 4 },
+    tag_wool: { name: "Any Wool", id: "tag_wool", baseItem: true },
 });
 
 /** @type {Object.<string, string[]}>} */
@@ -5805,7 +5897,6 @@ export const Tags = Object.freeze({
         "white_shulker_box",
         "yellow_shulker_box",
     ],
-    tag_soul_sand: ["soul_sand", "soul_soil"],
     tag_wood_slabs: [
         "acacia_slab",
         "bamboo_slab",
@@ -5880,8 +5971,11 @@ export const ItemConversion = Object.freeze({
     cave_air: "air",
     damaged_anvil: "anvil",
     double_stone_slab: "stone_slab",
+    fire: "air",
+    grass: "short_grass",
     piston_head: "air",
     redstone_wall_torch: "redstone_torch",
+    soul_fire: "air",
     wall_torch: "torch",
     weeping_vines_plant: "weeping_vines",
     void_air: "air",
