@@ -16,21 +16,25 @@
             <div id="controls">
                 <div id="schematic-controls">
                     <h3>Schematic Analyzer</h3>
-                    <label for="sample">View Sample Schematic:</label>
-                    <select name="sample" id="sample">
-                        <option value="small.litematic">Small</option>
-                        <option value="medium.schematic">Medium</option>
-                        <option value="large.litematic">Large</option>
-                        <option value="very_large.litematic">Very Large</option>
-                    </select>
+                    <label for="sample"
+                        >Sample Schematic:
+                        <select name="sample" id="sample">
+                            <option value="small.litematic">Small</option>
+                            <option value="medium.schematic">Medium</option>
+                            <option value="large.litematic">Large</option>
+                            <option value="very_large.litematic">Very Large</option>
+                        </select>
+                    </label>
                     <label for="schematic" id="schematic-label">
                         <input type="file" name="schematic" id="schematic" />
                         <span class="first" id="schem-name">Select Schematic</span>
                         <span class="second">Browse</span>
                     </label>
-                    <button id="start" class="btn">Start</button>
-                    <button id="clear-file" class="btn">Clear File</button>
-                    <button id="clear" class="btn">Clear Items</button>
+                    <div>
+                        <button id="start" class="btn">Start</button>
+                        <button id="clear-file" class="btn">Clear File</button>
+                        <button id="clear" class="btn">Clear Items</button>
+                    </div>
                 </div>
                 <div id="item-controls">
                     <h3>Select Items Manually</h3>

@@ -154,6 +154,16 @@ img {
     display: none;
 }
 
+#schematic-controls {
+    justify-content: space-between;
+}
+
+#schematic-controls > div {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
 label {
     font-family: var(--font-zilla-slab);
     font-size: var(--font-size-small);
