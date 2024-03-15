@@ -150,6 +150,10 @@ img {
     flex-wrap: wrap;
 }
 
+#item-controls {
+    display: none;
+}
+
 label {
     font-family: var(--font-zilla-slab);
     font-size: var(--font-size-small);
