@@ -1,7 +1,8 @@
 import { ItemConversion, Items } from "./recipes.js";
 
 const schematicInput = document.getElementById("schematic");
-const itemSelect = document.getElementById("item-select");
+const schematicNameLabel = document.getElementById("schem-name");
+const itemSelect = document.getElementById("item-input");
 const itemSelectAmount = document.getElementById("item-select-amount");
 const itemSelectAdd = document.getElementById("item-select-add");
 const itemSelectRemove = document.getElementById("item-select-remove");
@@ -20,6 +21,14 @@ let selectedId = Object.keys(Items)[0];
 
 let items = {};
 let ingredients = {};
+
+schematicInput.onchange = (event) => {
+    if (schematicInput.files.length > 0) {
+        schematicNameLabel.textContent = schematicInput.files[0].name;
+    } else {
+        schematicNameLabel.textContent = "Select Schematic";
+    }
+};
 
 itemSelectAdd.addEventListener("click", (event) => {
     const amount = parseInt(itemSelectAmount.value);
@@ -91,6 +100,7 @@ clearItems.onclick = (event) => {
 
 fileClear.onclick = (event) => {
     schematicInput.value = "";
+    schematicNameLabel.textContent = "Select Schematic";
 };
 
 for (const [key, value] of Object.entries(Items)) {
@@ -164,10 +174,10 @@ function startWorker(arrayBuffer, extension) {
             display(items, ingredients);
             displaySeparator(
                 "Processed " +
-                    metadata.blockCount +
+                    metadata.blockCount.toLocaleString() +
                     " blocks in " +
-                    metadata.time +
-                    "ms. (" +
+                    metadata.time.toLocaleString() +
+                    "ms (" +
                     metadata.blockThroughput.toLocaleString() +
                     " blocks/s)"
             );
