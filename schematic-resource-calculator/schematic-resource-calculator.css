@@ -3,7 +3,7 @@ select {
     font-size: var(--font-size-medium);
     border: var(--border-text);
     border-radius: 0.5rem;
-    background-color: transparent;
+    background-color: var(--color-crust);
     color: var(--color-text);
     padding: 0.2rem 0.5rem;
     transition: var(--transition-ease);
@@ -280,7 +280,7 @@ label {
 }
 
 #start:hover {
-    border-color: var(--color-blue);
+    border-color: var(--color-text);
 }
 
 #items {
