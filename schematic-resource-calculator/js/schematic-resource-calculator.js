@@ -52,15 +52,17 @@ function setupElementListeners() {
             console.error("Invalid amount");
             return;
         }
-        const item = Items[selectedId];
+        // find item where id or name match selectedId
+        const item = Object.values(Items).find((item) => item.id === selectedId || item.name.toLowerCase() === selectedId);
         if (!item) {
             console.error("Item not found", selectedId);
             return;
         }
-        if (items[selectedId]) {
-            items[selectedId] += amount;
+        const realId = item.id;
+        if (items[realId]) {
+            items[realId] += amount;
         } else {
-            items[selectedId] = amount;
+            items[realId] = amount;
         }
         ingredients = calculateAllItems(items);
         display(items, ingredients);
@@ -72,25 +74,30 @@ function setupElementListeners() {
             console.error("Invalid amount");
             return;
         }
-        const item = Items[selectedId];
+        const item = Object.values(Items).find((item) => item.id === selectedId || item.name.toLowerCase() === selectedId);
         if (!item) {
             console.error("Item not found", selectedId);
             return;
         }
-        if (items[selectedId]) {
-            items[selectedId] -= amount;
-            if (items[selectedId] <= 0) {
-                delete items[selectedId];
+        const realId = item.id;
+        if (items[realId]) {
+            items[realId] -= amount;
+            if (items[realId] <= 0) {
+                delete items[realId];
             }
         }
         ingredients = calculateAllItems(items);
         display(items, ingredients);
     });
 
+    elements.itemInput.oninput = (event) => {
+        selectedId = event.target.value.toLowerCase();
+    };
+
     elements.start.onclick = async (event) => {
         // check schematicInput for file
         if (elements.schematicInput.files.length <= 0) return;
-        
+
         const file = elements.schematicInput.files[0];
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -145,42 +152,6 @@ function populateItemSelect() {
         /*const image = document.createElement("img");
         image.src = "/assets/textures/" + key + ".png";
         imageDiv.appendChild(image);*/
-    }
-}
-
-function lazyLoadImages() {
-    // create intersection observer to load images in itemSelect only when looked at
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const image = entry.target;
-                image.src = image.dataset.src;
-                observer.unobserve(image);
-            }
-        });
-    });
-
-    // observe all images in itemSelect
-    for (const button of elements.itemInput.children) {
-        const image = button.querySelector("img");
-        observer.observe(image);
-    }
-
-    // creates button selected class functionality for itemSelect
-    for (let i = 0; i < elements.itemInput.children.length; i++) {
-        const button = elements.itemInput.children[i];
-        button.addEventListener("click", (event) => {
-            selectedId = button.value;
-            // remove classes from all other buttons
-            for (const button of elements.itemInput.children) {
-                button.classList.remove("selected");
-            }
-            // add class to selected button
-            button.classList.add("selected");
-        });
-        if (i === 0) {
-            button.classList.add("selected");
-        }
     }
 }
 
@@ -423,7 +394,6 @@ function testDataIntegrity(items) {
 function init() {
     setupElementListeners();
     populateItemSelect();
-    lazyLoadImages();
 }
 
 init();
