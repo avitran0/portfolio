@@ -28,8 +28,10 @@ function setupElementListeners() {
     elements.schematicInput.onchange = (event) => {
         if (elements.schematicInput.files.length > 0) {
             elements.schematicNameLabel.textContent = elements.schematicInput.files[0].name;
+            elements.schematicNameLabel.parentElement.classList.add("selected");
         } else {
             elements.schematicNameLabel.textContent = "Select Schematic";
+            elements.schematicNameLabel.parentElement.classList.remove("selected");
         }
     };
 
@@ -104,6 +106,7 @@ function setupElementListeners() {
     elements.fileClear.onclick = (event) => {
         elements.schematicInput.value = "";
         elements.schematicNameLabel.textContent = "Select Schematic";
+        elements.schematicNameLabel.parentElement.classList.remove("selected");
     };
 }
 
