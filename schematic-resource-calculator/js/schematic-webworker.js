@@ -6,10 +6,10 @@ import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/sche
 
 onmessage = async function (e) {
     try {
-        const { arrayBuffer, extension } = e.data;
+        const { arrayBuffer } = e.data;
         const startTime = performance.now();
         await init(); // initializes the wasm module
-        const items = loadSchematic(arrayBuffer, extension);
+        const items = loadSchematic(arrayBuffer);
         const blockCount = Object.values(items).reduce((a, b) => a + b, 0);
         // write time and block throuput per second
         const endTime = performance.now();
@@ -40,7 +40,7 @@ onmessage = async function (e) {
  * @param {ArrayBuffer} data
  * @returns {Object<string, number>}
  */
-function loadSchematic(data, fileType) {
+function loadSchematic(data) {
     if (hasGzipHeader(data)) {
         data = inflate(data).buffer;
     }

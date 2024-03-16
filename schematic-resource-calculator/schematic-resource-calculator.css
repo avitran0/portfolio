@@ -20,99 +20,46 @@ img {
     image-rendering: pixelated;
 }
 
-#item-select {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: var(--border-text);
-    border-radius: 0.5rem;
-    width: 100%;
-    height: 4rem;
-    overflow: hidden;
-    transition: var(--transition-ease);
-    min-width: 16rem;
-    max-width: 32rem;
-}
-
-#item-select:hover {
-    border-color: var(--color-blue);
-    overflow-y: scroll;
-    height: 64rem;
-    max-height: 75vh;
-}
-
-#item-select:hover > button {
-    display: block flex;
-}
-
-#item-select > button > img {
-    width: 4rem;
-    height: 4rem;
-    margin-right: 0.5rem;
-}
-
-#item-select > button {
-    display: none;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+button {
     font-family: var(--font-zilla-slab);
     font-size: var(--font-size-medium);
-    text-align: left;
-    background-color: transparent;
-    color: var(--color-text);
-    border: none;
     cursor: pointer;
-    padding: 0;
-    border-bottom: var(--border-text);
-    /*transition: var(--transition-ease);*/
+    color: var(--color-text);
 }
 
-#item-select > button:last-child {
-    border-bottom: none;
+#item-select {
+    cursor: pointer;
 }
 
-#item-select > button:hover {
-    background-color: var(--color-blue);
-    color: var(--color-base);
-}
-
-#item-select > button.selected {
-    display: block flex;
-    border-bottom: none;
-}
-
-#item-select:hover > button.selected {
-    border-bottom: var(--border-text);
-    background-color: var(--color-blue);
-    color: var(--color-base);
-}
-
-#item-select-amount {
+#item-select-amount,
+#item-input {
     align-items: center;
-    padding: 0.5rem 0.2rem;
+    padding: 0.2rem 0.5rem;
     border: var(--border-text);
     border-radius: 0.5rem;
-    font-family: var(--font-zilla-slab);
     font-size: var(--font-size-medium);
     transition: var(--transition-ease);
     background-color: transparent;
-    color: var(--color-text);
     appearance: textfield;
-    width: 16rem;
+    width: 12rem;
     height: 2.6rem;
+    font-family: var(--font-zilla-slab);
+    color: var(--color-text);
 }
 
-#item-select-amount:hover {
+#item-select-amount:hover,
+#item-input:hover {
     border-color: var(--color-blue);
 }
 
-#item-select-amount:focus-visible {
+#item-select-amount:focus-visible,
+#item-input:focus-visible {
     outline: none;
     border-color: var(--color-blue);
 }
 
-#item-select-amount::placeholder {
+#item-select-amount::placeholder,
+#item-input::placeholder {
     color: var(--color-subtext);
 }
 
@@ -134,29 +81,18 @@ img {
     flex-direction: column;
 }
 
-#item-controls,
 #schematic-controls {
     margin-top: 1rem;
     display: flex;
-    gap: 0.5rem;
+    gap: 2rem;
     align-items: center;
     padding: 0.5rem;
     border: var(--border-text);
     border-radius: 0.5rem;
-    font-family: var(--font-zilla-slab);
     font-size: var(--font-size-medium);
     transition: var(--transition-ease);
     background-color: var(--color-mantle-dark);
-    color: var(--color-text);
     flex-wrap: wrap;
-}
-
-#item-controls {
-    display: none;
-}
-
-#schematic-controls {
-    gap: 2rem;
     width: fit-content;
 }
 
@@ -262,18 +198,20 @@ label {
     padding: 0;
     border: var(--border-text);
     border-radius: 0.5rem;
-    font-family: var(--font-zilla-slab);
-    font-size: var(--font-size-medium);
     transition: var(--transition-ease);
     background-color: var(--color-crust);
-    color: var(--color-text);
-    cursor: pointer;
     width: 10rem;
     height: 2.6rem;
 }
 
 .btn:hover {
     border: var(--border-blue);
+}
+
+.dialog-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 #start {

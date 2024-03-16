@@ -30,37 +30,42 @@
             <a class="home-link">Felix Fröhlich</a>
             <h2>Schematic Resource Calculator</h2>
             <!-- done: custom dropdown -->
-            <div id="controls">
-                <div id="schematic-controls">
-                    <h3>Schematic Analyzer</h3>
-                    <label for="sample"
-                        >Sample Schematic:
-                        <select name="sample" id="sample">
-                            <option value="small.litematic">Small</option>
-                            <option value="medium.schematic">Medium</option>
-                            <option value="large.litematic">Large</option>
-                            <option value="very_large.litematic">Very Large</option>
-                        </select>
-                    </label>
-                    <label for="schematic" id="schematic-label">
-                        <input type="file" name="schematic" id="schematic" />
-                        <span class="first" id="schem-name">Select Schematic</span>
-                        <span class="second">Browse</span>
-                        <button id="clear-file">X</button>
-                    </label>
-                    <div>
-                        <button id="start" class="btn">Start</button>
-                        <button id="clear" class="btn">Clear Items</button>
+            <div id="schematic-controls">
+                <h3>Schematic Analyzer</h3>
+                <button id="sample" class="btn">Load Sample</button>
+                <dialog id="sample-select">
+                    <h2>Select Sample Size</h2>
+                    <div class="dialog-btns">
+                        <button value="small.litematic" class="btn">Small</button>
+                        <button value="medium.schematic" class="btn">Medium</button>
+                        <button value="large.litematic" class="btn">Large</button>
+                        <button value="very_large.litematic" class="btn">Very Large</button>
                     </div>
+                    <button class="btn esc">Close</button>
+                </dialog>
+                <label for="schematic" id="schematic-label">
+                    <input type="file" name="schematic" id="schematic" />
+                    <span class="first" id="schem-name">Select Schematic</span>
+                    <span class="second">Browse</span>
+                    <button id="clear-file">X</button>
+                </label>
+                <div>
+                    <button id="start" class="btn">Start</button>
+                    <button id="clear" class="btn">Clear Items</button>
                 </div>
-                <div id="item-controls">
-                    <h3>Select Items Manually</h3>
-                    <input type="text" id="item-input" />
+                <button id="item-select-toggle" class="btn">Add Items</button>
+            </div>
+            <dialog id="item-controls">
+                <h2>Select Items Manually</h2>
+                <div class="dialog-btns">
+                    <input type="text" id="item-input" placeholder="item id" list="item-data" />
+                    <datalist id="item-data"> </datalist>
                     <input type="number" name="item-select-amount" id="item-select-amount" placeholder="64" />
                     <button id="item-select-add" class="btn">Add</button>
                     <button id="item-select-remove" class="btn">Remove</button>
                 </div>
-            </div>
+                <button class="btn esc">Close</button>
+            </dialog>
 
             <div id="items"></div>
             <div id="spinner"></div>

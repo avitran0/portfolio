@@ -3,13 +3,18 @@ import { ItemConversion, Items } from "./recipes.js";
 const elements = {
     schematicInput: document.getElementById("schematic"),
     schematicNameLabel: document.getElementById("schem-name"),
-    itemSelect: document.getElementById("item-input"),
+    itemSelectToggle: document.getElementById("item-select-toggle"),
+    itemControls: document.getElementById("item-controls"),
+    itemInput: document.getElementById("item-input"),
+    itemData: document.getElementById("item-data"),
     itemSelectAmount: document.getElementById("item-select-amount"),
     itemSelectAdd: document.getElementById("item-select-add"),
     itemSelectRemove: document.getElementById("item-select-remove"),
     // todo: display items and recipe tree?
     itemsDiv: document.getElementById("items"),
     sample: document.getElementById("sample"),
+    /** @type {HTMLDialogElement} */
+    sampleSelect: document.getElementById("sample-select"),
     spinner: document.getElementById("spinner"),
 
     start: document.getElementById("start"),
@@ -25,6 +30,12 @@ let items = {};
 let ingredients = {};
 
 function setupElementListeners() {
+    elements.itemSelectToggle.onclick = (event) => {
+        elements.itemInput.value = "";
+        elements.itemSelectAmount.value = "";
+        elements.itemControls.showModal();
+    };
+
     elements.schematicInput.onchange = (event) => {
         if (elements.schematicInput.files.length > 0) {
             elements.schematicNameLabel.textContent = elements.schematicInput.files[0].name;
@@ -83,8 +94,7 @@ function setupElementListeners() {
             const reader = new FileReader();
             reader.onload = (event) => {
                 const arrayBuffer = event.target.result;
-                const extension = file.name.split(".").pop();
-                startWorker(arrayBuffer, extension);
+                startWorker(arrayBuffer);
             };
             reader.readAsArrayBuffer(file);
         } else {
@@ -92,8 +102,7 @@ function setupElementListeners() {
             const fileName = elements.sample.value;
             const file = await fetch("/assets/schematics/" + fileName);
             const arrayBuffer = await file.arrayBuffer();
-            const extension = fileName.split(".").pop();
-            startWorker(arrayBuffer, extension);
+            startWorker(arrayBuffer);
         }
     };
 
@@ -108,19 +117,36 @@ function setupElementListeners() {
         elements.schematicNameLabel.textContent = "Select Schematic";
         elements.schematicNameLabel.parentElement.classList.remove("selected");
     };
+
+    elements.sample.onclick = (event) => {
+        elements.sampleSelect.showModal();
+    };
+
+    for (const button of elements.sampleSelect.querySelectorAll("button")) {
+        if (button.classList.contains("esc")) continue;
+
+        button.addEventListener("click", async (event) => {
+            elements.sampleSelect.close();
+            const fileName = button.value;
+            const file = await fetch("/assets/schematics/" + fileName);
+            const arrayBuffer = await file.arrayBuffer();
+            startWorker(arrayBuffer);
+        });
+    }
+
+    for (const esc of document.querySelectorAll(".esc")) {
+        esc.onclick = (event) => {
+            event.target.parentElement.close();
+        };
+    }
 }
 
 function populateItemSelect() {
     for (const [key, value] of Object.entries(Items)) {
-        const button = document.createElement("button");
-        button.value = key;
-        const image = getLazyImage(key);
-        button.appendChild(image);
-        // add text after image
-        const text = document.createElement("span");
-        text.textContent = value.name ? value.name : key;
-        button.appendChild(text);
-        elements.itemSelect.appendChild(button);
+        const option = document.createElement("option");
+        option.value = value.name;
+        option.dataset.id = value.id;
+        elements.itemData.appendChild(option);
 
         /*const image = document.createElement("img");
         image.src = "/assets/textures/" + key + ".png";
@@ -141,18 +167,18 @@ function lazyLoadImages() {
     });
 
     // observe all images in itemSelect
-    for (const button of elements.itemSelect.children) {
+    for (const button of elements.itemInput.children) {
         const image = button.querySelector("img");
         observer.observe(image);
     }
 
     // creates button selected class functionality for itemSelect
-    for (let i = 0; i < elements.itemSelect.children.length; i++) {
-        const button = elements.itemSelect.children[i];
+    for (let i = 0; i < elements.itemInput.children.length; i++) {
+        const button = elements.itemInput.children[i];
         button.addEventListener("click", (event) => {
             selectedId = button.value;
             // remove classes from all other buttons
-            for (const button of elements.itemSelect.children) {
+            for (const button of elements.itemInput.children) {
                 button.classList.remove("selected");
             }
             // add class to selected button
@@ -166,12 +192,11 @@ function lazyLoadImages() {
 
 /**
  * @param {ArrayBuffer} arrayBuffer
- * @param {string} extension
  */
-function startWorker(arrayBuffer, extension) {
+function startWorker(arrayBuffer) {
     const worker = new Worker("js/schematic-webworker.js", { type: "module" });
-    //items = loadSchematic(arrayBuffer, extension);
-    worker.postMessage({ arrayBuffer, extension });
+    //items = loadSchematic(arrayBuffer);
+    worker.postMessage({ arrayBuffer });
     elements.spinner.style.display = "block";
     clearDisplayedItems();
     worker.onmessage = (event) => {
