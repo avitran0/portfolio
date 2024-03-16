@@ -136,6 +136,7 @@ img {
 
 #item-controls,
 #schematic-controls {
+    margin-top: 1rem;
     display: flex;
     gap: 0.5rem;
     align-items: center;
@@ -155,7 +156,8 @@ img {
 }
 
 #schematic-controls {
-    justify-content: space-between;
+    gap: 2rem;
+    width: fit-content;
 }
 
 #schematic-controls > div {
@@ -375,5 +377,11 @@ label {
 
     .item button {
         margin-left: auto;
+    }
+}
+
+@media (max-width: 22.5rem) {
+    #schematic-label {
+        width: 16rem;
     }
 }

@@ -147,3 +147,19 @@ a:hover {
 .github-link:hover {
     border-color: var(--color-blue);
 }
+
+.home-link {
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-xlarge);
+    color: var(--color-text);
+    cursor: pointer;
+    width: fit-content;
+}
+
+.home-link:visited {
+    color: var(--color-text);
+}
+
+.home-link:hover {
+    color: var(--color-blue);
+}
