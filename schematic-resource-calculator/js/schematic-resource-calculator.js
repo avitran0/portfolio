@@ -24,131 +24,140 @@ let selectedId = Object.keys(Items)[0];
 let items = {};
 let ingredients = {};
 
-elements.schematicInput.onchange = (event) => {
-    if (elements.schematicInput.files.length > 0) {
-        elements.schematicNameLabel.textContent = elements.schematicInput.files[0].name;
-    } else {
-        elements.schematicNameLabel.textContent = "Select Schematic";
-    }
-};
-
-elements.itemSelectAdd.addEventListener("click", (event) => {
-    const amount = parseInt(elements.itemSelectAmount.value);
-    if (isNaN(amount)) {
-        console.error("Invalid amount");
-        return;
-    }
-    const item = Items[selectedId];
-    if (!item) {
-        console.error("Item not found", selectedId);
-        return;
-    }
-    if (items[selectedId]) {
-        items[selectedId] += amount;
-    } else {
-        items[selectedId] = amount;
-    }
-    ingredients = calculateAllItems(items);
-    display(items, ingredients);
-});
-
-elements.itemSelectRemove.addEventListener("click", (event) => {
-    const amount = parseInt(elements.itemSelectAmount.value);
-    if (isNaN(amount)) {
-        console.error("Invalid amount");
-        return;
-    }
-    const item = Items[selectedId];
-    if (!item) {
-        console.error("Item not found", selectedId);
-        return;
-    }
-    if (items[selectedId]) {
-        items[selectedId] -= amount;
-        if (items[selectedId] <= 0) {
-            delete items[selectedId];
+function setupElementListeners() {
+    elements.schematicInput.onchange = (event) => {
+        if (elements.schematicInput.files.length > 0) {
+            elements.schematicNameLabel.textContent = elements.schematicInput.files[0].name;
+        } else {
+            elements.schematicNameLabel.textContent = "Select Schematic";
         }
-    }
-    ingredients = calculateAllItems(items);
-    display(items, ingredients);
-});
+    };
 
-elements.start.onclick = async (event) => {
-    // check schematicInput for file
-    if (elements.schematicInput.files.length > 0) {
-        const file = elements.schematicInput.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const arrayBuffer = event.target.result;
-            const extension = file.name.split(".").pop();
+    elements.itemSelectAdd.addEventListener("click", (event) => {
+        const amount = parseInt(elements.itemSelectAmount.value);
+        if (isNaN(amount)) {
+            console.error("Invalid amount");
+            return;
+        }
+        const item = Items[selectedId];
+        if (!item) {
+            console.error("Item not found", selectedId);
+            return;
+        }
+        if (items[selectedId]) {
+            items[selectedId] += amount;
+        } else {
+            items[selectedId] = amount;
+        }
+        ingredients = calculateAllItems(items);
+        display(items, ingredients);
+    });
+
+    elements.itemSelectRemove.addEventListener("click", (event) => {
+        const amount = parseInt(elements.itemSelectAmount.value);
+        if (isNaN(amount)) {
+            console.error("Invalid amount");
+            return;
+        }
+        const item = Items[selectedId];
+        if (!item) {
+            console.error("Item not found", selectedId);
+            return;
+        }
+        if (items[selectedId]) {
+            items[selectedId] -= amount;
+            if (items[selectedId] <= 0) {
+                delete items[selectedId];
+            }
+        }
+        ingredients = calculateAllItems(items);
+        display(items, ingredients);
+    });
+
+    elements.start.onclick = async (event) => {
+        // check schematicInput for file
+        if (elements.schematicInput.files.length > 0) {
+            const file = elements.schematicInput.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const arrayBuffer = event.target.result;
+                const extension = file.name.split(".").pop();
+                startWorker(arrayBuffer, extension);
+            };
+            reader.readAsArrayBuffer(file);
+        } else {
+            // load selected sample
+            const fileName = elements.sample.value;
+            const file = await fetch("/assets/schematics/" + fileName);
+            const arrayBuffer = await file.arrayBuffer();
+            const extension = fileName.split(".").pop();
             startWorker(arrayBuffer, extension);
-        };
-        reader.readAsArrayBuffer(file);
-    } else {
-        // load selected sample
-        const fileName = elements.sample.value;
-        const file = await fetch("/assets/schematics/" + fileName);
-        const arrayBuffer = await file.arrayBuffer();
-        const extension = fileName.split(".").pop();
-        startWorker(arrayBuffer, extension);
+        }
+    };
+
+    elements.clearItems.onclick = (event) => {
+        items = {};
+        ingredients = {};
+        clearDisplayedItems();
+    };
+
+    elements.fileClear.onclick = (event) => {
+        elements.schematicInput.value = "";
+        elements.schematicNameLabel.textContent = "Select Schematic";
+    };
+}
+
+function populateItemSelect() {
+    for (const [key, value] of Object.entries(Items)) {
+        const button = document.createElement("button");
+        button.value = key;
+        const image = getLazyImage(key);
+        button.appendChild(image);
+        // add text after image
+        const text = document.createElement("span");
+        text.textContent = value.name ? value.name : key;
+        button.appendChild(text);
+        elements.itemSelect.appendChild(button);
+
+        /*const image = document.createElement("img");
+        image.src = "/assets/textures/" + key + ".png";
+        imageDiv.appendChild(image);*/
     }
-};
-
-elements.clearItems.onclick = (event) => {
-    items = {};
-    ingredients = {};
-    clearDisplayedItems();
-};
-
-elements.fileClear.onclick = (event) => {
-    elements.schematicInput.value = "";
-    elements.schematicNameLabel.textContent = "Select Schematic";
-};
-
-for (const [key, value] of Object.entries(Items)) {
-    const button = document.createElement("button");
-    button.value = key;
-    const image = getLazyImage(key);
-    button.appendChild(image);
-    // add text after image
-    const text = document.createElement("span");
-    text.textContent = value.name ? value.name : key;
-    button.appendChild(text);
-    elements.itemSelect.appendChild(button);
-
-    /*const image = document.createElement("img");
-    image.src = "/assets/textures/" + key + ".png";
-    imageDiv.appendChild(image);*/
 }
 
-// create intersection observer to load images in itemSelect
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            const image = entry.target;
-            image.src = image.dataset.src;
-            observer.unobserve(image);
-        }
+function lazyLoadImages() {
+    // create intersection observer to load images in itemSelect only when looked at
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const image = entry.target;
+                image.src = image.dataset.src;
+                observer.unobserve(image);
+            }
+        });
     });
-});
-for (const button of elements.itemSelect.children) {
-    const image = button.querySelector("img");
-    observer.observe(image);
-}
 
-for (let i = 0; i < elements.itemSelect.children.length; i++) {
-    const button = elements.itemSelect.children[i];
-    button.addEventListener("click", (event) => {
-        selectedId = button.value;
-        // remove classes from all other buttons
-        for (const button of elements.itemSelect.children) {
-            button.classList.remove("selected");
+    // observe all images in itemSelect
+    for (const button of elements.itemSelect.children) {
+        const image = button.querySelector("img");
+        observer.observe(image);
+    }
+
+    // creates button selected class functionality for itemSelect
+    for (let i = 0; i < elements.itemSelect.children.length; i++) {
+        const button = elements.itemSelect.children[i];
+        button.addEventListener("click", (event) => {
+            selectedId = button.value;
+            // remove classes from all other buttons
+            for (const button of elements.itemSelect.children) {
+                button.classList.remove("selected");
+            }
+            // add class to selected button
+            button.classList.add("selected");
+        });
+        if (i === 0) {
+            button.classList.add("selected");
         }
-        // add class to selected button
-        button.classList.add("selected");
-    });
-    if (i === 0) {
-        button.classList.add("selected");
     }
 }
 
@@ -253,7 +262,7 @@ function calculateItem(item, quantity) {
  * @param {Object.<string, number>} data
  * @returns {number}
  */
-function calculateTotalItems(data) {
+function calculateTotalItemCount(data) {
     // don't count air
     let total = 0;
     for (const [key, value] of Object.entries(data)) {
@@ -265,9 +274,9 @@ function calculateTotalItems(data) {
 
 function display(items, ingredients) {
     clearDisplayedItems();
-    displaySeparator("Total items: " + calculateTotalItems(items).toLocaleString());
+    displaySeparator("Total items: " + calculateTotalItemCount(items).toLocaleString());
     displayItems(items, true);
-    displaySeparator("Total ingredients: " + calculateTotalItems(ingredients).toLocaleString());
+    displaySeparator("Total ingredients: " + calculateTotalItemCount(ingredients).toLocaleString());
     displayItems(ingredients);
 }
 
@@ -297,6 +306,13 @@ function displayItems(toDisplay, deletable = false) {
             elements.itemsDiv.appendChild(itemDiv);
         }
     }
+}
+
+function displaySeparator(text) {
+    const separator = document.createElement("div");
+    separator.className = "separator";
+    separator.textContent = text;
+    elements.itemsDiv.appendChild(separator);
 }
 
 function createItemDiv(item, count) {
@@ -329,13 +345,6 @@ function createDeletableItemDiv(item, count) {
     };
     itemDiv.appendChild(deleteButton);
     return itemDiv;
-}
-
-function displaySeparator(text) {
-    const separator = document.createElement("div");
-    separator.className = "separator";
-    separator.textContent = text;
-    elements.itemsDiv.appendChild(separator);
 }
 
 /**
@@ -389,5 +398,11 @@ function testDataIntegrity(items) {
     console.log("successfully loaded " + i + " items");
 }
 
-calculateItem(Items["black_terracotta"], 1);
+function init() {
+    setupElementListeners();
+    populateItemSelect();
+    lazyLoadImages();
+}
+
+init();
 testDataIntegrity(Items);
