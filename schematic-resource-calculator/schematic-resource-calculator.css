@@ -185,6 +185,10 @@ label {
     height: 0;
 }
 
+#schematic-label:has(> span:hover) {
+    border-color: var(--color-blue);
+}
+
 #schematic-label > span.first {
     display: flex;
     align-items: center;
