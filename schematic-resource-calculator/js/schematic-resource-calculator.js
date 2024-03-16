@@ -89,21 +89,15 @@ function setupElementListeners() {
 
     elements.start.onclick = async (event) => {
         // check schematicInput for file
-        if (elements.schematicInput.files.length > 0) {
-            const file = elements.schematicInput.files[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const arrayBuffer = event.target.result;
-                startWorker(arrayBuffer);
-            };
-            reader.readAsArrayBuffer(file);
-        } else {
-            // load selected sample
-            const fileName = elements.sample.value;
-            const file = await fetch("/assets/schematics/" + fileName);
-            const arrayBuffer = await file.arrayBuffer();
+        if (elements.schematicInput.files.length <= 0) return;
+        
+        const file = elements.schematicInput.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const arrayBuffer = event.target.result;
             startWorker(arrayBuffer);
-        }
+        };
+        reader.readAsArrayBuffer(file);
     };
 
     elements.clearItems.onclick = (event) => {
