@@ -5965,15 +5965,20 @@ export const Tags = Object.freeze({
 
 /** @type {Object<string, string>} */
 export const ItemConversion = Object.freeze({
+    big_dripleaf_stem: "big_dripleaf",
     black_wall_banner: "black_banner",
     brick_block: "bricks",
+    brown_wall_banner: "brown_banner",
     bubble_column: "water",
     cave_air: "air",
+    cave_vines_plant: "cave_vines",
     damaged_anvil: "anvil",
     double_stone_slab: "stone_slab",
     fire: "air",
     grass: "short_grass",
+    kelp_plant: "kelp",
     piston_head: "air",
+    red_wall_banner: "red_banner",
     redstone_wall_torch: "redstone_torch",
     soul_fire: "air",
     wall_torch: "torch",
