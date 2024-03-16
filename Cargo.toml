@@ -1,2 +1,2 @@
 [workspace]
-members = ["schematics"]
+members = ["schematic-resource-calculator/rust"]
