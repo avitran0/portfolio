@@ -1,20 +1,46 @@
 import { inflate } from "./pako.js";
-import init, { get_litematica_blocks, get_schematica_blocks } from "./wasm/schematics.js";
+import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/schematics.js";
 
-init();
+//importScripts("./pako.js");
+//importScripts("./wasm/schematics.js");
 
-const FileExtensions = Object.freeze({
-    litematica: getLitematicaBlocks,
-    litematic: getLitematicaBlocks,
-    schem: getSchematicaBlocks,
-    schematic: getOldSchematicBlocks,
-});
+onmessage = async function (e) {
+    try {
+        const { arrayBuffer, extension } = e.data;
+        const startTime = performance.now();
+        await init(); // initializes the wasm module
+        const items = loadSchematic(arrayBuffer, extension);
+        const blockCount = Object.values(items).reduce((a, b) => a + b, 0);
+        // write time and block throuput per second
+        const endTime = performance.now();
+        const time = endTime - startTime;
+        const blockThroughput = (blockCount / time) * 1000;
+        console.log(
+            "processed " +
+                blockCount +
+                " blocks in " +
+                time +
+                "ms (" +
+                blockThroughput.toLocaleString() +
+                " blocks/s)"
+        );
+        // set metadata object in items
+        items["__metadata"] = {
+            time: time,
+            blockCount: blockCount,
+            blockThroughput: blockThroughput,
+        };
+        this.postMessage(items);
+    } catch (e) {
+        this.postMessage({ error: e });
+    }
+};
 
 /**
  * @param {ArrayBuffer} data
  * @returns {Object<string, number>}
  */
-export function loadSchematic(data, fileType) {
+function loadSchematic(data, fileType) {
     if (hasGzipHeader(data)) {
         data = inflate(data).buffer;
     }
@@ -23,9 +49,21 @@ export function loadSchematic(data, fileType) {
 
     const nbt = parse(view, data);
 
-    const blocks = FileExtensions[fileType](nbt);
+    if (nbt["Regions"]) {
+        return getLitematicaBlocks(nbt);
+    }
+    if (nbt["Schematic"]) {
+        return getSchematicaBlocks(nbt);
+    }
+    if (nbt["BlockData"]) {
+        return getWorldEditSchemBlocks(nbt);
+    }
+    if (nbt["Blocks"]) {
+        return getOldSchematicBlocks(nbt);
+    }
 
-    return blocks;
+    console.error("Unknown schematic format", nbt);
+    return {};
 }
 
 /**
@@ -48,11 +86,21 @@ function getLitematicaBlocks(nbt) {
         /** @type {BigUint64Array} */
         const blockArray = region["BlockStates"];
 
-        const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
-
-        const blocksTemp = get_litematica_blocks(blockArray, bitsPerBlock, numBlocks);
-        for (const [key, value] of blocksTemp.entries()) {
-            blocks[blockStates[key]] = value;
+        // split block array at roughlt 10 million ints
+        // blockChunkSize should be the nearest number that is a multiple of bitsPerBlock\
+        const blockChunkSize = Math.floor(10000000 / bitsPerBlock) * bitsPerBlock;
+        const subArrays = [];
+        for (let i = 0; i < blockArray.length; i += blockChunkSize) {
+            subArrays.push(blockArray.slice(i, i + blockChunkSize));
+        }
+        for (const subArray of subArrays) {
+            const subArrayBlockCount = (subArray.length * 64) / bitsPerBlock;
+            const blocksTemp = get_litematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
+            for (const [key, value] of blocksTemp.entries()) {
+                // account for multiples of the same block having a different key
+                // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
+                blocks[blockStates[key]] = (blocks[blockStates[key]] || 0) + value;
+            }
         }
     }
 
@@ -64,7 +112,7 @@ function getLitematicaBlocks(nbt) {
  * @returns {Object<string, number>}
  */
 function getSchematicaBlocks(nbt) {
-    nbt = nbt["Schematic"];
+    nbt = ["Schematic"];
     const blocks = {};
 
     const blockPalette = {};
@@ -78,16 +126,25 @@ function getSchematicaBlocks(nbt) {
     /** @type {Int8Array} */
     const blockArray = nbt["Blocks"]["Data"];
 
-    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
-    for (const [key, value] of blocksTemp.entries()) {
-        blocks[blockPalette[key]] = value;
+    // split block array at roughlt 10 million ints
+    // blockChunkSize should be the nearest number that is a multiple of bitsPerBlock\
+    const blockChunkSize = Math.floor(10000000 / bitsPerBlock) * bitsPerBlock;
+    const subArrays = [];
+    for (let i = 0; i < blockArray.length; i += blockChunkSize) {
+        subArrays.push(blockArray.slice(i, i + blockChunkSize));
+    }
+    for (const subArray of subArrays) {
+        const subArrayBlockCount = (subArray.length * 64) / bitsPerBlock;
+        const blocksTemp = get_schematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
+        for (const [key, value] of blocksTemp.entries()) {
+            blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
+        }
     }
 
     return blocks;
 }
 
 function getOldSchematicBlocks(nbt) {
-    nbt = nbt["Schematic"];
     const blocks = {};
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
@@ -100,7 +157,39 @@ function getOldSchematicBlocks(nbt) {
     }
 
     for (const [id, count] of Object.entries(blocksTemp)) {
-        blocks[BlockIDs[id]] = count;
+        blocks[BlockIDs[id]] = (blocks[BlockIDs[id]] || 0) + count;
+    }
+
+    return blocks;
+}
+
+function getWorldEditSchemBlocks(nbt) {
+    const blocks = {};
+
+    const blockPalette = {};
+    // entries are in format "minecraft:stone[type=...]": id
+    // convert to id: "stone"
+    for (const [name, id] of Object.entries(nbt["Palette"])) {
+        blockPalette[id] = name.split(":")[1].split("[")[0];
+    }
+
+    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
+    /** @type {Int8Array} */
+    const blockArray = nbt["BlockData"];
+
+    // split block array at roughlt 10 million ints
+    // blockChunkSize should be the nearest number that is a multiple of bitsPerBlock\
+    const blockChunkSize = Math.floor(10000000 / bitsPerBlock) * bitsPerBlock;
+    const subArrays = [];
+    for (let i = 0; i < blockArray.length; i += blockChunkSize) {
+        subArrays.push(blockArray.slice(i, i + blockChunkSize));
+    }
+    for (const subArray of subArrays) {
+        const subArrayBlockCount = (subArray.length * 64) / bitsPerBlock;
+        const blocksTemp = get_schematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
+        for (const [key, value] of blocksTemp.entries()) {
+            blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
+        }
     }
 
     return blocks;
@@ -136,7 +225,8 @@ const Tags = Object.freeze({
 function parse(view, buffer) {
     const parser = new Parser(view, buffer);
     const nbt = parser[Tags.Compound]();
-    return nbt[""] !== undefined ? nbt[""] : nbt;
+    // discard first object nesting
+    return nbt[Object.keys(nbt)[0]];
 }
 
 class Parser {

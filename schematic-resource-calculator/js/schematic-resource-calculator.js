@@ -1,20 +1,22 @@
 import { ItemConversion, Items } from "./recipes.js";
 
-const schematicInput = document.getElementById("schematic");
-const schematicNameLabel = document.getElementById("schem-name");
-const itemSelect = document.getElementById("item-input");
-const itemSelectAmount = document.getElementById("item-select-amount");
-const itemSelectAdd = document.getElementById("item-select-add");
-const itemSelectRemove = document.getElementById("item-select-remove");
-// todo: display items and recipe tree?
-const itemsDiv = document.getElementById("items");
-const sample = document.getElementById("sample");
-const spinner = document.getElementById("spinner");
+const elements = {
+    schematicInput: document.getElementById("schematic"),
+    schematicNameLabel: document.getElementById("schem-name"),
+    itemSelect: document.getElementById("item-input"),
+    itemSelectAmount: document.getElementById("item-select-amount"),
+    itemSelectAdd: document.getElementById("item-select-add"),
+    itemSelectRemove: document.getElementById("item-select-remove"),
+    // todo: display items and recipe tree?
+    itemsDiv: document.getElementById("items"),
+    sample: document.getElementById("sample"),
+    spinner: document.getElementById("spinner"),
 
-const start = document.getElementById("start");
+    start: document.getElementById("start"),
 
-const clearItems = document.getElementById("clear");
-const fileClear = document.getElementById("clear-file");
+    clearItems: document.getElementById("clear"),
+    fileClear: document.getElementById("clear-file"),
+};
 
 // get first item's id
 let selectedId = Object.keys(Items)[0];
@@ -22,16 +24,16 @@ let selectedId = Object.keys(Items)[0];
 let items = {};
 let ingredients = {};
 
-schematicInput.onchange = (event) => {
-    if (schematicInput.files.length > 0) {
-        schematicNameLabel.textContent = schematicInput.files[0].name;
+elements.schematicInput.onchange = (event) => {
+    if (elements.schematicInput.files.length > 0) {
+        elements.schematicNameLabel.textContent = elements.schematicInput.files[0].name;
     } else {
-        schematicNameLabel.textContent = "Select Schematic";
+        elements.schematicNameLabel.textContent = "Select Schematic";
     }
 };
 
-itemSelectAdd.addEventListener("click", (event) => {
-    const amount = parseInt(itemSelectAmount.value);
+elements.itemSelectAdd.addEventListener("click", (event) => {
+    const amount = parseInt(elements.itemSelectAmount.value);
     if (isNaN(amount)) {
         console.error("Invalid amount");
         return;
@@ -50,8 +52,8 @@ itemSelectAdd.addEventListener("click", (event) => {
     display(items, ingredients);
 });
 
-itemSelectRemove.addEventListener("click", (event) => {
-    const amount = parseInt(itemSelectAmount.value);
+elements.itemSelectRemove.addEventListener("click", (event) => {
+    const amount = parseInt(elements.itemSelectAmount.value);
     if (isNaN(amount)) {
         console.error("Invalid amount");
         return;
@@ -71,10 +73,10 @@ itemSelectRemove.addEventListener("click", (event) => {
     display(items, ingredients);
 });
 
-start.onclick = async (event) => {
+elements.start.onclick = async (event) => {
     // check schematicInput for file
-    if (schematicInput.files.length > 0) {
-        const file = schematicInput.files[0];
+    if (elements.schematicInput.files.length > 0) {
+        const file = elements.schematicInput.files[0];
         const reader = new FileReader();
         reader.onload = (event) => {
             const arrayBuffer = event.target.result;
@@ -84,7 +86,7 @@ start.onclick = async (event) => {
         reader.readAsArrayBuffer(file);
     } else {
         // load selected sample
-        const fileName = sample.value;
+        const fileName = elements.sample.value;
         const file = await fetch("/assets/schematics/" + fileName);
         const arrayBuffer = await file.arrayBuffer();
         const extension = fileName.split(".").pop();
@@ -92,15 +94,15 @@ start.onclick = async (event) => {
     }
 };
 
-clearItems.onclick = (event) => {
+elements.clearItems.onclick = (event) => {
     items = {};
     ingredients = {};
     clearDisplayedItems();
 };
 
-fileClear.onclick = (event) => {
-    schematicInput.value = "";
-    schematicNameLabel.textContent = "Select Schematic";
+elements.fileClear.onclick = (event) => {
+    elements.schematicInput.value = "";
+    elements.schematicNameLabel.textContent = "Select Schematic";
 };
 
 for (const [key, value] of Object.entries(Items)) {
@@ -112,7 +114,7 @@ for (const [key, value] of Object.entries(Items)) {
     const text = document.createElement("span");
     text.textContent = value.name ? value.name : key;
     button.appendChild(text);
-    itemSelect.appendChild(button);
+    elements.itemSelect.appendChild(button);
 
     /*const image = document.createElement("img");
     image.src = "/assets/textures/" + key + ".png";
@@ -129,17 +131,17 @@ const observer = new IntersectionObserver((entries, observer) => {
         }
     });
 });
-for (const button of itemSelect.children) {
+for (const button of elements.itemSelect.children) {
     const image = button.querySelector("img");
     observer.observe(image);
 }
 
-for (let i = 0; i < itemSelect.children.length; i++) {
-    const button = itemSelect.children[i];
+for (let i = 0; i < elements.itemSelect.children.length; i++) {
+    const button = elements.itemSelect.children[i];
     button.addEventListener("click", (event) => {
         selectedId = button.value;
         // remove classes from all other buttons
-        for (const button of itemSelect.children) {
+        for (const button of elements.itemSelect.children) {
             button.classList.remove("selected");
         }
         // add class to selected button
@@ -155,10 +157,10 @@ for (let i = 0; i < itemSelect.children.length; i++) {
  * @param {string} extension
  */
 function startWorker(arrayBuffer, extension) {
-    const worker = new Worker("schematic-webworker.js", { type: "module" });
+    const worker = new Worker("js/schematic-webworker.js", { type: "module" });
     //items = loadSchematic(arrayBuffer, extension);
     worker.postMessage({ arrayBuffer, extension });
-    spinner.style.display = "block";
+    elements.spinner.style.display = "block";
     clearDisplayedItems();
     worker.onmessage = (event) => {
         items = event.data;
@@ -184,7 +186,7 @@ function startWorker(arrayBuffer, extension) {
         }
 
         worker.terminate();
-        spinner.style.display = "none";
+        elements.spinner.style.display = "none";
     };
 }
 
@@ -270,7 +272,7 @@ function display(items, ingredients) {
 }
 
 function clearDisplayedItems() {
-    itemsDiv.innerHTML = "";
+    elements.itemsDiv.innerHTML = "";
 }
 
 function displayItems(toDisplay, deletable = false) {
@@ -289,10 +291,10 @@ function displayItems(toDisplay, deletable = false) {
         }
         if (deletable) {
             const itemDiv = createDeletableItemDiv(item, value);
-            itemsDiv.appendChild(itemDiv);
+            elements.itemsDiv.appendChild(itemDiv);
         } else {
             const itemDiv = createItemDiv(item, value);
-            itemsDiv.appendChild(itemDiv);
+            elements.itemsDiv.appendChild(itemDiv);
         }
     }
 }
@@ -333,7 +335,7 @@ function displaySeparator(text) {
     const separator = document.createElement("div");
     separator.className = "separator";
     separator.textContent = text;
-    itemsDiv.appendChild(separator);
+    elements.itemsDiv.appendChild(separator);
 }
 
 /**

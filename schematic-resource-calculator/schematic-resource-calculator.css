@@ -310,3 +310,13 @@ label {
         transform: rotate(360deg);
     }
 }
+
+@media (max-width: 32rem) {
+    .item {
+        width: 100%;
+    }
+
+    .item button {
+        margin-left: auto;
+    }
+}
