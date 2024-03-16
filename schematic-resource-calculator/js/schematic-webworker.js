@@ -16,13 +16,7 @@ onmessage = async function (e) {
         const time = endTime - startTime;
         const blockThroughput = (blockCount / time) * 1000;
         console.log(
-            "processed " +
-                blockCount +
-                " blocks in " +
-                time +
-                "ms (" +
-                blockThroughput.toLocaleString() +
-                " blocks/s)"
+            "processed " + blockCount + " blocks in " + time + "ms (" + blockThroughput.toLocaleString() + " blocks/s)"
         );
         // set metadata object in items
         items["__metadata"] = {
@@ -86,21 +80,11 @@ function getLitematicaBlocks(nbt) {
         /** @type {BigUint64Array} */
         const blockArray = region["BlockStates"];
 
-        // split block array at roughlt 10 million ints
-        // blockChunkSize should be the nearest number that is a multiple of bitsPerBlock\
-        const blockChunkSize = Math.floor(10000000 / bitsPerBlock) * bitsPerBlock;
-        const subArrays = [];
-        for (let i = 0; i < blockArray.length; i += blockChunkSize) {
-            subArrays.push(blockArray.slice(i, i + blockChunkSize));
-        }
-        for (const subArray of subArrays) {
-            const subArrayBlockCount = (subArray.length * 64) / bitsPerBlock;
-            const blocksTemp = get_litematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
-            for (const [key, value] of blocksTemp.entries()) {
-                // account for multiples of the same block having a different key
-                // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
-                blocks[blockStates[key]] = (blocks[blockStates[key]] || 0) + value;
-            }
+        const blocksTemp = get_litematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
+        for (const [key, value] of blocksTemp.entries()) {
+            // account for multiples of the same block having a different key
+            // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
+            blocks[blockStates[key]] = (blocks[blockStates[key]] || 0) + value;
         }
     }
 
@@ -126,38 +110,9 @@ function getSchematicaBlocks(nbt) {
     /** @type {Int8Array} */
     const blockArray = nbt["Blocks"]["Data"];
 
-    // split block array at roughlt 10 million ints
-    // blockChunkSize should be the nearest number that is a multiple of bitsPerBlock\
-    const blockChunkSize = Math.floor(10000000 / bitsPerBlock) * bitsPerBlock;
-    const subArrays = [];
-    for (let i = 0; i < blockArray.length; i += blockChunkSize) {
-        subArrays.push(blockArray.slice(i, i + blockChunkSize));
-    }
-    for (const subArray of subArrays) {
-        const subArrayBlockCount = (subArray.length * 64) / bitsPerBlock;
-        const blocksTemp = get_schematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
-        for (const [key, value] of blocksTemp.entries()) {
-            blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
-        }
-    }
-
-    return blocks;
-}
-
-function getOldSchematicBlocks(nbt) {
-    const blocks = {};
-
-    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
-    const blocksTemp = {};
-    for (let i = 0; i < numBlocks; i++) {
-        const block = nbt["Blocks"][i];
-        // convert to unsigned
-        const id = block < 0 ? block + 256 : block;
-        blocksTemp[id] = (blocksTemp[id] || 0) + 1;
-    }
-
-    for (const [id, count] of Object.entries(blocksTemp)) {
-        blocks[BlockIDs[id]] = (blocks[BlockIDs[id]] || 0) + count;
+    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
+    for (const [key, value] of blocksTemp.entries()) {
+        blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
     }
 
     return blocks;
@@ -177,19 +132,28 @@ function getWorldEditSchemBlocks(nbt) {
     /** @type {Int8Array} */
     const blockArray = nbt["BlockData"];
 
-    // split block array at roughlt 10 million ints
-    // blockChunkSize should be the nearest number that is a multiple of bitsPerBlock\
-    const blockChunkSize = Math.floor(10000000 / bitsPerBlock) * bitsPerBlock;
-    const subArrays = [];
-    for (let i = 0; i < blockArray.length; i += blockChunkSize) {
-        subArrays.push(blockArray.slice(i, i + blockChunkSize));
+    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
+    for (const [key, value] of blocksTemp.entries()) {
+        blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
     }
-    for (const subArray of subArrays) {
-        const subArrayBlockCount = (subArray.length * 64) / bitsPerBlock;
-        const blocksTemp = get_schematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
-        for (const [key, value] of blocksTemp.entries()) {
-            blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
-        }
+
+    return blocks;
+}
+
+function getOldSchematicBlocks(nbt) {
+    const blocks = {};
+
+    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
+    const blocksTemp = {};
+    for (let i = 0; i < numBlocks; i++) {
+        const block = nbt["Blocks"][i];
+        // convert to unsigned
+        const id = block < 0 ? block + 256 : block;
+        blocksTemp[id] = (blocksTemp[id] || 0) + 1;
+    }
+
+    for (const [id, count] of Object.entries(blocksTemp)) {
+        blocks[BlockIDs[id]] = (blocks[BlockIDs[id]] || 0) + count;
     }
 
     return blocks;
