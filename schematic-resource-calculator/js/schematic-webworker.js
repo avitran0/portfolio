@@ -1,9 +1,6 @@
 import { inflate } from "./pako.js";
 import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/schematics.js";
 
-//importScripts("./pako.js");
-//importScripts("./wasm/schematics.js");
-
 onmessage = async function (e) {
     try {
         const { arrayBuffer } = e.data;
@@ -42,6 +39,7 @@ function loadSchematic(data) {
     const view = new DataView(data);
 
     const nbt = parse(view, data);
+    console.log(nbt);
 
     if (nbt["Regions"]) {
         return getLitematicaBlocks(nbt);
@@ -57,7 +55,7 @@ function loadSchematic(data) {
     }
 
     console.error("Unknown schematic format", nbt);
-    return {};
+    return { error: "Unknown schematic format" };
 }
 
 /**
@@ -82,7 +80,9 @@ function getLitematicaBlocks(nbt) {
 
         const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
+        console.log({ blockArray, bitsPerBlock, numBlocks });
         const blocksTemp = get_litematica_blocks(blockArray, bitsPerBlock, numBlocks);
+        console.log(blocksTemp);
         for (const [key, value] of blocksTemp.entries()) {
             // account for multiples of the same block having a different key
             // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
@@ -98,7 +98,7 @@ function getLitematicaBlocks(nbt) {
  * @returns {Object<string, number>}
  */
 function getSchematicaBlocks(nbt) {
-    nbt = ["Schematic"];
+    nbt = nbt["Schematic"];
     const blocks = {};
 
     const blockPalette = {};
