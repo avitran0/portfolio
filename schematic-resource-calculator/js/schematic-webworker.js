@@ -52,13 +52,36 @@ function loadSchematic(data) {
     if (nbt["Blocks"]) {
         return getOldSchematicBlocks(nbt);
     }
+    if (nbt["palette"]) {
+        return getStructureBlocks(nbt);
+    }
 
     console.error("Unknown schematic format", nbt);
     return { error: "Unknown schematic format" };
 }
 
 /**
- *
+ * @param {*} nbt structure nbt
+ * @returns {Object<string, number>}
+ */
+function getStructureBlocks(nbt) {
+    console.log(nbt);
+    const blocks = {};
+
+    const blockStates = {};
+    for (const [key, value] of Object.entries(nbt["palette"])) {
+        blockStates[key] = value["Name"].split(":").pop();
+    }
+
+    for (const block of nbt["blocks"]) {
+        const id = block["state"];
+        blocks[blockStates[id]] = (blocks[blockStates[id]] || 0) + 1;
+    }
+
+    return blocks;
+}
+
+/**
  * @param {*} nbt litematica nbt parsed to json
  * @returns {Object<string, number>}
  */

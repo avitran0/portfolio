@@ -34,6 +34,7 @@
                 <dialog id="sample-select">
                     <h2>Select Sample Size</h2>
                     <div class="dialog-btns">
+                        <button value="very_small.nbt" class="btn">Very Small</button>
                         <button value="small.litematic" class="btn">Small</button>
                         <button value="medium.schematic" class="btn">Medium</button>
                         <button value="large.litematic" class="btn">Large</button>
@@ -42,7 +43,7 @@
                     <button class="btn esc">Close</button>
                 </dialog>
                 <label for="schematic" id="schematic-label">
-                    <input type="file" name="schematic" id="schematic" />
+                    <input type="file" name="schematic" id="schematic" accept=".nbt,.litematic,.schem,.schematic" />
                     <span class="first" id="schem-name">Select Schematic</span>
                     <span class="second">Browse</span>
                     <button id="clear-file">X</button>
