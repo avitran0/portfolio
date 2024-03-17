@@ -145,6 +145,7 @@ dialog[open] {
 dialog::backdrop {
     background-color: var(--color-dialog-bg);
     backdrop-filter: blur(0.5rem);
+    -webkit-backdrop-filter: blur(0.5rem);
     transition: var(--transition-ease);
 }
 
