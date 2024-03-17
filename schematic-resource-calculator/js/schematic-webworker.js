@@ -77,13 +77,23 @@ function getLitematicaBlocks(nbt) {
         /** @type {BigUint64Array} */
         const blockArray = region["BlockStates"];
 
-        const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
+        //const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
-        const blocksTemp = get_litematica_blocks(blockArray, bitsPerBlock, numBlocks);
-        for (const [key, value] of blocksTemp.entries()) {
-            // account for multiples of the same block having a different key
-            // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
-            blocks[blockStates[key]] = (blocks[blockStates[key]] || 0) + value;
+        // split block array at roughlt 10 million ints
+        // blockChunkSize should be the nearest number that is a multiple of bitsPerBlock\
+        const blockChunkSize = Math.floor(10_000_000 / bitsPerBlock) * bitsPerBlock;
+        const subArrays = [];
+        for (let i = 0; i < blockArray.length; i += blockChunkSize) {
+            subArrays.push(blockArray.slice(i, i + blockChunkSize));
+        }
+        for (const subArray of subArrays) {
+            const subArrayBlockCount = Math.floor((subArray.length * 64) / bitsPerBlock);
+            const blocksTemp = get_litematica_blocks(subArray, bitsPerBlock, subArrayBlockCount);
+            for (const [key, value] of blocksTemp.entries()) {
+                // account for multiples of the same block having a different key
+                // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
+                blocks[blockStates[key]] = (blocks[blockStates[key]] || 0) + value;
+            }
         }
     }
 

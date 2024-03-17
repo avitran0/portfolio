@@ -185,7 +185,6 @@ function populateItemSelect() {
 function startWorker(arrayBuffer) {
     const worker = new Worker("js/schematic-webworker.js", { type: "module" });
     //items = loadSchematic(arrayBuffer);
-    worker.postMessage({ arrayBuffer });
     elements.spinner.style.display = "block";
     clearDisplayedItems();
     worker.onmessage = (event) => {
@@ -214,6 +213,7 @@ function startWorker(arrayBuffer) {
         worker.terminate();
         elements.spinner.style.display = "none";
     };
+    worker.postMessage({ arrayBuffer });
 }
 
 /**
