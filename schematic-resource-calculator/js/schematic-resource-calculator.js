@@ -32,6 +32,8 @@ let selectedItem = undefined;
 let items = {};
 let ingredients = {};
 
+let worker = undefined;
+
 function setupElementListeners() {
     elements.itemSelectToggle.onclick = (event) => {
         elements.itemInput.value = "";
@@ -183,13 +185,15 @@ function populateItemSelect() {
  * @param {ArrayBuffer} arrayBuffer
  */
 function startWorker(arrayBuffer) {
-    const worker = new Worker("js/schematic-webworker.js", { type: "module" });
-    //items = loadSchematic(arrayBuffer);
     elements.spinner.style.display = "block";
+    worker = new Worker("js/schematic-webworker.js", { type: "module" });
+    //items = loadSchematic(arrayBuffer);
     clearDisplayedItems();
     worker.onmessage = (event) => {
         items = event.data;
+        worker.terminate();
 
+        elements.spinner.style.display = "none";
         if (items.error) {
             console.error(items.error);
             clearDisplayedItems();
@@ -210,8 +214,7 @@ function startWorker(arrayBuffer) {
             );
         }
 
-        worker.terminate();
-        elements.spinner.style.display = "none";
+        worker = undefined;
     };
     worker.postMessage({ arrayBuffer });
 }
