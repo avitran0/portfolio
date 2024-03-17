@@ -32,7 +32,7 @@ button {
     transition: var(--transition-ease);
     background-color: transparent;
     appearance: textfield;
-    width: 12rem;
+    width: 10.75rem;
     height: 2.6rem;
     font-family: var(--font-zilla-slab);
     color: var(--color-text);
@@ -40,6 +40,7 @@ button {
 
 #item-input {
     border-radius: 0.5rem;
+    width: 16rem;
 }
 
 #item-select-amount:hover,
@@ -133,6 +134,8 @@ button {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
 label {
