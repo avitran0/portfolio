@@ -186,9 +186,9 @@ function populateItemSelect() {
  */
 function startWorker(arrayBuffer) {
     elements.spinner.style.display = "block";
+    clearDisplayedItems();
     worker = new Worker("js/schematic-webworker.js", { type: "module" });
     //items = loadSchematic(arrayBuffer);
-    clearDisplayedItems();
     worker.onmessage = (event) => {
         items = event.data;
         worker.terminate();
@@ -196,11 +196,11 @@ function startWorker(arrayBuffer) {
         elements.spinner.style.display = "none";
         if (items.error) {
             console.error(items.error);
-            clearDisplayedItems();
             displaySeparator("Could not load schematic.");
         } else {
             const metadata = items.__metadata;
             delete items.__metadata;
+            clearDisplayedItems();
             ingredients = calculateAllItems(items);
             display(items, ingredients);
             displaySeparator(

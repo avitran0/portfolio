@@ -65,7 +65,6 @@ function loadSchematic(data) {
  * @returns {Object<string, number>}
  */
 function getStructureBlocks(nbt) {
-    console.log(nbt);
     const blocks = {};
 
     const blockStates = {};
