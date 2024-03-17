@@ -39,7 +39,6 @@ function loadSchematic(data) {
     const view = new DataView(data);
 
     const nbt = parse(view, data);
-    console.log(nbt);
 
     if (nbt["Regions"]) {
         return getLitematicaBlocks(nbt);
@@ -80,9 +79,7 @@ function getLitematicaBlocks(nbt) {
 
         const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
-        console.log({ blockArray, bitsPerBlock, numBlocks });
         const blocksTemp = get_litematica_blocks(blockArray, bitsPerBlock, numBlocks);
-        console.log(blocksTemp);
         for (const [key, value] of blocksTemp.entries()) {
             // account for multiples of the same block having a different key
             // jesus christ i thought my rust code was wrong but it always worked perfectly, and this here fucked it up
