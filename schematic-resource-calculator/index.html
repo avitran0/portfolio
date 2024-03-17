@@ -57,18 +57,25 @@
             <dialog id="item-controls">
                 <h2>Select Items Manually</h2>
                 <div class="dialog-btns">
+                    <img src="" alt="" id="item-preview" />
                     <input type="text" id="item-input" placeholder="item name or id" list="item-data" />
                     <datalist id="item-data"> </datalist>
-                    <input type="number" name="item-select-amount" id="item-select-amount" placeholder="amount" />
+                    <div id="item-amount-container">
+                        <button id="minus" class="btn">-</button>
+                        <input type="number" name="item-select-amount" id="item-select-amount" placeholder="amount" />
+                        <button id="plus" class="btn">+</button>
+                    </div>
                     <button id="item-select-add" class="btn">Add</button>
                     <button id="item-select-remove" class="btn">Remove</button>
                 </div>
                 <button class="btn esc">Close</button>
+                <dialog id="item-select"></dialog>
             </dialog>
 
             <div id="items"></div>
             <div id="spinner"></div>
         </main>
         <script type="module" src="js/schematic-resource-calculator.js"></script>
+        <script src="../js/footer.js"></script>
     </body>
 </html>

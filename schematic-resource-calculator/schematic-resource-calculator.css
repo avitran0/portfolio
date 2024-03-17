@@ -1,23 +1,10 @@
-select {
-    font-family: var(--font-zilla-slab);
-    font-size: var(--font-size-medium);
-    border: var(--border-text);
-    border-radius: 0.5rem;
-    background-color: var(--color-crust);
-    color: var(--color-text);
-    padding: 0.2rem 0.5rem;
-    transition: var(--transition-ease);
-    cursor: pointer;
-}
-
-select:hover {
-    border-color: var(--color-blue);
-}
-
 img {
     width: 4rem;
+    height: 4rem;
     aspect-ratio: 1 / 1;
     image-rendering: pixelated;
+    border: none;
+    outline: none;
 }
 
 button {
@@ -25,6 +12,11 @@ button {
     font-size: var(--font-size-medium);
     cursor: pointer;
     color: var(--color-text);
+}
+
+#item-preview {
+    border: 2px solid var(--color-text);
+    border-radius: 0.5rem;
 }
 
 #item-select {
@@ -36,7 +28,6 @@ button {
     align-items: center;
     padding: 0.2rem 0.5rem;
     border: var(--border-text);
-    border-radius: 0.5rem;
     font-size: var(--font-size-medium);
     transition: var(--transition-ease);
     background-color: transparent;
@@ -47,15 +38,18 @@ button {
     color: var(--color-text);
 }
 
-#item-select-amount:hover,
-#item-input:hover {
-    border-color: var(--color-blue);
+#item-input {
+    border-radius: 0.5rem;
 }
 
+#item-select-amount:hover,
+#item-input:hover,
+#item-select-amount:focus,
+#item-input:focus,
 #item-select-amount:focus-visible,
 #item-input:focus-visible {
-    outline: none;
     border-color: var(--color-blue);
+    outline: none;
 }
 
 #item-select-amount::placeholder,
@@ -67,6 +61,44 @@ button {
 #item-select-amount::-webkit-outer-spin-button {
     appearance: none;
     margin: 0;
+}
+
+#item-select-amount {
+    border-right: none;
+}
+
+#plus,
+#minus {
+    width: 2.6rem;
+}
+
+#plus {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+#minus {
+    border-radius: 0.5rem 0 0 0.5rem;
+    border-right: none;
+}
+
+#minus:hover + #item-select-amount,
+#minus:focus + #item-select-amount,
+#minus:focus-visible + #item-select-amount {
+    border-left-color: var(--color-blue);
+    outline: none;
+}
+
+#item-select-amount:hover + #plus,
+#item-select-amount:focus + #plus,
+#item-select-amount:focus-visible + #plus {
+    border-left-color: var(--color-blue);
+    outline: none;
+}
+
+#item-amount-container {
+    gap: 0;
+    display: flex;
+    align-items: center;
 }
 
 #control-container {
@@ -124,22 +156,26 @@ label {
     height: 0;
 }
 
-#schematic-label:has(> span:hover) {
+#schematic-label:has(> span:hover),
+#schematic-label:has(> span:focus),
+#schematic-label:has(> span:focus-visible) {
     border-color: var(--color-blue);
+    outline: none;
 }
 
 #schematic-label > span.first {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-grow: 1;
-    padding: 0 0.5rem;
+    padding: 0 0 0 0.5rem;
     border-left: var(--border-text);
     border-top: var(--border-text);
     border-bottom: var(--border-text);
     border-radius: 0.5rem 0 0 0.5rem;
     border-color: inherit;
     transition: var(--transition-ease);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    line-height: 2.4rem;
 }
 
 #schematic-label > span.second {
@@ -162,8 +198,11 @@ label {
     border-right: none;
 }
 
-#schematic-label.selected:hover > button {
+#schematic-label.selected:hover > button,
+#schematic-label.selected:focus > button,
+#schematic-label.selected:focus-visible > button {
     border-left-color: var(--color-blue);
+    outline: none;
 }
 
 #schematic-label > button {
@@ -190,9 +229,12 @@ label {
     border: var(--border-text);
 }
 
-#schematic-label > button:hover {
+#schematic-label > button:hover,
+#schematic-label > button:focus,
+#schematic-label > button:focus-visible {
     color: var(--color-blue);
     border-color: var(--color-blue);
+    outline: none;
 }
 
 .btn {
@@ -205,8 +247,11 @@ label {
     height: 2.6rem;
 }
 
-.btn:hover {
+.btn:hover,
+.btn:focus,
+.btn:focus-visible {
     border: var(--border-blue);
+    outline: none;
 }
 
 .dialog-btns {
@@ -222,8 +267,11 @@ label {
     color: var(--color-base);
 }
 
-#start:hover {
+#start:hover,
+#start:focus,
+#start:focus-visible {
     border-color: var(--color-text);
+    outline: none;
 }
 
 #items {
@@ -266,9 +314,12 @@ label {
     margin-left: 0.5rem;
 }
 
-.item > button:hover {
+.item > button:hover,
+.item > button:focus,
+.item > button:focus-visible {
     background-color: var(--color-blue);
     color: var(--color-base);
+    outline: none;
 }
 
 .separator {

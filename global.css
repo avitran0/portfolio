@@ -50,7 +50,7 @@
     --font-size-xlarge: 2.5rem;
     --font-size-large: 2rem;
     --font-size-medium: 1.5rem;
-    --font-size-small: 1rem;
+    --font-size-small: 1.2rem;
 
     --transition-linear: 0.1s linear;
     --transition-ease: 0.15s cubic-bezier(0.65, 0, 0.35, 1);
@@ -150,6 +150,16 @@ dialog::backdrop {
 
 dialog[open]::backdrop {
     animation: show 0.5s ease normal;
+}
+
+footer {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-small);
 }
 
 @keyframes show {

@@ -5,11 +5,14 @@ const elements = {
     schematicNameLabel: document.getElementById("schem-name"),
     itemSelectToggle: document.getElementById("item-select-toggle"),
     itemControls: document.getElementById("item-controls"),
+    itemPreview: document.getElementById("item-preview"),
     itemInput: document.getElementById("item-input"),
     itemData: document.getElementById("item-data"),
     itemSelectAmount: document.getElementById("item-select-amount"),
     itemSelectAdd: document.getElementById("item-select-add"),
     itemSelectRemove: document.getElementById("item-select-remove"),
+    itemSelectPlus: document.getElementById("plus"),
+    itemSelectMinus: document.getElementById("minus"),
     // todo: display items and recipe tree?
     itemsDiv: document.getElementById("items"),
     sample: document.getElementById("sample"),
@@ -24,7 +27,7 @@ const elements = {
 };
 
 // get first item's id
-let selectedId = Object.keys(Items)[0];
+let selectedItem = undefined;
 
 let items = {};
 let ingredients = {};
@@ -33,7 +36,27 @@ function setupElementListeners() {
     elements.itemSelectToggle.onclick = (event) => {
         elements.itemInput.value = "";
         elements.itemSelectAmount.value = "";
+        elements.itemPreview.src = "";
         elements.itemControls.showModal();
+    };
+
+    elements.itemSelectPlus.onclick = (event) => {
+        const amount = parseInt(elements.itemSelectAmount.value);
+        if (isNaN(amount)) {
+            elements.itemSelectAmount.value = "1";
+        } else {
+            elements.itemSelectAmount.value = (amount + 1).toString();
+        }
+    };
+
+    elements.itemSelectMinus.onclick = (event) => {
+        const amount = parseInt(elements.itemSelectAmount.value);
+        if (isNaN(amount)) {
+            elements.itemSelectAmount.value = "1";
+        } else {
+            if (amount <= 1) return;
+            elements.itemSelectAmount.value = (amount - 1).toString();
+        }
     };
 
     elements.schematicInput.onchange = (event) => {
@@ -52,17 +75,13 @@ function setupElementListeners() {
             console.error("Invalid amount");
             return;
         }
-        // find item where id or name match selectedId
-        const item = Object.values(Items).find((item) => item.id === selectedId || item.name.toLowerCase() === selectedId);
-        if (!item) {
-            console.error("Item not found", selectedId);
+        if (!selectedItem) {
             return;
         }
-        const realId = item.id;
-        if (items[realId]) {
-            items[realId] += amount;
+        if (items[selectedItem.id]) {
+            items[selectedItem.id] += amount;
         } else {
-            items[realId] = amount;
+            items[selectedItem.id] = amount;
         }
         ingredients = calculateAllItems(items);
         display(items, ingredients);
@@ -74,16 +93,13 @@ function setupElementListeners() {
             console.error("Invalid amount");
             return;
         }
-        const item = Object.values(Items).find((item) => item.id === selectedId || item.name.toLowerCase() === selectedId);
-        if (!item) {
-            console.error("Item not found", selectedId);
+        if (!selectedItem) {
             return;
         }
-        const realId = item.id;
-        if (items[realId]) {
-            items[realId] -= amount;
-            if (items[realId] <= 0) {
-                delete items[realId];
+        if (items[selectedItem.id]) {
+            items[selectedItem.id] -= amount;
+            if (items[selectedItem.id] <= 0) {
+                delete items[selectedItem.id];
             }
         }
         ingredients = calculateAllItems(items);
@@ -91,7 +107,15 @@ function setupElementListeners() {
     });
 
     elements.itemInput.oninput = (event) => {
-        selectedId = event.target.value.toLowerCase();
+        const selected = event.target.value.toLowerCase();
+        const item = Object.values(Items).find((item) => item.id === selected || item.name.toLowerCase() === selected);
+        if (item) {
+            elements.itemPreview.src = "/assets/textures/" + item.id + ".png";
+            selectedItem = item;
+        } else {
+            elements.itemPreview.src = "";
+            selectedItem = undefined;
+        }
     };
 
     elements.start.onclick = async (event) => {
