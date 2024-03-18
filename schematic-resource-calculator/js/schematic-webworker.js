@@ -39,6 +39,7 @@ function loadSchematic(data) {
     const view = new DataView(data);
 
     const nbt = parse(view, data);
+    console.log(nbt);
 
     if (nbt["Regions"]) {
         return getLitematicaBlocks(nbt);
