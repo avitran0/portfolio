@@ -1,0 +1,25 @@
+#color-scheme {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--color-text);
+    justify-content: space-evenly;
+}
+
+.color {
+    width: 5rem;
+    margin: 1rem;
+}
+
+.color > :first-child {
+    width: 5rem;
+    height: 2.6rem;
+}
+
+.color > :last-child {
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-small);
+}
