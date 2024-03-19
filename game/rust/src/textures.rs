@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::{io::asset_path, options::Options};
+use crate::io::asset_path;
 
 pub struct Textures {
     pub tile: Texture2D,
