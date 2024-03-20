@@ -14,15 +14,39 @@
             canvas {
                 width: 100vw;
                 height: 100vh;
+                image-rendering: pixelated;
+            }
+
+            #overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 2rem;
+                color: white;
+                text-shadow: 0 0 10px black;
+                pointer-events: none;
+            }
+
+            #fps {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 1rem;
+                font-family: var(--font-zilla-slab);
+                font-size: var(--font-size-medium);
             }
         </style>
     </head>
     <body>
-        <canvas id="glcanvas" tabindex="1"></canvas>
-        <!-- Minified and statically hosted version of https://github.com/not-fl3/miniquad/blob/master/native/sapp-wasm/js/gl.js -->
-        <script src="gl.js"></script>
-        <script>
-            load("game.wasm");
-        </script>
+        <canvas id="canvas"></canvas>
+        <div id="overlay">
+            <span id="fps"></span>
+        </div>
+        <script type="module" src="js/game.js"></script>
     </body>
 </html>
