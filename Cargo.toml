@@ -1,2 +1,2 @@
 [workspace]
-members = [ "game/rust","schematic-resource-calculator/rust"]
+members = ["schematic-resource-calculator/rust"]
