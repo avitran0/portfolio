@@ -20,10 +20,13 @@ const elements = {
     sampleSelect: document.getElementById("sample-select"),
     spinner: document.getElementById("spinner"),
 
-    start: document.getElementById("start"),
-
     clearItems: document.getElementById("clear"),
     fileClear: document.getElementById("clear-file"),
+
+    export: document.getElementById("export"),
+    import: document.getElementById("import"),
+
+    sort: document.getElementById("sort"),
 };
 
 // get first item's id
@@ -31,6 +34,7 @@ let selectedItem = undefined;
 
 let items = {};
 let ingredients = {};
+let sortMethod = "name";
 
 let worker = undefined;
 
@@ -65,6 +69,17 @@ function setupElementListeners() {
         if (elements.schematicInput.files.length > 0) {
             elements.schematicNameLabel.textContent = elements.schematicInput.files[0].name;
             elements.schematicNameLabel.parentElement.classList.add("selected");
+
+            // check schematicInput for file
+            if (elements.schematicInput.files.length <= 0) return;
+
+            const file = elements.schematicInput.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const arrayBuffer = event.target.result;
+                startWorker(arrayBuffer);
+            };
+            reader.readAsArrayBuffer(file);
         } else {
             elements.schematicNameLabel.textContent = "Select Schematic";
             elements.schematicNameLabel.parentElement.classList.remove("selected");
@@ -120,19 +135,6 @@ function setupElementListeners() {
         }
     };
 
-    elements.start.onclick = async (event) => {
-        // check schematicInput for file
-        if (elements.schematicInput.files.length <= 0) return;
-
-        const file = elements.schematicInput.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const arrayBuffer = event.target.result;
-            startWorker(arrayBuffer);
-        };
-        reader.readAsArrayBuffer(file);
-    };
-
     elements.clearItems.onclick = (event) => {
         items = {};
         ingredients = {};
@@ -147,6 +149,39 @@ function setupElementListeners() {
 
     elements.sample.onclick = (event) => {
         elements.sampleSelect.showModal();
+    };
+
+    elements.export.onclick = (event) => {
+        exportItems();
+    };
+
+    elements.import.onclick = (event) => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".json";
+        input.onchange = async (event) => {
+            if (input.files.length <= 0) return;
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const data = JSON.parse(event.target.result);
+                // remove all unknown items
+                for (const key of Object.keys(data)) {
+                    if (!Items[key]) {
+                        delete data[key];
+                    }
+                }
+                items = data;
+                ingredients = calculateAllItems(items);
+                display(items, ingredients);
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    };
+
+    elements.sort.onclick = (event) => {
+        display(items, ingredients);
     };
 
     for (const button of elements.sampleSelect.querySelectorAll("button")) {
@@ -192,6 +227,26 @@ function startWorker(arrayBuffer) {
     worker.onmessage = (event) => {
         items = event.data;
         worker.terminate();
+
+        // replace unknown items with items from ItemConversion, or air if missing
+        for (const [key, value] of Object.entries(items)) {
+            if (key === "__metadata") continue;
+            if (!Items[key]) {
+                const id = ItemConversion[key];
+                if (!id) {
+                    console.error("Item not found", key);
+                    delete items[key];
+                    continue;
+                }
+                // if item exists in items, add to it
+                if (items[id]) {
+                    items[id] += value;
+                } else {
+                    items[id] = value;
+                }
+                delete items[key];
+            }
+        }
 
         elements.spinner.style.display = "none";
         if (items.error) {
@@ -293,6 +348,8 @@ function calculateTotalItemCount(data) {
 }
 
 function display(items, ingredients) {
+    sortMethod = elements.sort.value;
+    items = sortItems(items);
     clearDisplayedItems();
     displaySeparator("Total items: " + calculateTotalItemCount(items).toLocaleString());
     displayItems(items, true);
@@ -305,7 +362,7 @@ function clearDisplayedItems() {
 }
 
 function displayItems(toDisplay, deletable = false) {
-    toDisplay = sortObject(toDisplay);
+    toDisplay = sortItems(toDisplay);
     for (const [key, value] of Object.entries(toDisplay)) {
         if (key === "air") continue;
         let item = Items[key];
@@ -389,13 +446,46 @@ function getLazyImage(id) {
     return image;
 }
 
-function sortObject(obj) {
-    return Object.keys(obj)
-        .sort()
-        .reduce((result, key) => {
-            result[key] = obj[key];
-            return result;
-        }, {});
+function sortItems(itms) {
+    const sorted = {};
+    const keys = Object.keys(itms);
+    if (sortMethod === "name") {
+        keys.sort((a, b) => {
+            const itemA = Items[a];
+            const itemB = Items[b];
+            if (!itemA || !itemB) {
+                console.error("Item not found", a, b);
+                return 0;
+            }
+            return itemA.name.localeCompare(itemB.name);
+        });
+    }
+    if (sortMethod === "amount") {
+        keys.sort((a, b) => itms[b] - itms[a]);
+    }
+    for (const key of keys) {
+        sorted[key] = itms[key];
+    }
+    itms = sorted;
+    return sorted;
+}
+
+function exportItems() {
+    if (Object.keys(items).length === 0) {
+        console.error("No items to export");
+        return;
+    }
+    const data = JSON.stringify(items);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    if (elements.schematicInput.files.length > 0) {
+        a.download = elements.schematicInput.files[0].name + ".json";
+    } else {
+        a.download = "items.json";
+    }
+    a.click();
 }
 
 function testDataIntegrity(items) {

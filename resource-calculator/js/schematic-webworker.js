@@ -13,7 +13,7 @@ onmessage = async function (e) {
         const time = endTime - startTime;
         const blockThroughput = (blockCount / time) * 1000;
         console.log(
-            "processed " + blockCount + " blocks in " + time + "ms (" + blockThroughput.toLocaleString() + " blocks/s)"
+            "processed " + blockCount.toLocaleString() + " blocks in " + time.toLocaleString() + "ms (" + blockThroughput.toLocaleString() + " blocks/s)"
         );
         // set metadata object in items
         items["__metadata"] = {

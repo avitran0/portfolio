@@ -14,6 +14,51 @@ button {
     color: var(--color-text);
 }
 
+select {
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-medium);
+    cursor: pointer;
+    color: var(--color-text);
+    background-color: var(--color-crust);
+    border: none;
+    flex-grow: 1;
+    height: 100%;
+    border-radius: 0 6px 6px 0;
+    border: var(--border-text);
+    margin: 0;
+    transition: var(--transition-ease);
+    padding: 0 0.5rem;
+}
+
+select:hover {
+    border-color: var(--color-blue);
+}
+
+#sort-container {
+    width: fit-content;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding-left: 0.2rem;
+    gap: 0 !important;
+}
+
+#sort-container > span {
+    font-family: var(--font-zilla-slab);
+    font-size: var(--font-size-medium);
+    border: var(--border-text);
+    border-right: none;
+    border-radius: 0.5rem 0 0 0.5rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    cursor: default;
+}
+
 #item-preview {
     border: 2px solid var(--color-text);
     border-radius: 0.5rem;
