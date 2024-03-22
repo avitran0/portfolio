@@ -180,7 +180,7 @@ function setupElementListeners() {
         input.click();
     };
 
-    elements.sort.onclick = (event) => {
+    elements.sort.onchange = (event) => {
         display(items, ingredients);
     };
 
