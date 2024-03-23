@@ -9,13 +9,9 @@
         const root = document.querySelector(":root");
         // get all css variables containing color
         const colorNames = [
-            "--color-crust-dark",
-            "--color-mantle-dark",
+            "--color-backdrop",
             "--color-base",
-            "--color-mantle",
-            "--color-crust",
-            "--color-surface",
-            "--color-overlay",
+            "--color-highlight",
             "--color-subtext",
             "--color-text",
             "--color-red",
@@ -50,7 +46,7 @@
         {#each Object.entries(colorVars) as [key, color]}
             <div class="color">
                 <div style="background-color: {color};"></div>
-                <div>{key}<br>{color}</div>
+                <div>{key}<br />{color}</div>
             </div>
         {/each}
     </div>
@@ -71,6 +67,8 @@
     .color {
         width: 6rem;
         margin: 1rem;
+        border: 2px solid var(--color-text);
+        border-radius: 0.5rem;
     }
 
     .color > :first-child {

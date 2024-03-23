@@ -1,0 +1,14 @@
+:root {
+    --color-backdrop: #181820;
+    --color-base: #1e1e28;
+    --color-highlight: #3c3c4b;
+    --color-subtext: #c8c8dc;
+    --color-text: #ffffff;
+    --color-red: #f06464;
+    --color-orange: #f08c5a;
+    --color-yellow: #f0c878;
+    --color-green: #a0f082;
+    --color-teal: #50c8c8;
+    --color-blue: #6496f0;
+    --color-purple: #b478f0;
+}

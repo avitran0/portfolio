@@ -399,11 +399,7 @@
             </div>
             <button on:click={() => sampleDialog.close()}>Close</button>
         </dialog>
-        <label
-            for="schematic"
-            id="schematic-label"
-            class={schematicFile ? "selected" : ""}
-        >
+        <label for="schematic" id="schematic-label" class={schematicFile ? "selected" : ""}>
             <input
                 type="file"
                 name="schematic"
@@ -510,7 +506,7 @@
 
 <style>
     dialog {
-        background-color: var(--color-mantle-dark);
+        background-color: var(--color-backdrop);
         border: 2px solid var(--color-text);
         border-radius: 0.5rem;
         transition: var(--transition-ease);
@@ -557,7 +553,7 @@
         font-size: var(--font-size-medium);
         cursor: pointer;
         color: var(--color-text);
-        background-color: var(--color-crust);
+        background-color: var(--color-highlight);
         border: none;
         flex-grow: 1;
         height: 100%;
@@ -686,7 +682,7 @@
         border-radius: 0.5rem;
         font-size: var(--font-size-medium);
         transition: var(--transition-ease);
-        background-color: var(--color-mantle-dark);
+        background-color: var(--color-backdrop);
         flex-wrap: wrap;
         width: fit-content;
     }
@@ -744,7 +740,7 @@
         align-items: center;
         justify-content: flex-end;
         padding: 0 0.5rem;
-        background-color: var(--color-crust);
+        background-color: var(--color-highlight);
         height: 100%;
         border-radius: 0 6px 6px 0;
         border-top: var(--border-text);
@@ -768,7 +764,7 @@
         align-items: center;
         justify-content: center;
         border: none;
-        background-color: var(--color-overlay);
+        background-color: var(--color-highlight);
         color: var(--color-text);
         border-radius: 0 6px 6px 0;
         cursor: pointer;
@@ -797,7 +793,7 @@
         border: var(--border-text);
         border-radius: 0.5rem;
         transition: var(--transition-ease);
-        background-color: var(--color-crust);
+        background-color: var(--color-highlight);
         width: 10rem;
         height: 2.6rem;
     }
@@ -845,7 +841,7 @@
         height: 2rem;
         aspect-ratio: 1 / 1;
         border: var(--border-text);
-        background-color: var(--color-crust);
+        background-color: var(--color-highlight);
         color: var(--color-text);
         border-radius: 0.5rem;
         cursor: pointer;

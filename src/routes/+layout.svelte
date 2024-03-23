@@ -46,13 +46,9 @@
     }
 
     :root {
-        --color-crust-dark: #0f0f14;
-        --color-mantle-dark: #181820;
+        --color-backdrop: #181820;
         --color-base: #1e1e28;
-        --color-mantle: #2d2d3c;
-        --color-crust: #3c3c4b;
-        --color-surface: #505064;
-        --color-overlay: #6e6e8c;
+        --color-highlight: #3c3c4b;
         --color-subtext: #c8c8dc;
         --color-text: #ffffff;
         --color-red: #f06464;
@@ -63,7 +59,7 @@
         --color-blue: #6496f0;
         --color-purple: #b478f0;
 
-        --color-dialog-bg: #0f0f1450;
+        --color-dialog-bg: #00000050;
 
         --font-zilla-slab: "ZillaSlab", serif;
         --font-jetbrains-mono: "JetBrainsMono", monospace;
