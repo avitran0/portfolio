@@ -65,19 +65,21 @@
     }
 
     .color {
-        width: 6rem;
+        width: 8rem;
         margin: 1rem;
         border: 2px solid var(--color-text);
         border-radius: 0.5rem;
     }
 
     .color > :first-child {
-        width: 6rem;
-        height: 3rem;
+        width: 100%;
+        height: 4rem;
+        border-radius: 0.5rem 0.5rem 0 0;
     }
 
     .color > :last-child {
         font-family: var(--font-zilla-slab);
         font-size: var(--font-size-small);
+        padding: 0.5rem;
     }
 </style>
