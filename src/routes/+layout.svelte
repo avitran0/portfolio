@@ -23,25 +23,25 @@
 <style>
     @font-face {
         font-family: "ZillaSlab";
-        src: url("fonts/ZillaSlab.woff2");
+        src: url("/fonts/ZillaSlab.woff2");
         font-display: swap;
     }
 
     @font-face {
         font-family: "JetBrainsMono";
-        src: url("fonts/JetBrainsMono.woff2");
+        src: url("/fonts/JetBrainsMono.woff2");
         font-display: swap;
     }
 
     @font-face {
         font-family: "SequelRounded";
-        src: url("fonts/SequelRounded.woff2");
+        src: url("/fonts/SequelRounded.woff2");
         font-display: swap;
     }
 
     @font-face {
         font-family: "Inter";
-        src: url("fonts/Inter.woff2");
+        src: url("/fonts/Inter.woff2");
         font-display: swap;
     }
 
