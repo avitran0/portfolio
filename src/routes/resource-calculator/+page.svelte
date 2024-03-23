@@ -132,7 +132,7 @@
 
     async function loadSampleFile(fileName: string) {
         sampleDialog.close();
-        const file = await fetch("schematics/" + fileName);
+        const file = await fetch("/schematics/" + fileName);
         const arrayBuffer = await file.arrayBuffer();
         startWorker(arrayBuffer);
     }
@@ -381,6 +381,10 @@
 
     testDataIntegrity(Items);
 </script>
+
+<svelte:head>
+    <title>Resource Calculator</title>
+</svelte:head>
 
 <main in:blur={{ delay: 200, duration: 200, easing: cubicOut }} out:blur={{ duration: 200, easing: cubicOut }}>
     <h1>Resource Calculator</h1>

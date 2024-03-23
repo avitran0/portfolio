@@ -1,5 +1,5 @@
-import { inflate } from "./pako.js";
-import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/schematics.js";
+import { inflate } from "$lib/js/pako.js";
+import init, { get_litematica_blocks, get_schematica_blocks } from "$lib/wasm/schematics.js";
 
 onmessage = async function (e) {
     try {
