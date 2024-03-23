@@ -1,7 +1,3 @@
-// disable all checking
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { inflate } from "./pako.js";
 import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/schematics.js";
 
@@ -31,7 +27,7 @@ onmessage = async function (e) {
     }
 };
 
-function loadSchematic(data: ArrayBuffer) {
+function loadSchematic(data) {
     if (hasGzipHeader(data)) {
         data = inflate(data).buffer;
     }
@@ -61,7 +57,7 @@ function loadSchematic(data: ArrayBuffer) {
     return { error: "Unknown schematic format" };
 }
 
-function getStructureBlocks(nbt): Record<string, number> {
+function getStructureBlocks(nbt) {
     const blocks = {};
 
     const blockStates = {};
@@ -77,7 +73,7 @@ function getStructureBlocks(nbt): Record<string, number> {
     return blocks;
 }
 
-function getLitematicaBlocks(nbt): Record<string, number> {
+function getLitematicaBlocks(nbt) {
     const blocks = {};
 
     for (const [, region] of Object.entries(nbt["Regions"])) {
@@ -90,7 +86,7 @@ function getLitematicaBlocks(nbt): Record<string, number> {
         const bitsPerBlock = Math.max(2, Math.ceil(Math.log2(length)));
 
         /** @type {BigUint64Array} */
-        const blockArray: BigUint64Array = region["BlockStates"];
+        const blockArray = region["BlockStates"];
 
         //const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
@@ -115,7 +111,7 @@ function getLitematicaBlocks(nbt): Record<string, number> {
     return blocks;
 }
 
-function getSchematicaBlocks(nbt): Record<string, number> {
+function getSchematicaBlocks(nbt) {
     nbt = nbt["Schematic"];
     const blocks = {};
 
@@ -128,7 +124,7 @@ function getSchematicaBlocks(nbt): Record<string, number> {
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
     /** @type {Int8Array} */
-    const blockArray: Int8Array = nbt["Blocks"]["Data"];
+    const blockArray = nbt["Blocks"]["Data"];
 
     const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
     for (const [key, value] of blocksTemp.entries()) {
@@ -138,7 +134,7 @@ function getSchematicaBlocks(nbt): Record<string, number> {
     return blocks;
 }
 
-function getWorldEditSchemBlocks(nbt): Record<string, number> {
+function getWorldEditSchemBlocks(nbt) {
     const blocks = {};
 
     const blockPalette = {};
@@ -150,7 +146,7 @@ function getWorldEditSchemBlocks(nbt): Record<string, number> {
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
     /** @type {Int8Array} */
-    const blockArray: Int8Array = nbt["BlockData"];
+    const blockArray = nbt["BlockData"];
 
     const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
     for (const [key, value] of blocksTemp.entries()) {
@@ -160,7 +156,7 @@ function getWorldEditSchemBlocks(nbt): Record<string, number> {
     return blocks;
 }
 
-function getOldSchematicBlocks(nbt): Record<string, number> {
+function getOldSchematicBlocks(nbt) {
     const blocks = {};
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
@@ -206,7 +202,7 @@ const Tags = Object.freeze({
  * @param {DataView} view
  * @param {ArrayBuffer} buffer
  */
-function parse(view: DataView, buffer: ArrayBuffer) {
+function parse(view, buffer) {
     const parser = new Parser(view, buffer);
     const nbt = parser[Tags.Compound]();
     // discard first object nesting
@@ -216,9 +212,9 @@ function parse(view: DataView, buffer: ArrayBuffer) {
 class Parser {
     offset = 0;
     /** @type {DataView} */
-    view: DataView;
+    view;
     /** @type {ArrayBuffer} */
-    buffer: ArrayBuffer;
+    buffer;
 
     constructor(view, buffer) {
         this.view = view;
@@ -320,7 +316,7 @@ class Parser {
 
 // block ids from https://minecraft.fandom.com/wiki/Java_Edition_data_values/Pre-flattening
 /** @type {Object.<number, string>} */
-const BlockIDs: { [n: number]: string; } = Object.freeze({
+const BlockIDs = Object.freeze({
     0: "air",
     1: "stone",
     2: "grass_block",
