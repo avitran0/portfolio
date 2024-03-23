@@ -2,7 +2,6 @@ import { inflate } from "./pako.js";
 import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/schematics.js";
 
 onmessage = async function (e) {
-    console.log("worker received message");
     try {
         const { arrayBuffer } = e.data;
         const startTime = performance.now();
