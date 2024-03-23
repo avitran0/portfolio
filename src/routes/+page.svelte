@@ -74,7 +74,8 @@
     .color > :first-child {
         width: 100%;
         height: 4rem;
-        border-radius: 0.5rem 0.5rem 0 0;
+        border-radius: 6px 6px 0 0;
+        border-bottom: 2px solid var(--color-text);
     }
 
     .color > :last-child {

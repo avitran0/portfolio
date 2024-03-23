@@ -1,2 +1,14 @@
 :root {
+    --color-backdrop: #dcdcf0;
+    --color-base: #ffffff;
+    --color-highlight: #aaaac8;
+    --color-subtext: #323250;
+    --color-text: #0f0f14;
+    --color-red: #f03232;
+    --color-orange: #f07832;
+    --color-yellow: #f0c832;
+    --color-green: #32f032;
+    --color-teal: #00c8c8;
+    --color-blue: #3264f0;
+    --color-purple: #783cf0;
 }
