@@ -4,7 +4,7 @@
 
     import { ItemConversion, Items } from "./ts/recipes";
     import { type Item } from "./ts/types";
-    import schematicWorker from "./ts/schematic-webworker?url";
+    import SchematicWorker from "./ts/schematic-webworker?worker";
 
     const sampleFiles = {
         "very_small.nbt": "Very Small",
@@ -139,7 +139,7 @@
 
     function startWorker(arrayBuffer: ArrayBuffer) {
         spinner.style.display = "block";
-        worker = new Worker(schematicWorker, { type: "module" });
+        worker = new SchematicWorker();
         //items = loadSchematic(arrayBuffer);
         worker.onmessage = (event) => {
             items = event.data;
