@@ -1,2 +1,2 @@
 [workspace]
-members = ["schematic-resource-calculator/rust"]
+members = ["src/routes/resource-calculator/rust"]

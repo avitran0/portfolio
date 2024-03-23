@@ -1,3 +1,13 @@
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 target
 pkg
-assets/schematics/extremely_large.litematic
+static/schematics/extremely_large.litematic

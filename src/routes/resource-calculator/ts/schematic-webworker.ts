@@ -1,3 +1,7 @@
+// disable all checking
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { inflate } from "./pako.js";
 import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/schematics.js";
 
@@ -13,25 +17,21 @@ onmessage = async function (e) {
         const time = endTime - startTime;
         const blockThroughput = (blockCount / time) * 1000;
         console.log(
-            "processed " + blockCount.toLocaleString() + " blocks in " + time.toLocaleString() + "ms (" + blockThroughput.toLocaleString() + " blocks/s)"
+            "processed " +
+                blockCount.toLocaleString() +
+                " blocks in " +
+                time.toLocaleString() +
+                "ms (" +
+                blockThroughput.toLocaleString() +
+                " blocks/s)"
         );
-        // set metadata object in items
-        items["__metadata"] = {
-            time: time,
-            blockCount: blockCount,
-            blockThroughput: blockThroughput,
-        };
         this.postMessage(items);
     } catch (e) {
         this.postMessage({ error: e });
     }
 };
 
-/**
- * @param {ArrayBuffer} data
- * @returns {Object<string, number>}
- */
-function loadSchematic(data) {
+function loadSchematic(data: ArrayBuffer) {
     if (hasGzipHeader(data)) {
         data = inflate(data).buffer;
     }
@@ -61,11 +61,7 @@ function loadSchematic(data) {
     return { error: "Unknown schematic format" };
 }
 
-/**
- * @param {*} nbt structure nbt
- * @returns {Object<string, number>}
- */
-function getStructureBlocks(nbt) {
+function getStructureBlocks(nbt): Record<string, number> {
     const blocks = {};
 
     const blockStates = {};
@@ -81,14 +77,10 @@ function getStructureBlocks(nbt) {
     return blocks;
 }
 
-/**
- * @param {*} nbt litematica nbt parsed to json
- * @returns {Object<string, number>}
- */
-function getLitematicaBlocks(nbt) {
+function getLitematicaBlocks(nbt): Record<string, number> {
     const blocks = {};
 
-    for (const [name, region] of Object.entries(nbt["Regions"])) {
+    for (const [, region] of Object.entries(nbt["Regions"])) {
         const blockStates = {};
         for (const [key, value] of Object.entries(region["BlockStatePalette"])) {
             blockStates[key] = value["Name"].split(":").pop();
@@ -98,7 +90,7 @@ function getLitematicaBlocks(nbt) {
         const bitsPerBlock = Math.max(2, Math.ceil(Math.log2(length)));
 
         /** @type {BigUint64Array} */
-        const blockArray = region["BlockStates"];
+        const blockArray: BigUint64Array = region["BlockStates"];
 
         //const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
@@ -123,11 +115,7 @@ function getLitematicaBlocks(nbt) {
     return blocks;
 }
 
-/**
- * @param {*} nbt schematica nbt parsed to json
- * @returns {Object<string, number>}
- */
-function getSchematicaBlocks(nbt) {
+function getSchematicaBlocks(nbt): Record<string, number> {
     nbt = nbt["Schematic"];
     const blocks = {};
 
@@ -140,7 +128,7 @@ function getSchematicaBlocks(nbt) {
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
     /** @type {Int8Array} */
-    const blockArray = nbt["Blocks"]["Data"];
+    const blockArray: Int8Array = nbt["Blocks"]["Data"];
 
     const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
     for (const [key, value] of blocksTemp.entries()) {
@@ -150,7 +138,7 @@ function getSchematicaBlocks(nbt) {
     return blocks;
 }
 
-function getWorldEditSchemBlocks(nbt) {
+function getWorldEditSchemBlocks(nbt): Record<string, number> {
     const blocks = {};
 
     const blockPalette = {};
@@ -162,7 +150,7 @@ function getWorldEditSchemBlocks(nbt) {
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
     /** @type {Int8Array} */
-    const blockArray = nbt["BlockData"];
+    const blockArray: Int8Array = nbt["BlockData"];
 
     const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
     for (const [key, value] of blocksTemp.entries()) {
@@ -172,7 +160,7 @@ function getWorldEditSchemBlocks(nbt) {
     return blocks;
 }
 
-function getOldSchematicBlocks(nbt) {
+function getOldSchematicBlocks(nbt): Record<string, number> {
     const blocks = {};
 
     const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
@@ -211,14 +199,14 @@ const Tags = Object.freeze({
     List: 9,
     Compound: 10,
     IntArray: 11,
-    LongArray: 12,
+    LongArray: 12
 });
 
 /**
  * @param {DataView} view
  * @param {ArrayBuffer} buffer
  */
-function parse(view, buffer) {
+function parse(view: DataView, buffer: ArrayBuffer) {
     const parser = new Parser(view, buffer);
     const nbt = parser[Tags.Compound]();
     // discard first object nesting
@@ -228,9 +216,9 @@ function parse(view, buffer) {
 class Parser {
     offset = 0;
     /** @type {DataView} */
-    view;
+    view: DataView;
     /** @type {ArrayBuffer} */
-    buffer;
+    buffer: ArrayBuffer;
 
     constructor(view, buffer) {
         this.view = view;
@@ -314,6 +302,7 @@ class Parser {
 
     [Tags.Compound] = () => {
         const compound = {};
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             if (this.offset >= this.view.byteLength) {
                 break;
@@ -331,7 +320,7 @@ class Parser {
 
 // block ids from https://minecraft.fandom.com/wiki/Java_Edition_data_values/Pre-flattening
 /** @type {Object.<number, string>} */
-const BlockIDs = Object.freeze({
+const BlockIDs: { [n: number]: string; } = Object.freeze({
     0: "air",
     1: "stone",
     2: "grass_block",
@@ -585,5 +574,5 @@ const BlockIDs = Object.freeze({
     250: "black_glazed_terracotta",
     251: "white_concrete",
     252: "white_concrete_powder",
-    255: "structure_block",
+    255: "structure_block"
 });
