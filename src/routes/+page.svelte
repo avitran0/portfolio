@@ -12,4 +12,5 @@
     <h2>Projects</h2>
     <a href="/resource-calculator">Resource Calculator</a>
     <a href="/colors">Color Scheme</a>
+    <a href="/canvas">Canvas</a>
 </main>
