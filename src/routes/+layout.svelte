@@ -83,10 +83,10 @@
         --font-sequel-rounded: "SequelRounded", sans-serif;
         --font-inter: "Inter", sans-serif;
 
-        --font-size-xlarge: 2.5rem;
-        --font-size-large: 2rem;
-        --font-size-medium: 1.5rem;
-        --font-size-small: 1.2rem;
+        --font-size-xlarge: 32px;
+        --font-size-large: 28px;
+        --font-size-medium: 24px;
+        --font-size-small: 20px;
 
         --transition-linear: 0.1s linear;
         --transition-ease: 0.15s cubic-bezier(0.65, 0, 0.35, 1);
@@ -116,6 +116,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
+    }
+
+    :global(main > h1) {
+        margin: 0 3rem;
     }
 
     :global(main) {

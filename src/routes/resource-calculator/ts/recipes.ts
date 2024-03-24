@@ -5997,11 +5997,13 @@ export const Tags: { [key: string]: string[] } = {
 export const ItemConversion: { [key: string]: string } = {
     big_dripleaf_stem: "big_dripleaf",
     black_wall_banner: "black_banner",
+    blue_wall_banner: "blue_banner",
     brick_block: "bricks",
     brown_wall_banner: "brown_banner",
     bubble_column: "water",
     cave_air: "air",
     cave_vines_plant: "cave_vines",
+    cyan_wall_banner: "cyan_banner",
     damaged_anvil: "anvil",
     double_stone_slab: "stone_slab",
     fire: "air",
@@ -6017,6 +6019,8 @@ export const ItemConversion: { [key: string]: string } = {
     soul_fire: "air",
     spruce_wall_sign: "spruce_sign",
     wall_torch: "torch",
+    warped_wall_sign: "warped_sign",
     weeping_vines_plant: "weeping_vines",
+    white_wall_banner: "white_banner",
     void_air: "air"
 };

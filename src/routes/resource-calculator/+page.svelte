@@ -18,7 +18,7 @@
     let sampleSizeButtons: HTMLDivElement;
 
     let schematicInput: HTMLInputElement;
-    let schematicFile: File | null;
+    let schematicFiles: FileList | null = null;
     let schematicFileNameLabel: HTMLSpanElement;
 
     let itemDialog: HTMLDialogElement;
@@ -39,7 +39,7 @@
     let displayedItems: [Item, number][] = [];
     let displayedIngredients: [Item, number][] = [];
 
-    let worker: Worker | null = null;
+    let workers: Record<string, Worker> = {};
     let workerError: string | null = null;
 
     function openItemDialog() {
@@ -67,20 +67,39 @@
         }
     }
 
+    function getSchematicName(): string {
+        if (!schematicFiles || schematicFiles.length <= 0) {
+            return "Select Schematic";
+        }
+        let name = "";
+        // comma separate names, remove extension
+        for (let i = 0; i < schematicFiles.length; i++) {
+            name += schematicFiles[i].name.replace(/\.[^/.]+$/, "");
+            if (i < schematicFiles.length - 1) {
+                name += ", ";
+            }
+        }
+        console.log(name);
+        return name;
+    }
+
     function schematicInputChange() {
         clearItems();
-        if (schematicInput.files && schematicInput.files.length > 0) {
-            const file = schematicInput.files[0];
-            schematicFileNameLabel.textContent = file.name;
-            schematicFile = file;
+        if (!schematicInput.files || schematicInput.files.length <= 0) {
+            schematicFileNameLabel.textContent = "Select Schematic";
+            return;
+        }
+        const files = schematicInput.files;
+        schematicFiles = files;
+        schematicFileNameLabel.textContent = getSchematicName();
+
+        for (const file of files) {
             const reader = new FileReader();
             reader.onload = (event) => {
                 const arrayBuffer = event.target?.result as ArrayBuffer;
-                startWorker(arrayBuffer);
+                startWorker(arrayBuffer, file.name);
             };
             reader.readAsArrayBuffer(file);
-        } else {
-            schematicFileNameLabel.textContent = "Select Schematic";
         }
     }
 
@@ -126,7 +145,7 @@
 
     function clearSchematicInput() {
         schematicInput.value = "";
-        schematicFile = null;
+        schematicFiles = null;
         schematicFileNameLabel.textContent = "Select Schematic";
     }
 
@@ -134,49 +153,54 @@
         sampleDialog.close();
         const file = await fetch("/schematics/" + fileName);
         const arrayBuffer = await file.arrayBuffer();
-        startWorker(arrayBuffer);
+        startWorker(arrayBuffer, fileName);
     }
 
-    function startWorker(arrayBuffer: ArrayBuffer) {
+    function startWorker(arrayBuffer: ArrayBuffer, name: string) {
         spinner.style.display = "block";
-        worker = new SchematicWorker();
+        workers[name] = new SchematicWorker();
         //items = loadSchematic(arrayBuffer);
-        worker.onmessage = (event) => {
-            items = event.data;
-            if (worker) worker.terminate();
+        workers[name].onmessage = (event) => {
+            const itms = event.data as Record<string, number>;
+            workers[name].terminate();
 
             // replace unknown items with items from ItemConversion, or air if missing
-            for (const [key, value] of Object.entries(items)) {
-                if (key === "__metadata") continue;
-                if (!Items[key]) {
+            for (const [key, value] of Object.entries(itms)) {
+                let item = Items[key];
+                if (!item) {
                     const id = ItemConversion[key];
                     if (!id) {
                         console.error("Item not found", key);
-                        delete items[key];
+                        delete itms[key];
                         continue;
                     }
-                    // if item exists in items, add to it
-                    if (items[id]) {
-                        items[id] += value;
-                    } else {
-                        items[id] = value;
+                    item = Items[id];
+                    if (!item) {
+                        console.error("Item not found at all", id);
+                        delete itms[key];
+                        continue;
                     }
-                    delete items[key];
+                }
+                // if item exists in items, add to it
+                if (items[item.id]) {
+                    items[item.id] += value;
+                } else {
+                    items[item.id] = value;
                 }
             }
 
             spinner.style.display = "none";
-            if (items.error) {
-                console.error(items.error);
-                workerError = items.error as any;
+            if (itms.error) {
+                console.error(itms.error);
+                workerError = itms.error as any;
             } else {
                 ingredients = calculateAllItems(items);
                 display();
             }
 
-            worker = null;
+            delete workers[name];
         };
-        worker.postMessage({ arrayBuffer });
+        workers[name].postMessage({ arrayBuffer });
     }
 
     function calculateAllItems(toCalculate: Record<string, number>) {
@@ -325,8 +349,8 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        if (schematicFile) {
-            a.download = schematicFile.name + ".json";
+        if (schematicFiles && schematicFiles.length > 0) {
+            a.download = getSchematicName() + ".json";
         } else {
             a.download = "items.json";
         }
@@ -399,12 +423,17 @@
             </div>
             <button on:click={() => sampleDialog.close()}>Close</button>
         </dialog>
-        <label for="schematic" id="schematic-label" class={schematicFile ? "selected" : ""}>
+        <label
+            for="schematic"
+            id="schematic-label"
+            class={schematicFiles && schematicFiles.length > 0 ? "selected" : ""}
+        >
             <input
                 type="file"
                 name="schematic"
                 id="schematic"
                 accept=".nbt,.litematic,.schem,.schematic"
+                multiple
                 bind:this={schematicInput}
                 on:change={schematicInputChange}
             />
@@ -697,7 +726,7 @@
 
     label {
         font-family: var(--font-zilla-slab);
-        font-size: var(--font-size-small);
+        font-size: var(--font-size-medium);
         color: var(--color-text);
     }
 
