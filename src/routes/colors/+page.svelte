@@ -1,0 +1,81 @@
+<script lang="ts">
+    import { fade } from "svelte/transition";
+    import { cubicOut } from "svelte/easing";
+    import { onMount } from "svelte";
+
+    const colorVars: { [key: string]: string } = {};
+    onMount(() => {
+        // get :root element
+        const root = document.querySelector(":root");
+        // get all css variables containing color
+        const colorNames = [
+            "--color-backdrop",
+            "--color-base",
+            "--color-highlight",
+            "--color-subtext",
+            "--color-text",
+            "--color-red",
+            "--color-orange",
+            "--color-yellow",
+            "--color-green",
+            "--color-teal",
+            "--color-blue",
+            "--color-purple"
+        ];
+        if (root === null) {
+            throw new Error("Could not find :root element");
+        }
+        colorNames.forEach((colorName) => {
+            colorVars[colorName.replace("--color-", "")] = getComputedStyle(root).getPropertyValue(colorName);
+        });
+        console.log(colorVars);
+    });
+
+    let colorScheme: HTMLDivElement;
+</script>
+
+<main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
+    <h1>Color Scheme</h1>
+    <div bind:this={colorScheme} id="color-scheme">
+        {#each Object.entries(colorVars) as [key, color]}
+            <div class="color">
+                <div style="background-color: {color};"></div>
+                <div>{key}<br />{color}</div>
+            </div>
+        {/each}
+    </div>
+</main>
+
+<style>
+    #color-scheme {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 64rem;
+        margin: 0 auto;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: 2px solid var(--color-text);
+        justify-content: space-evenly;
+        margin-top: 1rem;
+    }
+
+    .color {
+        width: 6rem;
+        margin: 1rem;
+        border: 2px solid var(--color-text);
+        border-radius: 0.5rem;
+    }
+
+    .color > :first-child {
+        width: 100%;
+        height: 3rem;
+        border-radius: 6px 6px 0 0;
+        border-bottom: 2px solid var(--color-text);
+    }
+
+    .color > :last-child {
+        font-family: var(--font-zilla-slab);
+        font-size: var(--font-size-small);
+        padding: 0.5rem;
+    }
+</style>

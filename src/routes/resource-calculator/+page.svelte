@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { blur } from "svelte/transition";
+    import { fade } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
 
     import { ItemConversion, Items } from "./ts/recipes";
@@ -386,7 +386,7 @@
     <title>Resource Calculator</title>
 </svelte:head>
 
-<main in:blur={{ delay: 200, duration: 200, easing: cubicOut }} out:blur={{ duration: 200, easing: cubicOut }}>
+<main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
     <h1>Resource Calculator</h1>
     <div id="schematic-controls">
         <button on:click={() => sampleDialog.showModal()}>Load Sample</button>
@@ -523,8 +523,8 @@
 
     dialog::backdrop {
         background-color: var(--color-dialog-bg);
-        backdrop-filter: blur(0.5rem);
-        -webkit-backdrop-filter: blur(0.5rem);
+        backdrop-filter: fade(0.5rem);
+        -webkit-backdrop-filter: fade(0.5rem);
         transition: var(--transition-ease);
     }
 

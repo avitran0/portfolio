@@ -1,4 +1,22 @@
-<a href="https://github.com/avitran0/portfolio" class="github-link">
+<a href="/" id="home-link">
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+    </svg>
+</a>
+<a href="https://github.com/avitran0/portfolio" id="github-link">
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -58,7 +76,6 @@
         --color-teal: #50c8c8;
         --color-blue: #6496f0;
         --color-purple: #b478f0;
-
         --color-dialog-bg: #00000050;
 
         --font-zilla-slab: "ZillaSlab", serif;
@@ -107,6 +124,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        grid-row: 1;
+        grid-column: 1;
     }
 
     :global(h1) {
@@ -154,13 +173,13 @@
         font-size: var(--font-size-small);
     }
 
-    .github-link {
+    a {
         color: var(--color-text);
         width: 2.4rem;
         height: 2.4rem;
         position: absolute;
         top: 1rem;
-        right: 1rem;
+        left: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -169,17 +188,22 @@
         border-radius: 0.5rem;
     }
 
-    .github-link > svg {
+    a > svg {
         width: 100%;
         height: 100%;
     }
 
-    .github-link:visited {
+    a:visited {
         color: var(--color-text);
     }
 
-    .github-link:hover {
+    a:hover {
         border-color: var(--color-blue);
+    }
+
+    #github-link {
+        left: auto;
+        right: 1rem;
     }
 
     #slot-container {
