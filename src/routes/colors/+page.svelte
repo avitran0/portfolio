@@ -29,13 +29,11 @@
             colorVars[colorName.replace("--color-", "")] = getComputedStyle(root).getPropertyValue(colorName);
         });
     });
-
-    let colorScheme: HTMLDivElement;
 </script>
 
 <main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
     <h1>Color Scheme</h1>
-    <div bind:this={colorScheme} id="color-scheme">
+    <div id="color-scheme">
         {#each Object.entries(colorVars) as [key, color]}
             <div class="color">
                 <div style="background-color: {color};"></div>
