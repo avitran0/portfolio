@@ -29,8 +29,6 @@
     let itemDataList: HTMLDataListElement;
     let sortMethod: string;
 
-    let spinner: HTMLDivElement;
-
     // get first item's id
     let selectedItem: Item | null = null;
 
@@ -39,8 +37,12 @@
     let displayedItems: [Item, number][] = [];
     let displayedIngredients: [Item, number][] = [];
 
+    let shouldDisplayItems = true;
+    let shouldDisplayIngredients = false;
+
     let workers: Record<string, Worker> = {};
-    let workerError: string | null = null;
+    let activeWorkers = 0;
+    let working = false;
 
     function openItemDialog() {
         itemInput.value = "";
@@ -83,11 +85,12 @@
     }
 
     function schematicInputChange() {
-        clearItems();
         if (!schematicInput.files || schematicInput.files.length <= 0) {
             schematicFileNameLabel.textContent = "Select Schematic";
             return;
         }
+        working = true;
+        clearItems();
         const files = schematicInput.files;
         schematicFiles = files;
         schematicFileNameLabel.textContent = getSchematicName();
@@ -149,6 +152,7 @@
     }
 
     async function loadSampleFile(fileName: string) {
+        working = true;
         clearItems();
         sampleDialog.close();
         const file = await fetch("/schematics/" + fileName);
@@ -157,11 +161,13 @@
     }
 
     function startWorker(arrayBuffer: ArrayBuffer, name: string) {
-        spinner.style.display = "block";
         workers[name] = new SchematicWorker();
         workers[name].onmessage = (event) => {
             const itms = event.data as Record<string, number>;
             workers[name].terminate();
+
+            shouldDisplayItems = true;
+            shouldDisplayIngredients = false;
 
             // replace unknown items with items from ItemConversion, or air if missing
             for (const [key, value] of Object.entries(itms)) {
@@ -177,19 +183,26 @@
                 }
             }
 
-            spinner.style.display = "none";
             if (itms.error) {
                 console.error("Error in worker", itms.error);
                 console.error(itms.error);
-                workerError = itms.error as any;
             } else {
                 ingredients = calculateAllItems(items);
                 display();
             }
 
             delete workers[name];
+            if (Object.keys(workers).length === 0) {
+                activeWorkers = 0;
+            } else {
+                activeWorkers--;
+            }
+            if (activeWorkers <= 0) {
+                working = false;
+            }
         };
         workers[name].postMessage({ arrayBuffer });
+        activeWorkers++;
     }
 
     function calculateAllItems(toCalculate: Record<string, number>) {
@@ -421,7 +434,7 @@
                 bind:this={schematicInput}
                 on:change={schematicInputChange}
             />
-            <span class="first" id="schem-name" bind:this={schematicFileNameLabel}>Select Schematic</span>
+            <span class="first" bind:this={schematicFileNameLabel}>Select Schematic</span>
             <span class="second">Browse</span>
             <button id="clear-file" on:click={clearSchematicInput}>X</button>
         </label>
@@ -444,6 +457,38 @@
                 <option value="name">Name</option>
                 <option value="amount">Amount</option>
             </select>
+        </div>
+        <div id="progress">
+            {#if working}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    id="spinner"
+                >
+                    <path d="M12 3a9 9 0 1 0 9 9" />
+                </svg>
+            {:else}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--color-green)"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M5 12l5 5l10 -10" />
+                </svg>
+            {/if}
         </div>
     </div>
     <dialog bind:this={itemDialog}>
@@ -483,38 +528,83 @@
 
     <div id="items" bind:this={itemDisplay}>
         {#if displayedItems.length > 0}
-            <div class="separator">Total items: {calculateTotalItemCount(items).toLocaleString()}</div>
-        {/if}
-        {#each displayedItems as item}
-            <div class="item">
-                <img src="textures/{item[0].id}.png" alt={item[0].name} />
-                <div class="item-text">
-                    <span>{item[0].name}</span>
-                    <span>{item[1].toLocaleString()}x</span>
-                </div>
-                <button
-                    on:click={() => {
-                        delete items[item[0].id];
-                        ingredients = calculateAllItems(items);
-                        display();
-                    }}>X</button
+            <button
+                class="separator"
+                on:click={() => {
+                    shouldDisplayItems = !shouldDisplayItems;
+                }}
+            >
+                <span>Total items: {calculateTotalItemCount(items).toLocaleString()}</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    style="transform: {shouldDisplayItems ? 'rotate(180deg)' : 'rotate(0deg)'}"
                 >
-            </div>
-        {/each}
-        {#if displayedIngredients.length > 0}
-            <div class="separator">Total ingredients: {calculateTotalItemCount(ingredients).toLocaleString()}</div>
+                    <path d="M6 15l6 -6l6 6" />
+                </svg>
+            </button>
         {/if}
-        {#each displayedIngredients as ingredient}
-            <div class="item">
-                <img src="textures/{ingredient[0].id}.png" alt={ingredient[0].name} />
-                <div class="item-text">
-                    <span>{ingredient[0].name}</span>
-                    <span>{ingredient[1].toLocaleString()}x</span>
+        {#if shouldDisplayItems}
+            {#each displayedItems as item}
+                <div class="item">
+                    <img src="textures/{item[0].id}.png" alt={item[0].name} />
+                    <div class="item-text">
+                        <span>{item[0].name}</span>
+                        <span>{item[1].toLocaleString()}x</span>
+                    </div>
+                    <button
+                        on:click={() => {
+                            delete items[item[0].id];
+                            ingredients = calculateAllItems(items);
+                            display();
+                        }}>X</button
+                    >
                 </div>
-            </div>
-        {/each}
+            {/each}
+        {/if}
+        {#if displayedIngredients.length > 0}
+            <button
+                class="separator"
+                on:click={() => {
+                    shouldDisplayIngredients = !shouldDisplayIngredients;
+                }}
+            >
+                <span>Total ingredients: {calculateTotalItemCount(ingredients).toLocaleString()}</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    style="transform: {shouldDisplayIngredients ? 'rotate(180deg)' : 'rotate(0deg)'}"
+                >
+                    <path d="M6 15l6 -6l6 6" />
+                </svg>
+            </button>
+        {/if}
+        {#if shouldDisplayIngredients}
+            {#each displayedIngredients as ingredient}
+                <div class="item">
+                    <img src="textures/{ingredient[0].id}.png" alt={ingredient[0].name} />
+                    <div class="item-text">
+                        <span>{ingredient[0].name}</span>
+                        <span>{ingredient[1].toLocaleString()}x</span>
+                    </div>
+                </div>
+            {/each}
+        {/if}
     </div>
-    <div id="spinner" bind:this={spinner}></div>
 </main>
 
 <style>
@@ -746,6 +836,7 @@
         text-overflow: ellipsis;
         width: 100%;
         line-height: 2.4rem;
+        text-align: left;
     }
 
     #schematic-label > span.second {
@@ -827,8 +918,9 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        padding: 0.5rem;
+        padding: 0.5rem 0;
         justify-content: space-between;
+        width: 100%;
     }
 
     .item {
@@ -870,32 +962,41 @@
 
     .separator {
         width: 100%;
-        padding: 0.2rem 0.5rem;
-        margin-top: 2rem;
-        font-size: var(--font-size-large);
-        font-family: var(--font-zilla-slab);
+        display: flex;
+        justify-content: space-between;
+        padding: 0 0.5rem;
+        align-items: center;
+    }
+
+    .separator > svg {
+        width: 2rem;
+        height: 2rem;
+        aspect-ratio: 1 / 1;
+        transition: none;
+    }
+
+    .separator:hover > svg {
+        color: var(--color-blue);
+    }
+
+    #progress {
+        width: 2.6rem;
+        height: 2.6rem;
+        border: var(--border-text);
+        border-radius: 0.5rem;
+    }
+
+    #progress > svg {
+        width: 2rem;
+        height: 2rem;
+        aspect-ratio: 1 / 1;
     }
 
     #spinner {
-        width: 4rem;
-        height: 4rem;
-        display: none;
-        margin: 0 auto;
+        animation: spin 1s linear infinite;
     }
 
-    #spinner:after {
-        content: " ";
-        display: block;
-        width: 3.2rem;
-        height: 3.2rem;
-        margin: 8px;
-        border-radius: 50%;
-        border: 6px solid #fff;
-        border-color: #fff transparent #fff transparent;
-        animation: spinner 1s linear infinite;
-    }
-
-    @keyframes spinner {
+    @keyframes spin {
         0% {
             transform: rotate(0deg);
         }

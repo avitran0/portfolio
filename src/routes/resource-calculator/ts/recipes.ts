@@ -4254,6 +4254,15 @@ export const Items: { [key: string]: Item } = {
         result: 1
     },
     powder_snow: { name: "Powder Snow", id: "powder_snow", baseItem: true },
+    powder_snow_bucket: {
+        name: "Powder Snow Bucket",
+        id: "powder_snow_bucket",
+        ingredients: [
+            { id: "bucket", quantity: 1 },
+            { id: "powder_snow", quantity: 1 }
+        ],
+        result: 1
+    },
     powder_snow_cauldron: {
         name: "Powder Snow Cauldron",
         id: "powder_snow_cauldron",
@@ -6006,6 +6015,8 @@ export const Tags: { [key: string]: string[] } = {
 export const ItemConversion: { [key: string]: string } = {
     acacia_wall_hanging_sign: "acacia_hanging_sign",
     acacia_wall_sign: "acacia_sign",
+    attached_melon_stem: "melon_stem",
+    attached_pumpkin_stem: "pumpkin_stem",
     bamboo_wall_hanging_sign: "bamboo_hanging_sign",
     bamboo_wall_sign: "bamboo_sign",
     big_dripleaf_stem: "big_dripleaf",

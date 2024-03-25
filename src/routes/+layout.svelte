@@ -88,7 +88,7 @@
         --font-size-medium: 24px;
         --font-size-small: 20px;
 
-        --transition-linear: all 0.1s linear;
+        --transition-linear: all 0.2s linear;
         --transition-ease: all 0.15s cubic-bezier(0.65, 0, 0.35, 1);
 
         --border-text: 2px solid var(--color-text);
@@ -137,6 +137,7 @@
         align-items: center;
         grid-row: 1;
         grid-column: 1;
+        text-align: center;
     }
 
     :global(h1) {
