@@ -79,7 +79,6 @@
                 name += ", ";
             }
         }
-        console.log(name);
         return name;
     }
 
@@ -150,6 +149,7 @@
     }
 
     async function loadSampleFile(fileName: string) {
+        clearItems();
         sampleDialog.close();
         const file = await fetch("/schematics/" + fileName);
         const arrayBuffer = await file.arrayBuffer();
@@ -159,27 +159,15 @@
     function startWorker(arrayBuffer: ArrayBuffer, name: string) {
         spinner.style.display = "block";
         workers[name] = new SchematicWorker();
-        //items = loadSchematic(arrayBuffer);
         workers[name].onmessage = (event) => {
             const itms = event.data as Record<string, number>;
             workers[name].terminate();
 
             // replace unknown items with items from ItemConversion, or air if missing
             for (const [key, value] of Object.entries(itms)) {
-                let item = Items[key];
+                let item = getItemFromId(key);
                 if (!item) {
-                    const id = ItemConversion[key];
-                    if (!id) {
-                        console.error("Item not found", key);
-                        delete itms[key];
-                        continue;
-                    }
-                    item = Items[id];
-                    if (!item) {
-                        console.error("Item not found at all", id);
-                        delete itms[key];
-                        continue;
-                    }
+                    continue;
                 }
                 // if item exists in items, add to it
                 if (items[item.id]) {
@@ -191,6 +179,7 @@
 
             spinner.style.display = "none";
             if (itms.error) {
+                console.error("Error in worker", itms.error);
                 console.error(itms.error);
                 workerError = itms.error as any;
             } else {
@@ -207,16 +196,8 @@
         const rawIngredients: Record<string, number> = {};
         for (const [key, value] of Object.entries(toCalculate)) {
             if (key === "air") continue;
-            let item = Items[key];
-            if (!item) {
-                const id = ItemConversion[key];
-                if (!id) {
-                    console.error("Item not found", key);
-                    continue;
-                }
-                if (id === "air") continue;
-                item = Items[id];
-            }
+            let item = getItemFromId(key);
+            if (!item) continue;
             const result = calculateItem(item, value);
             for (const [key, value] of Object.entries(result)) {
                 if (key in rawIngredients) {
@@ -256,7 +237,7 @@
                 }
             }
             if (Object.keys(ingredientResult).length === 0) {
-                console.error("No result for " + ingredient.id + " in " + item.id, item);
+                console.warn("Missing recipe for " + ingredient.id + " in " + item.id, item);
             }
         }
         return result;
@@ -282,17 +263,8 @@
         const toDisplay = sortItems(items);
         for (const [key, value] of Object.entries(toDisplay)) {
             if (key === "air") continue;
-            let item = Items[key];
-            if (!item) {
-                const id = ItemConversion[key];
-                if (!id) {
-                    console.error("Item not found", key);
-                    continue;
-                }
-                if (id === "air") continue;
-                item = Items[id];
-            }
-            displayedItems.push([item, value]);
+            let item = getItemFromId(key);
+            if (item) displayedItems.push([item, value]);
         }
     }
 
@@ -301,18 +273,26 @@
         const toDisplay = sortItems(ingredients);
         for (const [key, value] of Object.entries(toDisplay)) {
             if (key === "air") continue;
-            let item = Items[key];
-            if (!item) {
-                const id = ItemConversion[key];
-                if (!id) {
-                    console.error("Item not found", key);
-                    continue;
-                }
-                if (id === "air") continue;
-                item = Items[id];
-            }
-            displayedIngredients.push([item, value]);
+            let item = getItemFromId(key);
+            if (item) displayedIngredients.push([item, value]);
         }
+    }
+
+    function getItemFromId(id: string): Item | null {
+        let item = Items[id];
+        if (item) return item;
+        const convId = ItemConversion[id];
+        if (!convId) {
+            console.error("Item not found", id);
+            return null;
+        }
+        if (convId === "air") return null;
+        const item2 = Items[convId];
+        if (!item2) {
+            console.error("Item not found at all", id);
+            return null;
+        }
+        return item2;
     }
 
     function sortItems(itms: Record<string, number>) {
@@ -322,8 +302,12 @@
             keys.sort((a, b) => {
                 const itemA = Items[a];
                 const itemB = Items[b];
-                if (!itemA || !itemB) {
-                    console.error("Item not found", a, b);
+                if (!itemA) {
+                    console.warn("Item not found", a);
+                    return 0;
+                }
+                if (!itemB) {
+                    console.warn("Item not found", b);
                     return 0;
                 }
                 return itemA.name.localeCompare(itemB.name);
@@ -341,7 +325,7 @@
 
     function exportItems() {
         if (Object.keys(items).length === 0) {
-            console.error("No items to export");
+            console.info("No items to export");
             return;
         }
         const data = JSON.stringify(items);
@@ -392,7 +376,7 @@
                 success = false;
             }
             if (!item.name) {
-                console.error("No name", id);
+                console.warn("No name", id);
                 success = false;
             }
             calculateItem(item, 1);
@@ -400,7 +384,7 @@
                 i++;
             }
         }
-        console.log("successfully loaded " + i + " items");
+        console.info("successfully loaded " + i + " items");
     }
 
     testDataIntegrity(Items);

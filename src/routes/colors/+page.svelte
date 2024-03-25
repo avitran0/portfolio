@@ -28,7 +28,6 @@
         colorNames.forEach((colorName) => {
             colorVars[colorName.replace("--color-", "")] = getComputedStyle(root).getPropertyValue(colorName);
         });
-        console.log(colorVars);
     });
 
     let colorScheme: HTMLDivElement;

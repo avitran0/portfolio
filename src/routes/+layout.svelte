@@ -88,11 +88,18 @@
         --font-size-medium: 24px;
         --font-size-small: 20px;
 
-        --transition-linear: 0.1s linear;
-        --transition-ease: 0.15s cubic-bezier(0.65, 0, 0.35, 1);
+        --transition-linear: all 0.1s linear;
+        --transition-ease: all 0.15s cubic-bezier(0.65, 0, 0.35, 1);
 
         --border-text: 2px solid var(--color-text);
         --border-blue: 2px solid var(--color-blue);
+    }
+
+    @media (prefers-reduced-motion) {
+        :root {
+            --transition-linear: none;
+            --transition-ease: none;
+        }
     }
 
     :global(html) {

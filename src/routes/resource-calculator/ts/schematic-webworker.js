@@ -12,7 +12,7 @@ onmessage = async function (e) {
         const endTime = performance.now();
         const time = endTime - startTime;
         const blockThroughput = (blockCount / time) * 1000;
-        console.log(
+        console.info(
             "processed " +
                 blockCount.toLocaleString() +
                 " blocks in " +
@@ -35,7 +35,6 @@ function loadSchematic(data) {
     const view = new DataView(data);
 
     const nbt = parse(view, data);
-    console.log(nbt);
 
     if (nbt["Regions"]) {
         return getLitematicaBlocks(nbt);
