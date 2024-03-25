@@ -26,6 +26,8 @@
     let itemAmount: number | null;
     let itemDisplay: HTMLDivElement;
 
+    let exportImportDialog: HTMLDialogElement;
+
     let itemDataList: HTMLDataListElement;
     let sortMethod: string;
 
@@ -183,13 +185,8 @@
                 }
             }
 
-            if (itms.error) {
-                console.error("Error in worker", itms.error);
-                console.error(itms.error);
-            } else {
-                ingredients = calculateAllItems(items);
-                display();
-            }
+            ingredients = calculateAllItems(items);
+            display();
 
             delete workers[name];
             if (Object.keys(workers).length === 0) {
@@ -439,17 +436,13 @@
             <button id="clear-file" on:click={clearSchematicInput}>X</button>
         </label>
         <div>
-            <button on:click={openItemDialog}>Add Items</button>
+            <!--button on:click={openItemDialog}>Add Items</button-->
             <button
                 id="clear"
                 on:click={() => {
                     clearItems();
                 }}>Clear Items</button
             >
-        </div>
-        <div>
-            <button on:click={exportItems}>Export</button>
-            <button on:click={importItems}>Import</button>
         </div>
         <div id="sort-container">
             <span>Sort by:</span>
@@ -458,6 +451,31 @@
                 <option value="amount">Amount</option>
             </select>
         </div>
+        <button
+            id="export-import"
+            on:click={() => {
+                exportImportDialog.showModal();
+            }}
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" />
+                <path d="M4 6v6c0 1.657 3.582 3 8 3c1.118 0 2.183 -.086 3.15 -.241" />
+                <path d="M20 12v-6" />
+                <path d="M4 12v6c0 1.657 3.582 3 8 3c.157 0 .312 -.002 .466 -.005" />
+                <path d="M16 19h6" />
+                <path d="M19 16l3 3l-3 3" />
+            </svg>
+        </button>
         <div id="progress">
             {#if working}
                 <svg
@@ -504,7 +522,7 @@
                 on:input={itemInputChanged}
             />
             <datalist bind:this={itemDataList}>
-                {#each Object.entries(Items) as [key, value]}
+                {#each Object.entries(Items) as [name, value]}
                     <option value={value.name} data-id={value.id} />
                 {/each}
             </datalist>
@@ -524,6 +542,12 @@
             <button on:click={removeItems}>Remove</button>
         </div>
         <button on:click={() => itemDialog.close()}>Close</button>
+    </dialog>
+    <dialog bind:this={exportImportDialog}>
+        <h2>Export or Import Data</h2>
+        <button on:click={exportItems}>Export</button>
+        <button on:click={importItems}>Import</button>
+        <button on:click={() => exportImportDialog.close()}>Close</button>
     </dialog>
 
     <div id="items" bind:this={itemDisplay}>
@@ -980,6 +1004,14 @@
 
     .separator:hover > svg {
         color: var(--color-blue);
+    }
+
+    #export-import {
+        width: 2.6rem;
+        height: 2.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #progress {

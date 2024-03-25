@@ -23,7 +23,8 @@ onmessage = async function (e) {
         );
         this.postMessage(items);
     } catch (e) {
-        this.postMessage({ error: e });
+        console.error(e);
+        this.postMessage({});
     }
 };
 
@@ -51,9 +52,12 @@ function loadSchematic(data) {
     if (nbt["palette"]) {
         return getStructureBlocks(nbt);
     }
+    if (nbt["palettes"]) {
+        return getStructureBlocksMultiPalette(nbt);
+    }
 
     console.error("Unknown schematic format", nbt);
-    return { error: "Unknown schematic format" };
+    return {};
 }
 
 function getStructureBlocks(nbt) {
@@ -61,6 +65,23 @@ function getStructureBlocks(nbt) {
 
     const blockStates = {};
     for (const [key, value] of Object.entries(nbt["palette"])) {
+        blockStates[key] = value["Name"].split(":").pop();
+    }
+
+    for (const block of nbt["blocks"]) {
+        const id = block["state"];
+        blocks[blockStates[id]] = (blocks[blockStates[id]] || 0) + 1;
+    }
+
+    return blocks;
+}
+
+function getStructureBlocksMultiPalette(nbt) {
+    const blocks = {};
+
+    const palette = nbt["palettes"][0];
+    const blockStates = {};
+    for (const [key, value] of Object.entries(palette)) {
         blockStates[key] = value["Name"].split(":").pop();
     }
 

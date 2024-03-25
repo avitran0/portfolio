@@ -1042,6 +1042,12 @@ export const Items: { [key: string]: Item } = {
         ],
         result: 1
     },
+    chiseled_copper: {
+        name: "Chiseled Copper",
+        id: "chiseled_copper",
+        ingredients: [{ id: "cut_copper_slab", quantity: 2 }],
+        result: 1
+    },
     chiseled_deepslate: {
         name: "Chiseled Deepslate",
         id: "chiseled_deepslate",
@@ -1082,6 +1088,18 @@ export const Items: { [key: string]: Item } = {
         name: "Chiseled Stone Bricks",
         id: "chiseled_stone_bricks",
         ingredients: [{ id: "stone_brick_slab", quantity: 2 }],
+        result: 1
+    },
+    chiseled_tuff: {
+        name: "Chiseled Tuff",
+        id: "chiseled_tuff",
+        ingredients: [{ id: "tuff_slab", quantity: 2 }],
+        result: 1
+    },
+    chiseled_tuff_bricks: {
+        name: "Chiseled Tuff Bricks",
+        id: "chiseled_tuff_bricks",
+        ingredients: [{ id: "tuff_brick_slab", quantity: 2 }],
         result: 1
     },
     cod: { name: "Raw Cod", id: "cod", baseItem: true },
@@ -1223,6 +1241,28 @@ export const Items: { [key: string]: Item } = {
         ingredients: [{ id: "copper_ingot", quantity: 9 }],
         result: 1
     },
+    copper_bulb: {
+        name: "Copper Bulb",
+        id: "copper_bulb",
+        ingredients: [
+            { id: "copper_block", quantity: 3 },
+            { id: "redstone", quantity: 1 },
+            { id: "blaze_rod", quantity: 1 }
+        ],
+        result: 1
+    },
+    copper_door: {
+        name: "Copper Door",
+        id: "copper_door",
+        ingredients: [{ id: "copper_block", quantity: 6 }],
+        result: 3
+    },
+    copper_grate: {
+        name: "Copper Grate",
+        id: "copper_grate",
+        ingredients: [{ id: "copper_block", quantity: 4 }],
+        result: 4
+    },
     copper_ingot: {
         name: "Copper Ingot",
         id: "copper_ingot",
@@ -1230,6 +1270,12 @@ export const Items: { [key: string]: Item } = {
         result: 1
     },
     copper_ore: { name: "Copper Ore", id: "copper_ore", baseItem: true },
+    copper_trapdoor: {
+        name: "Copper Trapdoor",
+        id: "copper_trapdoor",
+        ingredients: [{ id: "copper_block", quantity: 6 }],
+        result: 2
+    },
     cornflower: { name: "Cornflower", id: "cornflower", baseItem: true },
     cracked_deepslate_bricks: {
         name: "Cracked Deepslate Bricks",
@@ -1930,10 +1976,40 @@ export const Items: { [key: string]: Item } = {
     },
     ender_pearl: { name: "Ender Pearl", id: "ender_pearl", baseItem: true },
     experience_bottle: { name: "Bottle o' Enchanting", id: "experience_bottle", baseItem: true },
+    exposed_chiseled_copper: {
+        name: "Exposed Chiseled Copper",
+        id: "exposed_chiseled_copper",
+        ingredients: [{ id: "chiseled_copper", quantity: 1 }],
+        result: 1
+    },
     exposed_copper: {
         name: "Exposed Copper",
         id: "exposed_copper",
         ingredients: [{ id: "copper_block", quantity: 1 }],
+        result: 1
+    },
+    exposed_copper_bulb: {
+        name: "Exposed Copper Bulb",
+        id: "exposed_copper_bulb",
+        ingredients: [{ id: "copper_bulb", quantity: 1 }],
+        result: 1
+    },
+    exposed_copper_door: {
+        name: "Exposed Copper Door",
+        id: "exposed_copper_door",
+        ingredients: [{ id: "copper_door", quantity: 1 }],
+        result: 1
+    },
+    exposed_copper_grate: {
+        name: "Exposed Copper Grate",
+        id: "exposed_copper_grate",
+        ingredients: [{ id: "copper_grate", quantity: 1 }],
+        result: 1
+    },
+    exposed_copper_trapdoor: {
+        name: "Exposed Copper Trapdoor",
+        id: "exposed_copper_trapdoor",
+        ingredients: [{ id: "copper_trapdoor", quantity: 1 }],
         result: 1
     },
     exposed_cut_copper: {
@@ -2376,6 +2452,11 @@ export const Items: { [key: string]: Item } = {
     hanging_roots: { name: "Hanging Roots", id: "hanging_roots", baseItem: true },
     hay_block: { name: "Hay Bale", id: "hay_block", ingredients: [{ id: "wheat", quantity: 9 }], result: 1 },
     heart_of_the_sea: { name: "Heart of the Sea", id: "heart_of_the_sea", baseItem: true },
+    heavy_core: {
+        name: "Heavy Core",
+        id: "heavy_core",
+        baseItem: true
+    },
     heavy_weighted_pressure_plate: {
         name: "Heavy Weighted Pressure Plate",
         id: "heavy_weighted_pressure_plate",
@@ -3618,10 +3699,40 @@ export const Items: { [key: string]: Item } = {
         result: 1
     },
     oxeye_daisy: { name: "Oxeye Daisy", id: "oxeye_daisy", baseItem: true },
+    oxidized_chiseled_copper: {
+        name: "Oxidized Chiseled Copper",
+        id: "oxidized_chiseled_copper",
+        ingredients: [{ id: "weathered_chiseled_copper", quantity: 1 }],
+        result: 1
+    },
     oxidized_copper: {
         name: "Oxidized Copper",
         id: "oxidized_copper",
         ingredients: [{ id: "weathered_copper", quantity: 1 }],
+        result: 1
+    },
+    oxidized_copper_bulb: {
+        name: "Oxidized Copper Bulb",
+        id: "oxidized_copper_bulb",
+        ingredients: [{ id: "weathered_copper_bulb", quantity: 1 }],
+        result: 1
+    },
+    oxidized_copper_door: {
+        name: "Oxidized Copper Door",
+        id: "oxidized_copper_door",
+        ingredients: [{ id: "weathered_copper_door", quantity: 1 }],
+        result: 1
+    },
+    oxidized_copper_grate: {
+        name: "Oxidized Copper Grate",
+        id: "oxidized_copper_grate",
+        ingredients: [{ id: "weathered_copper_grate", quantity: 1 }],
+        result: 1
+    },
+    oxidized_copper_trapdoor: {
+        name: "Oxidized Copper Trapdoor",
+        id: "oxidized_copper_trapdoor",
+        ingredients: [{ id: "weathered_copper_trapdoor", quantity: 1 }],
         result: 1
     },
     oxidized_cut_copper: {
@@ -3936,6 +4047,30 @@ export const Items: { [key: string]: Item } = {
         id: "polished_granite_stairs",
         ingredients: [{ id: "polished_granite", quantity: 6 }],
         result: 4
+    },
+    polished_tuff: {
+        name: "Polished Tuff",
+        id: "polished_tuff",
+        ingredients: [{ id: "tuff", quantity: 4 }],
+        result: 4
+    },
+    polished_tuff_slab: {
+        name: "Polished Tuff Slab",
+        id: "polished_tuff_slab",
+        ingredients: [{ id: "polished_tuff", quantity: 3 }],
+        result: 6
+    },
+    polished_tuff_stairs: {
+        name: "Polished Tuff Stairs",
+        id: "polished_tuff_stairs",
+        ingredients: [{ id: "polished_tuff", quantity: 6 }],
+        result: 4
+    },
+    polished_tuff_wall: {
+        name: "Polished Tuff Wall",
+        id: "polished_tuff_wall",
+        ingredients: [{ id: "polished_tuff", quantity: 6 }],
+        result: 6
     },
     popped_chorus_fruit: {
         name: "Popped Chorus Fruit",
@@ -5320,6 +5455,16 @@ export const Items: { [key: string]: Item } = {
         ],
         result: 1
     },
+    trial_key: {
+        name: "Trial Key",
+        id: "trial_key",
+        baseItem: true
+    },
+    trial_spawner: {
+        name: "Trial Spawner",
+        id: "trial_spawner",
+        baseItem: true
+    },
     tripwire: { name: "Tripwire", id: "tripwire", ingredients: [{ id: "string", quantity: 1 }], result: 1 },
     tripwire_hook: {
         name: "Tripwire Hook",
@@ -5335,6 +5480,48 @@ export const Items: { [key: string]: Item } = {
     tube_coral_block: { name: "Tube Coral Block", id: "tube_coral_block", baseItem: true },
     tube_coral_fan: { name: "Tube Coral Fan", id: "tube_coral_fan", baseItem: true },
     tuff: { name: "Tuff", id: "tuff", baseItem: true },
+    tuff_brick_slab: {
+        name: "Tuff Brick Slab",
+        id: "tuff_brick_slab",
+        ingredients: [{ id: "tuff_bricks", quantity: 3 }],
+        result: 6
+    },
+    tuff_brick_stairs: {
+        name: "Tuff Brick Stairs",
+        id: "tuff_brick_stairs",
+        ingredients: [{ id: "tuff_bricks", quantity: 6 }],
+        result: 4
+    },
+    tuff_brick_wall: {
+        name: "Tuff Brick Wall",
+        id: "tuff_brick_wall",
+        ingredients: [{ id: "tuff_bricks", quantity: 6 }],
+        result: 6
+    },
+    tuff_bricks: {
+        name: "Tuff Bricks",
+        id: "tuff_bricks",
+        ingredients: [{ id: "polished_tuff", quantity: 4 }],
+        result: 4
+    },
+    tuff_slab: {
+        name: "Tuff Slab",
+        id: "tuff_slab",
+        ingredients: [{ id: "tuff", quantity: 3 }],
+        result: 6
+    },
+    tuff_stairs: {
+        name: "Tuff Stairs",
+        id: "tuff_stairs",
+        ingredients: [{ id: "tuff", quantity: 6 }],
+        result: 4
+    },
+    tuff_wall: {
+        name: "Tuff Wall",
+        id: "tuff_wall",
+        ingredients: [{ id: "tuff", quantity: 6 }],
+        result: 6
+    },
     turtle_egg: { name: "Turtle Egg", id: "turtle_egg", baseItem: true },
     turtle_helmet: {
         name: "Turtle Shell",
@@ -5343,6 +5530,11 @@ export const Items: { [key: string]: Item } = {
         result: 1
     },
     twisting_vines: { name: "Twisting Vines", id: "twisting_vines", baseItem: true },
+    vault: {
+        name: "Vault",
+        id: "vault",
+        baseItem: true
+    },
     verdant_froglight: { name: "Verdant Froglight", id: "verdant_froglight", baseItem: true },
     vine: { name: "Vines", id: "vine", baseItem: true },
     warped_button: {
@@ -5468,11 +5660,56 @@ export const Items: { [key: string]: Item } = {
         ],
         result: 1
     },
+    waxed_chiseled_copper: {
+        name: "Waxed Chiseled Copper",
+        id: "waxed_chiseled_copper",
+        ingredients: [
+            { id: "chiseled_copper", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
     waxed_copper_block: {
         name: "Waxed Block of Copper",
         id: "waxed_copper_block",
         ingredients: [
             { id: "copper_block", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_copper_bulb: {
+        name: "Waxed Copper Bulb",
+        id: "waxed_copper_bulb",
+        ingredients: [
+            { id: "copper_bulb", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_copper_door: {
+        name: "Waxed Copper Door",
+        id: "waxed_copper_door",
+        ingredients: [
+            { id: "copper_door", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_copper_grate: {
+        name: "Waxed Copper Grate",
+        id: "waxed_copper_grate",
+        ingredients: [
+            { id: "copper_grate", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_copper_trapdoor: {
+        name: "Waxed Copper Trapdoor",
+        id: "waxed_copper_trapdoor",
+        ingredients: [
+            { id: "copper_trapdoor", quantity: 1 },
             { id: "honeycomb", quantity: 1 }
         ],
         result: 1
@@ -5504,11 +5741,56 @@ export const Items: { [key: string]: Item } = {
         ],
         result: 1
     },
+    waxed_exposed_chiseled_copper: {
+        name: "Waxed Exposed Chiseled Copper",
+        id: "waxed_exposed_chiseled_copper",
+        ingredients: [
+            { id: "exposed_chiseled_copper", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
     waxed_exposed_copper: {
         name: "Waxed Exposed Copper",
         id: "waxed_exposed_copper",
         ingredients: [
             { id: "exposed_copper", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_exposed_copper_bulb: {
+        name: "Waxed Exposed Copper Bulb",
+        id: "waxed_exposed_copper_bulb",
+        ingredients: [
+            { id: "exposed_copper_bulb", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_exposed_copper_door: {
+        name: "Waxed Exposed Copper Door",
+        id: "waxed_exposed_copper_door",
+        ingredients: [
+            { id: "exposed_copper_door", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_exposed_copper_grate: {
+        name: "Waxed Exposed Copper Grate",
+        id: "waxed_exposed_copper_grate",
+        ingredients: [
+            { id: "exposed_copper_grate", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_exposed_copper_trapdoor: {
+        name: "Waxed Exposed Copper Trapdoor",
+        id: "waxed_exposed_copper_trapdoor",
+        ingredients: [
+            { id: "exposed_copper_trapdoor", quantity: 1 },
             { id: "honeycomb", quantity: 1 }
         ],
         result: 1
@@ -5540,11 +5822,56 @@ export const Items: { [key: string]: Item } = {
         ],
         result: 1
     },
+    waxed_oxidized_chiseled_copper: {
+        name: "Waxed Oxidized Chiseled Copper",
+        id: "waxed_oxidized_chiseled_copper",
+        ingredients: [
+            { id: "oxidized_chiseled_copper", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
     waxed_oxidized_copper: {
         name: "Waxed Oxidized Copper",
         id: "waxed_oxidized_copper",
         ingredients: [
             { id: "oxidized_copper", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_oxidized_copper_bulb: {
+        name: "Waxed Oxidized Copper Bulb",
+        id: "waxed_oxidized_copper_bulb",
+        ingredients: [
+            { id: "oxidized_copper_bulb", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_oxidized_copper_door: {
+        name: "Waxed Oxidized Copper Door",
+        id: "waxed_oxidized_copper_door",
+        ingredients: [
+            { id: "oxidized_copper_door", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_oxidized_copper_grate: {
+        name: "Waxed Oxidized Copper Grate",
+        id: "waxed_oxidized_copper_grate",
+        ingredients: [
+            { id: "oxidized_copper_grate", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_oxidized_copper_trapdoor: {
+        name: "Waxed Oxidized Copper Trapdoor",
+        id: "waxed_oxidized_copper_trapdoor",
+        ingredients: [
+            { id: "oxidized_copper_trapdoor", quantity: 1 },
             { id: "honeycomb", quantity: 1 }
         ],
         result: 1
@@ -5576,11 +5903,56 @@ export const Items: { [key: string]: Item } = {
         ],
         result: 1
     },
+    waxed_weathered_chiseled_copper: {
+        name: "Waxed Weathered Chiseled Copper",
+        id: "waxed_weathered_chiseled_copper",
+        ingredients: [
+            { id: "weathered_chiseled_copper", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
     waxed_weathered_copper: {
         name: "Waxed Weathered Copper",
         id: "waxed_weathered_copper",
         ingredients: [
             { id: "weathered_copper", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_weathered_copper_bulb: {
+        name: "Waxed Weathered Copper Bulb",
+        id: "waxed_weathered_copper_bulb",
+        ingredients: [
+            { id: "weathered_copper_bulb", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_weathered_copper_door: {
+        name: "Waxed Weathered Copper Door",
+        id: "waxed_weathered_copper_door",
+        ingredients: [
+            { id: "weathered_copper_door", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_weathered_copper_grate: {
+        name: "Waxed Weathered Copper Grate",
+        id: "waxed_weathered_copper_grate",
+        ingredients: [
+            { id: "weathered_copper_grate", quantity: 1 },
+            { id: "honeycomb", quantity: 1 }
+        ],
+        result: 1
+    },
+    waxed_weathered_copper_trapdoor: {
+        name: "Waxed Weathered Copper Trapdoor",
+        id: "waxed_weathered_copper_trapdoor",
+        ingredients: [
+            { id: "weathered_copper_trapdoor", quantity: 1 },
             { id: "honeycomb", quantity: 1 }
         ],
         result: 1
@@ -5612,10 +5984,40 @@ export const Items: { [key: string]: Item } = {
         ],
         result: 1
     },
+    weathered_chiseled_copper: {
+        name: "Weathered Chiseled Copper",
+        id: "weathered_chiseled_copper",
+        ingredients: [{ id: "exposed_chiseled_copper", quantity: 1 }],
+        result: 1
+    },
     weathered_copper: {
         name: "Weathered Copper",
         id: "weathered_copper",
         ingredients: [{ id: "exposed_copper", quantity: 1 }],
+        result: 1
+    },
+    weathered_copper_bulb: {
+        name: "Weathered Copper Bulb",
+        id: "weathered_copper_bulb",
+        ingredients: [{ id: "exposed_copper_bulb", quantity: 1 }],
+        result: 1
+    },
+    weathered_copper_door: {
+        name: "Weathered Copper Door",
+        id: "weathered_copper_door",
+        ingredients: [{ id: "exposed_copper_door", quantity: 1 }],
+        result: 1
+    },
+    weathered_copper_grate: {
+        name: "Weathered Copper Grate",
+        id: "weathered_copper_grate",
+        ingredients: [{ id: "exposed_copper_grate", quantity: 1 }],
+        result: 1
+    },
+    weathered_copper_trapdoor: {
+        name: "Weathered Copper Trapdoor",
+        id: "weathered_copper_trapdoor",
+        ingredients: [{ id: "exposed_copper_trapdoor", quantity: 1 }],
         result: 1
     },
     weathered_cut_copper: {
