@@ -966,6 +966,9 @@
         justify-content: space-between;
         padding: 0 0.5rem;
         align-items: center;
+        min-height: 2.6rem;
+        height: auto;
+        text-align: left;
     }
 
     .separator > svg {
