@@ -978,6 +978,7 @@
     .item-text {
         display: flex;
         flex-direction: column;
+        text-align: left;
     }
 
     .item > button {
