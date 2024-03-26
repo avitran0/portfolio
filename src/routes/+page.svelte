@@ -5,6 +5,7 @@
 
 <svelte:head>
     <title>Felix Fröhlich</title>
+    <meta name="description" content="Portfolio">
 </svelte:head>
 
 <main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>

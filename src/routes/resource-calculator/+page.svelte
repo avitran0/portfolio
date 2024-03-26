@@ -404,6 +404,7 @@
 
 <svelte:head>
     <title>Resource Calculator</title>
+    <meta name="description" content="Calculate raw ingredients for schematics">
 </svelte:head>
 
 <main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
