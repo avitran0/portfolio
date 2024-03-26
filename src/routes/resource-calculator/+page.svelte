@@ -14,6 +14,8 @@
         "very_large.litematic": "Very Large"
     };
 
+    const enableItemSelect = false;
+
     let sampleDialog: HTMLDialogElement;
     let sampleSizeButtons: HTMLDivElement;
 
@@ -407,15 +409,15 @@
 <main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
     <h1>Resource Calculator</h1>
     <div id="schematic-controls">
-        <button on:click={() => sampleDialog.showModal()}>Load Sample</button>
+        <button on:click={() => sampleDialog.showModal()} aria-label="Load a sample file">Load Sample</button>
         <dialog id="sample-select" bind:this={sampleDialog}>
             <h2>Select Sample Size</h2>
             <div class="dialog-btns" bind:this={sampleSizeButtons}>
                 {#each Object.entries(sampleFiles) as [file, name]}
-                    <button on:click={() => loadSampleFile(file)}>{name}</button>
+                    <button on:click={() => loadSampleFile(file)} aria-label="Load the {name} sample">{name}</button>
                 {/each}
             </div>
-            <button on:click={() => sampleDialog.close()}>Close</button>
+            <button on:click={() => sampleDialog.close()} aria-label="Close sample dialog">Close</button>
         </dialog>
         <label
             for="schematic"
@@ -433,20 +435,24 @@
             />
             <span class="first" bind:this={schematicFileNameLabel}>Select Schematic</span>
             <span class="second">Browse</span>
-            <button id="clear-file" on:click={clearSchematicInput}>X</button>
+            <button id="clear-file" on:click={clearSchematicInput} aria-label="Clear selected file">X</button>
         </label>
         <div>
-            <!--button on:click={openItemDialog}>Add Items</button-->
+            {#if enableItemSelect}
+                <button on:click={openItemDialog}>Add Items</button>
+            {/if}
             <button
                 id="clear"
                 on:click={() => {
                     clearItems();
-                }}>Clear Items</button
+                }}
+                aria-label="Clear items shown">Clear Items</button
             >
         </div>
         <div id="sort-container">
             <span>Sort by:</span>
-            <select id="sort" bind:value={sortMethod} on:change={() => display()}>
+            <label for="sort" class="hide">Sort Items</label>
+            <select name="sort" id="sort" bind:value={sortMethod} on:change={() => display()}>
                 <option value="name">Name</option>
                 <option value="amount">Amount</option>
             </select>
@@ -456,6 +462,7 @@
             on:click={() => {
                 exportImportDialog.showModal();
             }}
+            aria-label="Open export or import data dialog"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -509,12 +516,15 @@
             {/if}
         </div>
     </div>
+    {#if enableItemSelect}
     <dialog bind:this={itemDialog}>
         <h2>Select Items Manually</h2>
         <div class="dialog-btns">
             <img src={selectedItem ? "textures/" + selectedItem.id + ".png" : ""} alt="" id="item-preview" />
+            <label for="item-input" class="hide">Enter Item name or id</label>
             <input
-                type="text"
+                type="search"
+                name="item-input"
                 id="item-input"
                 placeholder="item name or id"
                 list="item-data"
@@ -527,27 +537,30 @@
                 {/each}
             </datalist>
             <div id="item-amount-container">
-                <button id="minus" on:click={decrementItemCount}>-</button>
+                <button id="minus" on:click={decrementItemCount} aria-label="Decrement selected item amount">-</button>
+                <label for="item-select-amount" class="hide">Enter Item amount</label>
                 <input
                     type="number"
+                    name="item-select-amount"
                     id="item-select-amount"
                     placeholder="amount"
                     min="1"
                     pattern="\d*"
                     bind:value={itemAmount}
                 />
-                <button id="plus" on:click={incrementItemCount}>+</button>
+                <button id="plus" on:click={incrementItemCount} aria-label="Increment selected item amount">+</button>
             </div>
-            <button on:click={addItems}>Add</button>
-            <button on:click={removeItems}>Remove</button>
+            <button on:click={addItems} aria-label="Add selected item">Add</button>
+            <button on:click={removeItems} aria-label="Remove selected item">Remove</button>
         </div>
-        <button on:click={() => itemDialog.close()}>Close</button>
+        <button on:click={() => itemDialog.close()} aria-label="Close item dialog">Close</button>
     </dialog>
+    {/if}
     <dialog bind:this={exportImportDialog}>
         <h2>Export or Import Data</h2>
-        <button on:click={exportItems}>Export</button>
-        <button on:click={importItems}>Import</button>
-        <button on:click={() => exportImportDialog.close()}>Close</button>
+        <button on:click={exportItems} aria-label="Export item data">Export</button>
+        <button on:click={importItems} aria-label="Import item data">Import</button>
+        <button on:click={() => exportImportDialog.close()} aria-label="Close export/import dialog">Close</button>
     </dialog>
 
     <div id="items" bind:this={itemDisplay}>
@@ -557,6 +570,7 @@
                 on:click={() => {
                     shouldDisplayItems = !shouldDisplayItems;
                 }}
+                aria-label="Toggle display of items"
             >
                 <span>Total items: {calculateTotalItemCount(items).toLocaleString()}</span>
                 <svg
@@ -599,6 +613,7 @@
                 on:click={() => {
                     shouldDisplayIngredients = !shouldDisplayIngredients;
                 }}
+                aria-label="Toggle display of ingredients"
             >
                 <span>Total ingredients: {calculateTotalItemCount(ingredients).toLocaleString()}</span>
                 <svg
@@ -650,8 +665,8 @@
 
     dialog::backdrop {
         background-color: var(--color-dialog-bg);
-        backdrop-filter: fade(0.5rem);
-        -webkit-backdrop-filter: fade(0.5rem);
+        backdrop-filter: blur(0.5rem);
+        -webkit-backdrop-filter: blur(0.5rem);
         transition: var(--transition-ease);
     }
 
@@ -784,7 +799,7 @@
         border-right: none;
     }
 
-    #minus:hover + #item-select-amount {
+    :global(#minus:hover + #item-select-amount) {
         border-left-color: var(--color-blue);
     }
 
@@ -1004,6 +1019,14 @@
 
     .separator:hover > svg {
         color: var(--color-blue);
+    }
+
+    .hide {
+        clip: rect(0, 0, 0, 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
     }
 
     #export-import {

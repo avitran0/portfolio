@@ -9,11 +9,13 @@
     let color = "";
 
     function resize() {
+        if (!canvas) return;
         canvas.width = window.innerWidth * window.devicePixelRatio;
         canvas.height = window.innerHeight * window.devicePixelRatio;
     }
 
     function draw(time: number) {
+        if (!canvas || !ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = color;
 

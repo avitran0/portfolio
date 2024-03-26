@@ -1,4 +1,4 @@
-<a href="/" id="home-link">
+<a href="/" id="home-link" aria-label="Go to home page">
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -16,7 +16,7 @@
         <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
     </svg>
 </a>
-<a href="https://github.com/avitran0/portfolio" id="github-link">
+<a href="https://github.com/avitran0/portfolio" id="github-link" aria-label="Go to github repository">
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
