@@ -11,7 +11,7 @@
         "small.litematic": "Small",
         "medium.schematic": "Medium",
         "large.litematic": "Large",
-        "very_large.litematic": "Very Large"
+        "very_large.litematic": "Very Large",
     };
 
     const enableItemSelect = false;
@@ -41,8 +41,13 @@
     let displayedItems: [Item, number][] = [];
     let displayedIngredients: [Item, number][] = [];
 
-    let shouldDisplayItems = true;
-    let shouldDisplayIngredients = false;
+    let shouldDisplayItems = false;
+    let shouldDisplayIngredients = true;
+
+    function resetDisplayedCategories() {
+        shouldDisplayItems = false;
+        shouldDisplayIngredients = true;
+    }
 
     let workers: Record<string, Worker> = {};
     let activeWorkers = 0;
@@ -170,8 +175,7 @@
             const itms = event.data as Record<string, number>;
             workers[name].terminate();
 
-            shouldDisplayItems = true;
-            shouldDisplayIngredients = false;
+            resetDisplayedCategories();
 
             // replace unknown items with items from ItemConversion, or air if missing
             for (const [key, value] of Object.entries(itms)) {
@@ -226,20 +230,18 @@
         if (!item) {
             return {};
         }
-        if (item.baseItem) {
+        if ("baseItem" in item.recipe && item.recipe.baseItem) {
             return { [item.id]: quantity };
         }
-        if (!item.ingredients || !item.result) {
-            return {};
-        }
 
-        const recipe = item.ingredients;
+        const recipe = item.recipe;
+        if (!("ingredients" in recipe)) return {};
         const result: Record<string, number> = {};
-        for (const ingredient of recipe) {
+        for (const ingredient of recipe.ingredients) {
             // check if ingredient is a tag
             const ingredientItem = Items[ingredient.id];
 
-            const ingredientQuantity = Math.ceil((quantity / item.result) * ingredient.quantity);
+            const ingredientQuantity = Math.ceil((quantity / recipe.result) * ingredient.quantity);
             const ingredientResult = calculateItem(ingredientItem, ingredientQuantity);
             for (const [key, value] of Object.entries(ingredientResult)) {
                 if (key in result) {
@@ -396,15 +398,33 @@
                 i++;
             }
         }
+        sortByKey(items);
         console.info("successfully loaded " + i + " items");
     }
 
+    function sortByKey(items: Record<string, Item>) {
+        const sorted: Record<string, Item> = {};
+        const keys = Object.keys(items).sort();
+        for (const key of keys) {
+            sorted[key] = items[key];
+        }
+        // sort ingredients, if they exist
+        for (const [key, item] of Object.entries(sorted)) {
+            if ("ingredients" in item.recipe) {
+                item.recipe.ingredients.sort((a, b) => a.id.localeCompare(b.id));
+            }
+        }
+        //console.info(sorted);
+        return sorted;
+    }
+
     testDataIntegrity(Items);
+    resetDisplayedCategories();
 </script>
 
 <svelte:head>
     <title>Resource Calculator</title>
-    <meta name="description" content="Calculate raw ingredients for schematics">
+    <meta name="description" content="Calculate raw ingredients for schematics" />
 </svelte:head>
 
 <main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
@@ -423,8 +443,7 @@
         <label
             for="schematic"
             id="schematic-label"
-            class={schematicFiles && schematicFiles.length > 0 ? "selected" : ""}
-        >
+            class={schematicFiles && schematicFiles.length > 0 ? "selected" : ""}>
             <input
                 type="file"
                 name="schematic"
@@ -432,8 +451,7 @@
                 accept=".nbt,.litematic,.schem,.schematic"
                 multiple
                 bind:this={schematicInput}
-                on:change={schematicInputChange}
-            />
+                on:change={schematicInputChange} />
             <span class="first" bind:this={schematicFileNameLabel}>Select Schematic</span>
             <span class="second">Browse</span>
             <button id="clear-file" on:click={clearSchematicInput} aria-label="Clear selected file">X</button>
@@ -447,8 +465,7 @@
                 on:click={() => {
                     clearItems();
                 }}
-                aria-label="Clear items shown">Clear Items</button
-            >
+                aria-label="Clear items shown">Clear Items</button>
         </div>
         <div id="sort-container">
             <span>Sort by:</span>
@@ -463,8 +480,7 @@
             on:click={() => {
                 exportImportDialog.showModal();
             }}
-            aria-label="Open export or import data dialog"
-        >
+            aria-label="Open export or import data dialog">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -474,8 +490,7 @@
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
-                stroke-linejoin="round"
-            >
+                stroke-linejoin="round">
                 <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" />
                 <path d="M4 6v6c0 1.657 3.582 3 8 3c1.118 0 2.183 -.086 3.15 -.241" />
                 <path d="M20 12v-6" />
@@ -496,8 +511,7 @@
                     stroke-width="1.6"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    id="spinner"
-                >
+                    id="spinner">
                     <path d="M12 3a9 9 0 1 0 9 9" />
                 </svg>
             {:else}
@@ -510,52 +524,51 @@
                     stroke="var(--color-green)"
                     stroke-width="1.6"
                     stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
+                    stroke-linejoin="round">
                     <path d="M5 12l5 5l10 -10" />
                 </svg>
             {/if}
         </div>
     </div>
     {#if enableItemSelect}
-    <dialog bind:this={itemDialog}>
-        <h2>Select Items Manually</h2>
-        <div class="dialog-btns">
-            <img src={selectedItem ? "textures/" + selectedItem.id + ".png" : ""} alt="" id="item-preview" />
-            <label for="item-input" class="hide">Enter Item name or id</label>
-            <input
-                type="search"
-                name="item-input"
-                id="item-input"
-                placeholder="item name or id"
-                list="item-data"
-                bind:this={itemInput}
-                on:input={itemInputChanged}
-            />
-            <datalist bind:this={itemDataList}>
-                {#each Object.entries(Items) as [name, value]}
-                    <option value={value.name} data-id={value.id} />
-                {/each}
-            </datalist>
-            <div id="item-amount-container">
-                <button id="minus" on:click={decrementItemCount} aria-label="Decrement selected item amount">-</button>
-                <label for="item-select-amount" class="hide">Enter Item amount</label>
+        <dialog bind:this={itemDialog}>
+            <h2>Select Items Manually</h2>
+            <div class="dialog-btns">
+                <img src={selectedItem ? "textures/" + selectedItem.id + ".png" : ""} alt="" id="item-preview" />
+                <label for="item-input" class="hide">Enter Item name or id</label>
                 <input
-                    type="number"
-                    name="item-select-amount"
-                    id="item-select-amount"
-                    placeholder="amount"
-                    min="1"
-                    pattern="\d*"
-                    bind:value={itemAmount}
-                />
-                <button id="plus" on:click={incrementItemCount} aria-label="Increment selected item amount">+</button>
+                    type="search"
+                    name="item-input"
+                    id="item-input"
+                    placeholder="item name or id"
+                    list="item-data"
+                    bind:this={itemInput}
+                    on:input={itemInputChanged} />
+                <datalist bind:this={itemDataList}>
+                    {#each Object.entries(Items) as [name, value]}
+                        <option value={value.name} data-id={value.id} />
+                    {/each}
+                </datalist>
+                <div id="item-amount-container">
+                    <button id="minus" on:click={decrementItemCount} aria-label="Decrement selected item amount"
+                        >-</button>
+                    <label for="item-select-amount" class="hide">Enter Item amount</label>
+                    <input
+                        type="number"
+                        name="item-select-amount"
+                        id="item-select-amount"
+                        placeholder="amount"
+                        min="1"
+                        pattern="\d*"
+                        bind:value={itemAmount} />
+                    <button id="plus" on:click={incrementItemCount} aria-label="Increment selected item amount"
+                        >+</button>
+                </div>
+                <button on:click={addItems} aria-label="Add selected item">Add</button>
+                <button on:click={removeItems} aria-label="Remove selected item">Remove</button>
             </div>
-            <button on:click={addItems} aria-label="Add selected item">Add</button>
-            <button on:click={removeItems} aria-label="Remove selected item">Remove</button>
-        </div>
-        <button on:click={() => itemDialog.close()} aria-label="Close item dialog">Close</button>
-    </dialog>
+            <button on:click={() => itemDialog.close()} aria-label="Close item dialog">Close</button>
+        </dialog>
     {/if}
     <dialog bind:this={exportImportDialog}>
         <h2>Export or Import Data</h2>
@@ -571,8 +584,7 @@
                 on:click={() => {
                     shouldDisplayItems = !shouldDisplayItems;
                 }}
-                aria-label="Toggle display of items"
-            >
+                aria-label="Toggle display of items">
                 <span>Total items: {calculateTotalItemCount(items).toLocaleString()}</span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -584,8 +596,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    style="transform: {shouldDisplayItems ? 'rotate(180deg)' : 'rotate(0deg)'}"
-                >
+                    style="transform: {shouldDisplayItems ? 'rotate(180deg)' : 'rotate(0deg)'}">
                     <path d="M6 15l6 -6l6 6" />
                 </svg>
             </button>
@@ -603,8 +614,7 @@
                             delete items[item[0].id];
                             ingredients = calculateAllItems(items);
                             display();
-                        }}>X</button
-                    >
+                        }}>X</button>
                 </div>
             {/each}
         {/if}
@@ -614,8 +624,7 @@
                 on:click={() => {
                     shouldDisplayIngredients = !shouldDisplayIngredients;
                 }}
-                aria-label="Toggle display of ingredients"
-            >
+                aria-label="Toggle display of ingredients">
                 <span>Total ingredients: {calculateTotalItemCount(ingredients).toLocaleString()}</span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -627,8 +636,7 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    style="transform: {shouldDisplayIngredients ? 'rotate(180deg)' : 'rotate(0deg)'}"
-                >
+                    style="transform: {shouldDisplayIngredients ? 'rotate(180deg)' : 'rotate(0deg)'}">
                     <path d="M6 15l6 -6l6 6" />
                 </svg>
             </button>
