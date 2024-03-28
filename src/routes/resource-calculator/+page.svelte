@@ -481,16 +481,7 @@
                 exportImportDialog.showModal();
             }}
             aria-label="Open export or import data dialog">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" />
                 <path d="M4 6v6c0 1.657 3.582 3 8 3c1.118 0 2.183 -.086 3.15 -.241" />
                 <path d="M20 12v-6" />
@@ -501,17 +492,7 @@
         </button>
         <div id="progress">
             {#if working}
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    id="spinner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="spinner">
                     <path d="M12 3a9 9 0 1 0 9 9" />
                 </svg>
             {:else}
@@ -520,11 +501,7 @@
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="var(--color-green)"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round">
+                    class="svg-green">
                     <path d="M5 12l5 5l10 -10" />
                 </svg>
             {/if}
@@ -591,11 +568,6 @@
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
                     style="transform: {shouldDisplayItems ? 'rotate(180deg)' : 'rotate(0deg)'}">
                     <path d="M6 15l6 -6l6 6" />
                 </svg>
@@ -631,11 +603,6 @@
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
                     style="transform: {shouldDisplayIngredients ? 'rotate(180deg)' : 'rotate(0deg)'}">
                     <path d="M6 15l6 -6l6 6" />
                 </svg>
@@ -1058,6 +1025,10 @@
         width: 2rem;
         height: 2rem;
         aspect-ratio: 1 / 1;
+    }
+
+    .svg-green {
+        stroke: var(--color-green);
     }
 
     #spinner {
