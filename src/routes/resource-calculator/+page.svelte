@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
-    import { cubicOut } from "svelte/easing";
+    import { fadeIn, fadeOut } from "$lib/transition";
 
     import { ItemConversion, Items } from "./ts/recipes";
     import { type Item } from "./ts/types";
@@ -427,7 +426,7 @@
     <meta name="description" content="Calculate raw ingredients for schematics" />
 </svelte:head>
 
-<main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
+<main in:fadeIn out:fadeOut>
     <h1>Resource Calculator</h1>
     <div id="schematic-controls">
         <button on:click={() => sampleDialog.showModal()} aria-label="Load a sample file">Load Sample</button>
@@ -496,12 +495,7 @@
                     <path d="M12 3a9 9 0 1 0 9 9" />
                 </svg>
             {:else}
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    class="svg-green">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="svg-green">
                     <path d="M5 12l5 5l10 -10" />
                 </svg>
             {/if}

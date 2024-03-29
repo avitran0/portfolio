@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
-    import { cubicOut } from "svelte/easing";
+    import { fadeIn, fadeOut } from "$lib/transition";
     import { onMount } from "svelte";
 
     let canvas: HTMLCanvasElement;
@@ -42,7 +41,7 @@
 
 <svelte:window on:resize={resize} />
 
-<main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
+<main in:fadeIn out:fadeOut>
     <h1>Canvas</h1>
     <canvas bind:this={canvas}></canvas>
 </main>

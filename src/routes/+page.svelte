@@ -1,14 +1,13 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
-    import { cubicOut } from "svelte/easing";
+    import { fadeIn, fadeOut } from "$lib/transition";
 </script>
 
 <svelte:head>
     <title>Felix Fröhlich</title>
-    <meta name="description" content="Portfolio">
+    <meta name="description" content="Portfolio" />
 </svelte:head>
 
-<main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
+<main in:fadeIn out:fadeOut>
     <h1>Felix Fröhlich</h1>
     <h2>Projects</h2>
     <a href="/resource-calculator">Resource Calculator</a>

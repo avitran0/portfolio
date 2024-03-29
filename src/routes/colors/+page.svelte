@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
-    import { cubicOut } from "svelte/easing";
+    import { fadeIn, fadeOut } from "$lib/transition";
     import { onMount } from "svelte";
 
     const colorVars: { [key: string]: string } = {};
@@ -20,7 +19,7 @@
             "--color-green",
             "--color-teal",
             "--color-blue",
-            "--color-purple"
+            "--color-purple",
         ];
         if (root === null) {
             throw new Error("Could not find :root element");
@@ -31,7 +30,7 @@
     });
 </script>
 
-<main in:fade={{ delay: 200, duration: 200, easing: cubicOut }} out:fade={{ duration: 200, easing: cubicOut }}>
+<main in:fadeIn out:fadeOut>
     <h1>Color Scheme</h1>
     <div id="color-scheme">
         {#each Object.entries(colorVars) as [key, color]}
@@ -54,6 +53,7 @@
         border: 2px solid var(--color-text);
         justify-content: space-evenly;
         margin-top: 1rem;
+        background-color: var(--color-backdrop);
     }
 
     .color {
