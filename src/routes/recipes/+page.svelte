@@ -4,12 +4,12 @@
 </script>
 
 <svelte:head>
-    <title>Recipes</title>
+    <title>Rezepte</title>
     <meta name="description" content="Recipes" />
 </svelte:head>
 
 <main in:fadeIn out:fadeOut>
-    <h1>Recipes</h1>
+    <h1>Rezepte</h1>
     {#each Object.values(Recipes) as r}
         {@const recipe = r(0)}
         <a href={`/recipes/${recipe.id}`}>

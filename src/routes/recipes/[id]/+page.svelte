@@ -29,7 +29,7 @@
             <h2>{name === "" ? "Ingredients" : name}</h2>
             {#each ingredientList as ingredient}
                 <p>{ingredient.name}</p>
-                <p>{ingredient.amount}{ingredient.unit}</p>
+                <p>{ingredient.amount.toLocaleString()} {ingredient.unit}</p>
             {/each}
         </div>
     {/each}
@@ -42,7 +42,7 @@
                 <path d="M5 12l14 0" />
             </svg>
         </button>
-        <label for="amount-input" class="hide">Enter Item amount</label>
+        <label for="amount-input" class="hide">Menge Eingeben</label>
         <input
             type="number"
             name="amount-input"
@@ -58,7 +58,7 @@
             </svg>
         </button>
     </div>
-    <h2>Steps</h2>
+    <h2>Schritte</h2>
     {#each recipe.steps as step, i}
         <p>{i + 1}: {step}</p>
     {/each}

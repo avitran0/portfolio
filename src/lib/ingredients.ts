@@ -9,19 +9,19 @@ export const Butter: IngredientFunction = (amount: number) => {
     };
 };
 
-export const Eggs: IngredientFunction = (amount: number) => {
+export const Eier: IngredientFunction = (amount: number) => {
     return {
-        id: "eggs",
-        name: "Eggs",
+        id: "eier",
+        name: "Eier",
         amount: amount,
         unit: Unit.PIECE,
     };
 };
 
-export const LowFatQuark: IngredientFunction = (amount: number) => {
+export const MagerQuark: IngredientFunction = (amount: number) => {
     return {
-        id: "low_fat_quark",
-        name: "Low Fat Quark",
+        id: "mager_quark",
+        name: "Magerquark",
         amount: amount,
         unit: Unit.GRAM,
     };
@@ -36,64 +36,118 @@ export const Margarine: IngredientFunction = (amount: number) => {
     };
 };
 
-export const Milk: IngredientFunction = (amount: number) => {
+export const Milch: IngredientFunction = (amount: number) => {
     return {
-        id: "milk",
-        name: "Milk",
+        id: "milch",
+        name: "Milch",
         amount: amount,
         unit: Unit.MILLILITER,
     };
 };
 
-export const Salt: IngredientFunction = (amount: number) => {
+export const Salz: IngredientFunction = (amount: number) => {
     return {
-        id: "salt",
-        name: "Salt",
+        id: "salz",
+        name: "Salz",
         amount: amount,
         unit: Unit.GRAM,
     };
 };
 
-export const Sugar: IngredientFunction = (amount: number) => {
+export const SalzPrise: IngredientFunction = (amount: number) => {
     return {
-        id: "sugar",
-        name: "Sugar",
+        id: "salz_prise",
+        name: "Salz",
+        amount: amount,
+        unit: Unit.PINCH,
+    };
+};
+
+export const SpeiseÖl: IngredientFunction = (amount: number) => {
+    return {
+        id: "speise_öl",
+        name: "Speiseöl",
+        amount: amount,
+        unit: Unit.MILLILITER,
+    };
+};
+
+export const VanilleSchote: IngredientFunction = (amount: number) => {
+    return {
+        id: "vanille_schote",
+        name: "Vanilleschote",
+        amount: amount,
+        unit: Unit.PIECE,
+    };
+};
+
+export const VanillePuddingPulver: IngredientFunction = (amount: number) => {
+    return {
+        id: "vanille_pudding_pulver",
+        name: "Vanillepuddingpulver",
         amount: amount,
         unit: Unit.GRAM,
     };
 };
 
-export const VanillaPuddingPowder: IngredientFunction = (amount: number) => {
+export const VanillePuddingPulverPack: IngredientFunction = (amount: number) => {
     return {
-        id: "vanilla_pudding_powder",
-        name: "Vanilla Pudding Powder",
-        amount: amount,
-        unit: Unit.GRAM,
-    };
-};
-
-export const VanillaSugar: IngredientFunction = (amount: number) => {
-    return {
-        id: "vanilla_sugar",
-        name: "Vanilla Sugar",
-        amount: amount,
-        unit: Unit.GRAM,
-    };
-};
-
-export const VanillaSugarPack: IngredientFunction = (amount: number) => {
-    return {
-        id: "vanilla_sugar_pack",
-        name: "Vanilla Sugar",
+        id: "vanille_pudding_pulver_pack",
+        name: "Vanillepuddingpulver",
         amount: amount,
         unit: Unit.PACK,
     };
 };
 
-export const WheatFlour: IngredientFunction = (amount: number) => {
+export const VanilleZucker: IngredientFunction = (amount: number) => {
     return {
-        id: "wheat_flour",
-        name: "Wheat Flour",
+        id: "vanille_zucker",
+        name: "Vanillezucker",
+        amount: amount,
+        unit: Unit.GRAM,
+    };
+};
+
+export const VanilleZuckerPack: IngredientFunction = (amount: number) => {
+    return {
+        id: "vanille_zucker_pack",
+        name: "Vanillezucker",
+        amount: amount,
+        unit: Unit.PACK,
+    };
+};
+
+export const VollkornWeizenMehl: IngredientFunction = (amount: number) => {
+    return {
+        id: "vollkorn_weizen_mehl",
+        name: "Vollkornweizenmehl",
+        amount: amount,
+        unit: Unit.GRAM,
+    };
+};
+
+export const WeizenMehl: IngredientFunction = (amount: number) => {
+    return {
+        id: "weizen_mehl",
+        name: "Weizenmehl",
+        amount: amount,
+        unit: Unit.GRAM,
+    };
+};
+
+export const ZitronenAbrieb: IngredientFunction = (amount: number) => {
+    return {
+        id: "zitronen_abrieb",
+        name: "Zitronenabrieb",
+        amount: amount,
+        unit: Unit.TEASPOON,
+    };
+};
+
+export const Zucker: IngredientFunction = (amount: number) => {
+    return {
+        id: "zucker",
+        name: "Zucker",
         amount: amount,
         unit: Unit.GRAM,
     };

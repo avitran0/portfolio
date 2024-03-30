@@ -18,10 +18,17 @@ export type Ingredient = {
     unit: Unit;
 };
 
+export function ingredientToString(ingredient: Ingredient): string {
+    return `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`;
+}
+
 export enum Unit {
     GRAM = "g",
     MILLILITER = "ml",
-    PACK = "pack",
+    PACK = "Pack",
+    PINCH = "Prise",
+    TEASPOON = "TL",
+    TABLESPOON = "EL",
     PIECE = "x",
 }
 

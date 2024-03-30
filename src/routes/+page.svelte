@@ -11,7 +11,7 @@
     <h1>Felix Fröhlich</h1>
     <h2>Projects</h2>
     <a href="/resource-calculator">Resource Calculator</a>
-    <a href="/recipes">Recipes</a>
     <a href="/colors">Color Scheme</a>
     <a href="/canvas">Canvas</a>
+    <a href="/recipes">Rezepte (german!)</a>
 </main>
