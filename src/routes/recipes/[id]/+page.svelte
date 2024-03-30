@@ -35,8 +35,12 @@
     <div id="amount-container">
         <button
             id="minus"
-            on:click={() => (amount <= 0 ? (amount = 0) : amount--)}
-            aria-label="Decrement selected item amount">-</button>
+            on:click={() => (amount <= 1 ? (amount = 1) : amount--)}
+            aria-label="Decrement selected item amount">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M5 12l14 0" />
+            </svg>
+        </button>
         <label for="amount-input" class="hide">Enter Item amount</label>
         <input
             type="number"
@@ -46,11 +50,16 @@
             min="1"
             pattern="\d*"
             bind:value={amount} />
-        <button id="plus" on:click={() => amount++} aria-label="Increment selected item amount">+</button>
+        <button id="plus" on:click={() => amount++} aria-label="Increment selected item amount">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M12 5l0 14" />
+                <path d="M5 12l14 0" />
+            </svg>
+        </button>
     </div>
     <h2>Steps</h2>
-    {#each recipe.steps as step}
-        <p>{step}</p>
+    {#each recipe.steps as step, i}
+        <p>{i + 1}: {step}</p>
     {/each}
 </main>
 
@@ -134,7 +143,7 @@
         transition: var(--transition-ease);
         background-color: transparent;
         appearance: textfield;
-        width: 10.75rem;
+        width: 6rem;
         height: 2.6rem;
         font-family: var(--font-zilla-slab);
         color: var(--color-text);
@@ -165,6 +174,16 @@
     #plus,
     #minus {
         width: 2.6rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    #plus > svg,
+    #minus > svg {
+        width: 80%;
+        height: 80%;
     }
 
     #plus {

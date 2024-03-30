@@ -66,6 +66,7 @@
         --font-size-large: 28px;
         --font-size-medium: 24px;
         --font-size-small: 20px;
+        --font-size-xsmall: 16px;
 
         --transition-linear: all 0.2s linear;
         --transition-ease: all 0.15s cubic-bezier(0.65, 0, 0.35, 1);

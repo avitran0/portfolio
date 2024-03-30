@@ -1,11 +1,11 @@
 import { Unit, type Ingredient } from "$lib/recipe_types";
 
-export function Egg(amount: number): Ingredient {
+export function Eggs(amount: number): Ingredient {
     return {
-        id: "egg",
-        name: "Egg",
+        id: "eggs",
+        name: "Eggs",
         amount: amount,
-        unit: Unit.NONE,
+        unit: Unit.PIECE,
     };
 }
 
