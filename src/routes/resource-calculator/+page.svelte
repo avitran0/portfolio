@@ -653,13 +653,6 @@
         outline: none;
     }
 
-    button {
-        font-family: var(--font-zilla-slab);
-        font-size: var(--font-size-medium);
-        cursor: pointer;
-        color: var(--color-text);
-    }
-
     select {
         font-family: var(--font-zilla-slab);
         font-size: var(--font-size-medium);
@@ -784,7 +777,6 @@
     }
 
     #schematic-controls {
-        margin-top: 1rem;
         display: flex;
         gap: 1rem;
         align-items: center;
@@ -899,20 +891,6 @@
     #schematic-label > button:hover {
         color: var(--color-blue);
         border-color: var(--color-blue);
-    }
-
-    button {
-        padding: 0;
-        border: var(--border-text);
-        border-radius: 0.5rem;
-        transition: var(--transition-ease);
-        background-color: var(--color-highlight);
-        width: 10rem;
-        height: 2.6rem;
-    }
-
-    button:hover {
-        border: var(--border-blue);
     }
 
     .dialog-btns {

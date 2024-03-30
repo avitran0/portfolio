@@ -117,6 +117,7 @@
         grid-row: 1;
         grid-column: 1;
         text-align: center;
+        gap: 1rem;
     }
 
     :global(h1) {
@@ -152,6 +153,23 @@
 
     :global(a:hover) {
         color: var(--color-text);
+    }
+
+    :global(button) {
+        font-family: var(--font-zilla-slab);
+        font-size: var(--font-size-medium);
+        cursor: pointer;
+        color: var(--color-text);
+        padding: 0 0.5rem;
+        border: var(--border-text);
+        border-radius: 0.5rem;
+        transition: var(--transition-ease);
+        background-color: var(--color-highlight);
+        height: 2.6rem;
+    }
+
+    :global(button:hover) {
+        border: var(--border-blue);
     }
 
     :global(svg) {
