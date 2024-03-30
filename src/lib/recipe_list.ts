@@ -1,12 +1,14 @@
 import type { RecipeFunction } from "$lib/recipe_types";
-import Crepes from "$lib/recipes/crepes";
+import {Crepes, CheeseCake} from "$lib/recipes";
 
 export const Recipes: Record<string, RecipeFunction> = {
     [Crepes(0).id]: Crepes,
+    [CheeseCake(0).id]: CheeseCake,
 };
 
 export const DefaultAmounts: Record<string, number> = {
     [Crepes(0).id]: 10,
+    [CheeseCake(0).id]: 1,
 };
 
 export function testDataIntegrity() {

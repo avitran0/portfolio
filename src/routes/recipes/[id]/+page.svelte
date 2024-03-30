@@ -24,14 +24,15 @@
         </svg>
     </a>
     <h1>{recipe.name}</h1>
-    <div class="table">
-        <h2>Ingredient</h2>
-        <h2>Amount</h2>
-        {#each recipe.ingredients as ingredient}
-            <p>{ingredient.name}</p>
-            <p>{ingredient.amount}{ingredient.unit}</p>
-        {/each}
-    </div>
+    {#each Object.entries(recipe.ingredients) as [name, ingredientList]}
+        <div class="table">
+            <h2>{name === "" ? "Ingredients" : name}</h2>
+            {#each ingredientList as ingredient}
+                <p>{ingredient.name}</p>
+                <p>{ingredient.amount}{ingredient.unit}</p>
+            {/each}
+        </div>
+    {/each}
     <div id="amount-container">
         <button
             id="minus"
@@ -101,27 +102,21 @@
     }
 
     .table h2 {
+        grid-column: 1 / span 2;
         border-bottom: 1px solid var(--color-text);
-    }
-
-    .table h2:first-child {
-        border-right: 1px solid var(--color-text);
-    }
-
-    .table h2:nth-child(2) {
-        border-left: 1px solid var(--color-text);
     }
 
     .table p {
         border: 1px solid var(--color-text);
     }
 
-    .table p:nth-child(odd) {
+    .table p:nth-child(even) {
         border-left: none;
     }
 
-    .table p:nth-child(even) {
+    .table p:nth-child(odd) {
         border-right: none;
+        font-weight: bold;
     }
 
     .table p:last-child,

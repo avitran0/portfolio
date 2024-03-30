@@ -5,9 +5,11 @@ export type Recipe = {
     name: string;
     description: string;
     category: string;
-    ingredients: Ingredient[];
+    ingredients: Record<string, Ingredient[]>;
     steps: string[];
 };
+
+export type IngredientFunction = (amount: number) => Ingredient;
 
 export type Ingredient = {
     id: string;
@@ -18,9 +20,8 @@ export type Ingredient = {
 
 export enum Unit {
     GRAM = "g",
-    KILOGRAM = "kg",
     MILLILITER = "ml",
-    LITER = "l",
+    PACK = "pack",
     PIECE = "x",
 }
 

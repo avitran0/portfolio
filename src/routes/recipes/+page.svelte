@@ -13,7 +13,7 @@
     {#each Object.values(Recipes) as r}
         {@const recipe = r(0)}
         <a href={`/recipes/${recipe.id}`}>
-            <img src={"/recipes/" + recipe.id + ".png"} alt="" />
+            <img src={"/recipes/" + recipe.id + ".jpg"} alt="" />
             <div>
                 <p>{recipe.name}</p>
                 <p>{recipe.description}</p>
