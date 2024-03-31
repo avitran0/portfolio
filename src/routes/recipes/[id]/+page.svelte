@@ -24,39 +24,51 @@
         </svg>
     </a>
     <h1>{recipe.name}</h1>
-    {#each Object.entries(recipe.ingredients) as [name, ingredientList]}
-        <div class="table">
-            <h2>{name === "" ? "Ingredients" : name}</h2>
-            {#each ingredientList as ingredient}
-                <p>{ingredient.name}</p>
-                <p>{ingredient.amount.toLocaleString()} {ingredient.unit}</p>
-            {/each}
+    <div class="horizontal">
+        <p>Zutaten für</p>
+        <div id="amount-container">
+            <button
+                id="minus"
+                on:click={() => (amount <= 1 ? (amount = 1) : amount--)}
+                aria-label="Decrement selected item amount">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M5 12l14 0" />
+                </svg>
+            </button>
+            <label for="amount-input" class="hide">Menge Eingeben</label>
+            <input
+                type="number"
+                name="amount-input"
+                id="amount-input"
+                placeholder="amount"
+                min="1"
+                pattern="\d*"
+                bind:value={amount} />
+            <button id="plus" on:click={() => amount++} aria-label="Increment selected item amount">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 5l0 14" />
+                    <path d="M5 12l14 0" />
+                </svg>
+            </button>
         </div>
-    {/each}
-    <div id="amount-container">
-        <button
-            id="minus"
-            on:click={() => (amount <= 1 ? (amount = 1) : amount--)}
-            aria-label="Decrement selected item amount">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M5 12l14 0" />
-            </svg>
-        </button>
-        <label for="amount-input" class="hide">Menge Eingeben</label>
-        <input
-            type="number"
-            name="amount-input"
-            id="amount-input"
-            placeholder="amount"
-            min="1"
-            pattern="\d*"
-            bind:value={amount} />
-        <button id="plus" on:click={() => amount++} aria-label="Increment selected item amount">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M12 5l0 14" />
-                <path d="M5 12l14 0" />
-            </svg>
-        </button>
+        <p>{recipe.name}</p>
+    </div>
+    <div id="table-container">
+        {#each Object.entries(recipe.ingredients) as [name, ingredientList]}
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">{name === "" ? "Zutaten" : name}</th>
+                    </tr>
+                </thead>
+                {#each ingredientList as ingredient}
+                    <tr>
+                        <td class="bold">{ingredient.amount.toLocaleString()} {ingredient.unit}</td>
+                        <td>{ingredient.name}</td>
+                    </tr>
+                {/each}
+            </table>
+        {/each}
     </div>
     <h2>Schritte</h2>
     {#each recipe.steps as step, i}
@@ -65,6 +77,10 @@
 </main>
 
 <style>
+    main {
+        max-width: 48rem;
+    }
+
     #back {
         position: absolute;
         top: 1rem;
@@ -87,41 +103,46 @@
         height: 100%;
     }
 
-    .table {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        border-radius: 0.5rem;
-        border: var(--border-text);
-        text-align: left;
+    #table-container {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
     }
 
-    .table h2,
-    .table p {
-        padding: 0.2rem 0.5rem;
+    table {
+        text-align: left;
+        border-collapse: collapse;
+        height: fit-content;
+        min-width: 16rem;
+    }
+
+    th,
+    td {
+        padding: 0.5rem;
+    }
+
+    th {
         font-size: var(--font-size-medium);
     }
 
-    .table h2 {
-        grid-column: 1 / span 2;
-        border-bottom: 1px solid var(--color-text);
+    td {
+        border-top: var(--border-text);
+        border-bottom: var(--border-text);
+        font-size: var(--font-size-small);
     }
 
-    .table p {
-        border: 1px solid var(--color-text);
+    tr:nth-child(even) {
+        background-color: var(--color-highlight);
     }
 
-    .table p:nth-child(even) {
-        border-left: none;
-    }
-
-    .table p:nth-child(odd) {
-        border-right: none;
+    .bold {
         font-weight: bold;
     }
 
-    .table p:last-child,
-    .table p:nth-last-child(2) {
-        border-bottom: none;
+    .horizontal {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
     #amount-container {
