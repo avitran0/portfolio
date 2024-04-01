@@ -2,6 +2,7 @@
     import { fadeIn, fadeOut } from "$lib/transition";
     import type { PageData } from "./$types";
     import { DefaultAmounts } from "$lib/recipe_list";
+    import { fmt } from "$lib/intl";
 
     export let data: PageData;
 
@@ -12,101 +13,73 @@
 </script>
 
 <svelte:head>
-    <title>{recipe.name}</title>
+    <title>{$fmt(`recipes.${recipe.id}.name`)}</title>
 </svelte:head>
 
 <main in:fadeIn out:fadeOut>
-    <a href="/recipes" id="back">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path d="M5 12l14 0" />
-            <path d="M5 12l6 6" />
-            <path d="M5 12l6 -6" />
-        </svg>
-    </a>
-    <h1>{recipe.name}</h1>
-    <div class="horizontal">
-        <p>Zutaten für</p>
-        <div id="amount-container">
-            <button
-                id="minus"
-                on:click={() => (amount <= 1 ? (amount = 1) : amount--)}
-                aria-label="Decrement selected item amount">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M5 12l14 0" />
-                </svg>
-            </button>
-            <label for="amount-input" class="hide">Menge Eingeben</label>
-            <input
-                type="number"
-                name="amount-input"
-                id="amount-input"
-                placeholder="amount"
-                min="1"
-                pattern="\d*"
-                bind:value={amount} />
-            <button id="plus" on:click={() => amount++} aria-label="Increment selected item amount">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M12 5l0 14" />
-                    <path d="M5 12l14 0" />
-                </svg>
-            </button>
-        </div>
-        <p>{recipe.name}</p>
+    <h1>{$fmt(`recipes.${recipe.id}.name`)}</h1>
+    <div id="amount-container">
+        <button
+            id="minus"
+            on:click={() => (amount <= 1 ? (amount = 1) : amount--)}
+            aria-label="Decrement selected item amount">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M5 12l14 0" />
+            </svg>
+        </button>
+        <label for="amount-input" class="hide">{$fmt("recipes._meta.amount")}</label>
+        <input
+            type="number"
+            name="amount-input"
+            id="amount-input"
+            placeholder="amount"
+            min="1"
+            pattern="\d*"
+            bind:value={amount} />
+        <button id="plus" on:click={() => amount++} aria-label="Increment selected item amount">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M12 5l0 14" />
+                <path d="M5 12l14 0" />
+            </svg>
+        </button>
     </div>
     <div id="table-container">
         {#each Object.entries(recipe.ingredients) as [name, ingredientList]}
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">{name === "" ? "Zutaten" : name}</th>
+                        <th colspan="2">{name === "" ? $fmt("ingredients._meta.title") : name}</th>
                     </tr>
                 </thead>
                 {#each ingredientList as ingredient}
                     <tr>
-                        <td class="bold">{ingredient.amount.toLocaleString()} {ingredient.unit}</td>
-                        <td>{ingredient.name}</td>
+                        <td class="bold"
+                            >{ingredient.amount.toLocaleString()} {$fmt(`recipes._meta.units.${ingredient.unit}`)}</td>
+                        <td
+                            ><a href={`/ingredients/${ingredient.id}`}>{$fmt(`ingredients.${ingredient.id}.name`)}</a
+                            ></td>
                     </tr>
                 {/each}
             </table>
         {/each}
     </div>
-    <h2>Schritte</h2>
+    <h2>{$fmt("recipes._meta.steps")}</h2>
     {#each recipe.steps as step, i}
-        <p>{i + 1}: {step}</p>
+        <p>{i + 1}: {$fmt(`recipes.${recipe.id}.steps.${step}`)}</p>
     {/each}
 </main>
 
 <style>
     main {
         max-width: 48rem;
-    }
-
-    #back {
-        position: absolute;
-        top: 1rem;
-        left: 4.4rem;
-        border: var(--border-text);
-        width: 2.4rem;
-        height: 2.4rem;
-        border-radius: 0.5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #back:hover {
-        border-color: var(--color-blue);
-    }
-
-    #back svg {
-        width: 100%;
-        height: 100%;
+        gap: 2rem;
     }
 
     #table-container {
         display: flex;
         gap: 2rem;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     table {
@@ -137,12 +110,6 @@
 
     .bold {
         font-weight: bold;
-    }
-
-    .horizontal {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
     }
 
     #amount-container {

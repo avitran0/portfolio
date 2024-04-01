@@ -1,0 +1,122 @@
+{
+    "general": {
+        "close": "Schließen",
+        "browse": "Auswählen",
+        "sort-by": "Sortieren nach",
+        "sort": {
+            "name": "Name",
+            "amount": "Menge"
+        },
+        "export": "Exportieren",
+        "import": "Importieren"
+    },
+    "home": {
+        "projects": "Projekte"
+    },
+    "resource-calculator": {
+        "title": "Ressourcenrechner",
+        "load-sample": "Beispieldatei Laden",
+        "select-sample-size": "Wähle Beispielgröße",
+        "sample": {
+            "very-small": "Sehr Klein",
+            "small": "Klein",
+            "medium": "Medium",
+            "large": "Groß",
+            "very-large": "Sehr Groß"
+        },
+        "select-file": "Wähle Datei",
+        "add-items": "Items hinzufügen",
+        "clear-items": "Items löschen",
+        "export-import-data": "Daten Exportieren/Importieren"
+    },
+    "color-scheme": {
+        "title": "Farbschema"
+    },
+    "canvas": {
+        "title": "Canvas"
+    },
+    "recipes": {
+        "_meta": {
+            "title": "Rezepte",
+            "steps": "Schritte",
+            "amount": "Menge eingeben",
+            "units": {
+                "g": "g",
+                "ml": "ml",
+                "pack": "Pack",
+                "pinch": "Prise",
+                "tsp": "TL",
+                "tbsp": "EL",
+                "x": "x"
+            }
+        },
+        "crepes": {
+            "name": "Crepes",
+            "description": "Ein einfaches Rezept für Crepes.",
+            "steps": {
+                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+            }
+        },
+        "cheese_cake": {
+            "name": "Käsekuchen",
+            "description": "Ein einfaches Rezept für Käsekuchen."
+        }
+    },
+    "ingredients": {
+        "_meta": {
+            "title": "Zutaten"
+        },
+        "butter": {
+            "name": "Butter",
+            "description": "butter"
+        },
+        "cooking-oil": {
+            "name": "Speiseöl",
+            "description": "öl."
+        },
+        "eggs": {
+            "name": "Eier",
+            "description": "ägs."
+        },
+        "lemon-zest": {
+            "name": "Zitronenabrieb",
+            "description": "zitron."
+        },
+        "low-fat-quark": {
+            "name": "Magerquark",
+            "description": "quark."
+        },
+        "margarine": {
+            "name": "Margarine",
+            "description": "marg."
+        },
+        "milk": {
+            "name": "Milch",
+            "description": "mölk."
+        },
+        "salt": {
+            "name": "Salz",
+            "description": "solt."
+        },
+        "sugar": {
+            "name": "Zucker",
+            "description": "zugga."
+        },
+        "vanilla-bean": {
+            "name": "Vanilleschote",
+            "description": "vani."
+        },
+        "vanilla-pudding-powder": {
+            "name": "Vanillepuddingpulver",
+            "description": "vani."
+        },
+        "vanilla-sugar-pack": {
+            "name": "Vanillezucker",
+            "description": "vani."
+        },
+        "wheat-flour": {
+            "name": "Weizenmehl",
+            "description": "mell."
+        }
+    }
+}

@@ -1,19 +1,51 @@
-<a href="/" id="home-link" aria-label="Go to home page">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-    </svg>
-</a>
-<a href="https://github.com/avitran0/portfolio" id="github-link" aria-label="Go to github repository">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path
-            d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-    </svg>
-</a>
-<div id="slot-container">
-    <slot />
+<script lang="ts">
+    import { Languages, language, getLanguageFromNavigator } from "$lib/intl";
+    import { onMount } from "svelte";
+
+    let lang: Languages;
+
+    onMount(() => {
+        const l = getLanguageFromNavigator();
+        language.set(l);
+        lang = l.toUpperCase() as Languages;
+    });
+</script>
+
+<div>
+    <header>
+        <div>
+            <a href="/" id="home-link" aria-label="Go to home page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                </svg>
+            </a>
+        </div>
+        <div>
+            <select
+                name="lang"
+                id="lang"
+                bind:value={lang}
+                on:change={() => {
+                    language.set(lang);
+                }}>
+                {#each Object.keys(Languages).filter((val) => isNaN(Number(val))) as lang}
+                    <option value={lang}>{lang}</option>
+                {/each}
+            </select>
+            <a href="https://github.com/avitran0/portfolio" id="github-link" aria-label="Go to github repository">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                        d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+                </svg>
+            </a>
+        </div>
+    </header>
+    <div id="slot-container">
+        <slot />
+    </div>
 </div>
 <footer>&copy; {new Date().getFullYear()} Felix Fröhlich</footer>
 
@@ -181,6 +213,21 @@
         stroke-linejoin: round;
     }
 
+    header {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        width: 100dvw;
+        padding: 1rem;
+        padding-bottom: 0;
+    }
+
+    header > div {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
     footer {
         margin: 1rem 0;
         display: flex;
@@ -195,9 +242,6 @@
         color: var(--color-text);
         width: 2.4rem;
         height: 2.4rem;
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -220,9 +264,21 @@
         border-color: var(--color-blue);
     }
 
-    #github-link {
-        left: auto;
-        right: 1rem;
+    select {
+        border: 2px solid var(--color-text);
+        border-radius: 0.5rem;
+        background-color: var(--color-highlight);
+        color: var(--color-text);
+        font-family: var(--font-zilla-slab);
+        font-size: var(--font-size-medium);
+        z-index: 1;
+        height: 2.4rem;
+        cursor: pointer;
+        padding: 0 0.5rem;
+    }
+
+    select:hover {
+        border-color: var(--color-blue);
     }
 
     #slot-container {

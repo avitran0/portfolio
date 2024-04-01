@@ -1,23 +1,23 @@
 <script>
     import { fadeIn, fadeOut } from "$lib/transition";
     import { fmt } from "$lib/intl";
-    import { Recipes } from "$lib/recipe_list";
+    import { Ingredients } from "$lib/ingredient_list";
 </script>
 
 <svelte:head>
-    <title>{$fmt("recipes._meta.title")}</title>
-    <meta name="description" content="Recipes" />
+    <title>{$fmt("ingredients._meta.title")}</title>
+    <meta name="description" content="Ingredients" />
 </svelte:head>
 
 <main in:fadeIn out:fadeOut>
-    <h1>{$fmt("recipes._meta.title")}</h1>
-    {#each Object.values(Recipes) as r}
-        {@const recipe = r(0)}
-        <a href={`/recipes/${recipe.id}`}>
-            <img src={"/recipes/" + recipe.id + ".jpg"} alt="" />
+    <h1>{$fmt("ingredients._meta.title")}</h1>
+    {#each Object.values(Ingredients) as i}
+        {@const ingredient = i(0)}
+        <a href={`/ingredients/${ingredient.id}`}>
+            <img src={"/ingredients/" + ingredient.id + ".jpg"} alt="" />
             <div>
-                <p>{$fmt(`recipes.${recipe.id}.name`)}</p>
-                <p>{$fmt(`recipes.${recipe.id}.description`)}</p>
+                <p>{$fmt(`ingredients.${ingredient.id}.name`)}</p>
+                <p>{$fmt(`ingredients.${ingredient.id}.description`)}</p>
             </div>
         </a>
     {/each}

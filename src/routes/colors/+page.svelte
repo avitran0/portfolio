@@ -1,5 +1,6 @@
 <script lang="ts">
     import { fadeIn, fadeOut } from "$lib/transition";
+    import { fmt } from "$lib/intl";
     import { onMount } from "svelte";
 
     const colorVars: { [key: string]: string } = {};
@@ -30,8 +31,12 @@
     });
 </script>
 
+<svelte:head>
+    <title>{$fmt("color-scheme.title")}</title>
+</svelte:head>
+
 <main in:fadeIn out:fadeOut>
-    <h1>Color Scheme</h1>
+    <h1>{$fmt("color-scheme.title")}</h1>
     <div id="color-scheme">
         {#each Object.entries(colorVars) as [key, color]}
             <div class="color">

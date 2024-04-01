@@ -1,5 +1,6 @@
 <script lang="ts">
     import { fadeIn, fadeOut } from "$lib/transition";
+    import { fmt } from "$lib/intl";
     import { onMount } from "svelte";
 
     let canvas: HTMLCanvasElement;
@@ -39,10 +40,14 @@
     });
 </script>
 
+<svelte:head>
+    <title>{$fmt("canvas.title")}</title>
+</svelte:head>
+
 <svelte:window on:resize={resize} />
 
 <main in:fadeIn out:fadeOut>
-    <h1>Canvas</h1>
+    <h1>{$fmt("canvas.title")}</h1>
     <canvas bind:this={canvas}></canvas>
 </main>
 

@@ -2,9 +2,7 @@ export type RecipeFunction = (amount: number) => Recipe;
 
 export type Recipe = {
     id: string;
-    name: string;
-    description: string;
-    category: string;
+    category: Category;
     ingredients: Record<string, Ingredient[]>;
     steps: string[];
 };
@@ -13,22 +11,17 @@ export type IngredientFunction = (amount: number) => Ingredient;
 
 export type Ingredient = {
     id: string;
-    name: string;
     amount: number;
     unit: Unit;
 };
 
-export function ingredientToString(ingredient: Ingredient): string {
-    return `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`;
-}
-
 export enum Unit {
     GRAM = "g",
     MILLILITER = "ml",
-    PACK = "Pack",
-    PINCH = "Prise",
-    TEASPOON = "TL",
-    TABLESPOON = "EL",
+    PACK = "pack",
+    PINCH = "pinch",
+    TEASPOON = "tsp",
+    TABLESPOON = "tbsp",
     PIECE = "x",
 }
 
