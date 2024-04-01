@@ -7,7 +7,7 @@ export type Recipe = {
     steps: string[];
 };
 
-export type IngredientFunction = (amount: number) => Ingredient;
+export type IngredientFunction = (amount: number, unit: Unit) => Ingredient;
 
 export type Ingredient = {
     id: string;
@@ -17,7 +17,9 @@ export type Ingredient = {
 
 export enum Unit {
     GRAM = "g",
+    KILOGRAM = "kg",
     MILLILITER = "ml",
+    LITER = "l",
     PACK = "pack",
     PINCH = "pinch",
     TEASPOON = "tsp",

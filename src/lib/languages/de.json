@@ -42,7 +42,9 @@
             "amount": "Menge eingeben",
             "units": {
                 "g": "g",
+                "kg": "kg",
                 "ml": "ml",
+                "l": "l",
                 "pack": "Pack",
                 "pinch": "Prise",
                 "tsp": "TL",
