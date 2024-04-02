@@ -5,9 +5,11 @@
     let lang: Languages;
 
     onMount(() => {
-        const l = getLanguageFromNavigator();
-        language.set(l);
+        let l = localStorage.getItem("lang");
+        if (!l) l = getLanguageFromNavigator();
+        language.set(l as Languages);
         lang = l.toUpperCase() as Languages;
+        localStorage.setItem("lang", l);
     });
 </script>
 
@@ -30,6 +32,7 @@
                 bind:value={lang}
                 on:change={() => {
                     language.set(lang);
+                    localStorage.setItem("lang", lang.toLowerCase());
                 }}>
                 {#each Object.keys(Languages).filter((val) => isNaN(Number(val))) as lang}
                     <option value={lang}>{lang}</option>

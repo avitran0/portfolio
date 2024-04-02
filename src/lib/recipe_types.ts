@@ -25,6 +25,7 @@ export enum Unit {
     TEASPOON = "tsp",
     TABLESPOON = "tbsp",
     PIECE = "x",
+    NONE = "none",
 }
 
 export enum Category {

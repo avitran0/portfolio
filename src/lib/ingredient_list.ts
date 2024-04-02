@@ -1,16 +1,13 @@
 import * as I from "$lib/ingredients";
 
 export const Ingredients = {
-    [I.Butter(0).id]: I.Butter,
-    [I.Eggs(0).id]: I.Eggs,
-    [I.LowFatQuark(0).id]: I.LowFatQuark,
-    [I.Margarine(0).id]: I.Margarine,
-    [I.Milk(0).id]: I.Milk,
-    [I.Salt(0).id]: I.Salt,
-    [I.SaltPinch(0).id]: I.SaltPinch,
-    [I.Sugar(0).id]: I.Sugar,
-    [I.VanillaBean(0).id]: I.VanillaBean,
-    [I.VanillaPuddingPowderPack(0).id]: I.VanillaPuddingPowderPack,
-    [I.VanillaSugarPack(0).id]: I.VanillaSugarPack,
-    [I.WheatFlour(0).id]: I.WheatFlour,
+    [I.ingredient(I.Butter).id]: I.Butter,
+    [I.ingredient(I.Eggs).id]: I.Eggs,
+    [I.ingredient(I.LowFatQuark).id]: I.LowFatQuark,
+    [I.ingredient(I.Margarine).id]: I.Margarine,
+    [I.ingredient(I.Milk).id]: I.Milk,
+    [I.ingredient(I.Salt).id]: I.Salt,
+    [I.ingredient(I.Sugar).id]: I.Sugar,
+    [I.ingredient(I.VanillaBean).id]: I.VanillaBean,
+    [I.ingredient(I.WheatFlour).id]: I.WheatFlour,
 };

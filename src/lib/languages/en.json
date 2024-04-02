@@ -49,7 +49,8 @@
                 "pinch": "Pinch",
                 "tsp": "Tsp",
                 "tbsp": "Tbsp",
-                "x": "x"
+                "x": "x",
+                "none": ""
             }
         },
         "crepes": {
@@ -59,7 +60,7 @@
                 "mix-all": "Mix all ingredients."
             }
         },
-        "cheese_cake": {
+        "cheese-cake": {
             "name": "Cheese Cake",
             "description": "A cake."
         }
@@ -112,8 +113,8 @@
             "name": "Vanilla Pudding Powder",
             "description": "vaniljpuddingpulver."
         },
-        "vanilla-sugar-pack": {
-            "name": "Vanilla Sugar Pack",
+        "vanilla-sugar": {
+            "name": "Vanilla Sugar",
             "description": "vaniljsocker."
         },
         "wheat-flour": {

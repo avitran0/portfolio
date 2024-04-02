@@ -49,7 +49,8 @@
                 "pinch": "Prise",
                 "tsp": "TL",
                 "tbsp": "EL",
-                "x": "x"
+                "x": "x",
+                "none": ""
             }
         },
         "crepes": {
@@ -59,7 +60,7 @@
                 "mix-all": "Alle Zutaten in einer Schüssel vermischen."
             }
         },
-        "cheese_cake": {
+        "cheese-cake": {
             "name": "Käsekuchen",
             "description": "Ein einfaches Rezept für Käsekuchen."
         }
@@ -112,7 +113,7 @@
             "name": "Vanillepuddingpulver",
             "description": "vani."
         },
-        "vanilla-sugar-pack": {
+        "vanilla-sugar": {
             "name": "Vanillezucker",
             "description": "vani."
         },

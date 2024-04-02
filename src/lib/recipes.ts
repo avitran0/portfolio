@@ -1,5 +1,9 @@
-import { Category, Unit, type Recipe } from "$lib/recipe_types";
+import { Category, Unit, type Recipe, type RecipeFunction } from "$lib/recipe_types";
 import * as I from "$lib/ingredients";
+
+export function recipe(fn: RecipeFunction): Recipe {
+    return fn(0);
+}
 
 export function Crepes(amount: number): Recipe {
     return {

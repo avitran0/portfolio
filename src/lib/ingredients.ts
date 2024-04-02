@@ -1,4 +1,8 @@
-import { Unit, type IngredientFunction } from "$lib/recipe_types";
+import { Unit, type IngredientFunction, type Ingredient } from "$lib/recipe_types";
+
+export function ingredient(fn: IngredientFunction): Ingredient {
+    return fn(0, Unit.NONE);
+}
 
 export const Butter: IngredientFunction = (amount: number, unit: Unit) => {
     return {
