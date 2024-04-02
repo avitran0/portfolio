@@ -62,7 +62,10 @@
         },
         "cheese-cake": {
             "name": "Cheese Cake",
-            "description": "A cake."
+            "description": "A cake.",
+            "steps": {
+                "mix-all": "Mix all ingredients."
+            }
         }
     },
     "ingredients": {

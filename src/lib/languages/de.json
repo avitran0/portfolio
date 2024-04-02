@@ -62,7 +62,10 @@
         },
         "cheese-cake": {
             "name": "Käsekuchen",
-            "description": "Ein einfaches Rezept für Käsekuchen."
+            "description": "Ein einfaches Rezept für Käsekuchen.",
+            "steps": {
+                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+            }
         }
     },
     "ingredients": {
