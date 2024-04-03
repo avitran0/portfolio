@@ -1,11 +1,12 @@
-import { Category, Unit, type Recipe, type RecipeFunction } from "$lib/recipe_types";
+import { Unit } from "./ingredients";
 import * as I from "$lib/ingredients";
+import { type Ingredient } from "./ingredients";
 
 export function recipe(fn: RecipeFunction): Recipe {
     return fn(0);
 }
 
-export function Crepes(amount: number): Recipe {
+const Crepes: RecipeFunction = (amount: number) => {
     return {
         id: "crepes",
         category: Category.DESSERT,
@@ -18,13 +19,14 @@ export function Crepes(amount: number): Recipe {
             ],
         },
         steps: ["mix-all"],
+        defaultAmount: 10,
     };
-}
+};
 
-export function CheeseCake(amount: number): Recipe {
+const CheeseCake: RecipeFunction = (amount: number) => {
     return {
         id: "cheese-cake",
-        category: Category.DESSERT,
+        category: Category.BREAKFAST,
         ingredients: {
             Teig: [
                 I.WheatFlour(amount * 150, Unit.GRAM),
@@ -45,5 +47,65 @@ export function CheeseCake(amount: number): Recipe {
             ],
         },
         steps: ["mix-all"],
+        defaultAmount: 1,
     };
+};
+
+const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
+    return {
+        id: "zucchini-rice",
+        category: Category.LUNCH,
+        ingredients: {
+            "": [
+                I.Zucchini(amount * 0.5, Unit.PIECE),
+                I.Rice(amount * 100, Unit.GRAM),
+                I.MincedBeef(amount * 100, Unit.GRAM),
+                I.Salt(amount, Unit.PINCH),
+            ],
+        },
+        steps: ["mix-all"],
+        defaultAmount: 2,
+    };
+};
+
+export const Recipes = {
+    [recipe(CheeseCake).id]: CheeseCake,
+    [recipe(Crepes).id]: Crepes,
+    [recipe(ZucchiniRiceMincedMeat).id]: ZucchiniRiceMincedMeat,
+} as Record<string, RecipeFunction>;
+
+export type Recipe = {
+    id: string;
+    category: Category;
+    ingredients: Record<string, Ingredient[]>;
+    steps: string[];
+    defaultAmount: number;
+};
+
+export type RecipeFunction = (amount: number) => Recipe;
+
+enum Category {
+    BREAKFAST = "breakfast",
+    LUNCH = "lunch",
+    DINNER = "dinner",
+    DESSERT = "dessert",
+    SNACK = "snack",
+}
+
+export function testDataIntegrity() {
+    let successful = 0;
+    let unsuccessful = 0;
+    for (const [id, recipe] of Object.entries(Recipes)) {
+        let success = true;
+        if (id !== recipe(0).id) {
+            console.warn(`Recipe ID mismatch: ${id} !== ${recipe(0).id}`);
+            success = false;
+        }
+        if (success) {
+            successful++;
+        } else {
+            unsuccessful++;
+        }
+    }
+    console.info(`successfully loaded ${successful} recipes, ${unsuccessful} failed`);
 }

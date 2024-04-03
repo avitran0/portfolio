@@ -479,7 +479,7 @@
         </div>
         <div id="sort-container">
             <span>{$fmt("general.sort-by")}:</span>
-            <label for="sort" class="hide">Sort Items</label>
+            <label for="sort" class="hide">{$fmt("general.sort-by")}</label>
             <select name="sort" id="sort" bind:value={sortMethod} on:change={() => display()}>
                 <option value="name">{$fmt("general.sort.name")}</option>
                 <option value="amount">{$fmt("general.sort.amount")}</option>

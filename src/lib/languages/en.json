@@ -5,7 +5,8 @@
         "sort-by": "Sort By",
         "sort": {
             "name": "Name",
-            "amount": "Amount"
+            "amount": "Amount",
+            "category": "Category"
         },
         "export": "Export",
         "import": "Import"
@@ -51,6 +52,21 @@
                 "tbsp": "Tbsp",
                 "x": "x",
                 "none": ""
+            },
+            "categories": {
+                "breakfast": "Breakfast",
+                "lunch": "Lunch",
+                "dinner": "Dinner",
+                "dessert": "Dessert",
+                "snack": "Snack",
+                "drink": "Drink"
+            }
+        },
+        "cheese-cake": {
+            "name": "Cheese Cake",
+            "description": "A cake.",
+            "steps": {
+                "mix-all": "Mix all ingredients."
             }
         },
         "crepes": {
@@ -60,9 +76,9 @@
                 "mix-all": "Mix all ingredients."
             }
         },
-        "cheese-cake": {
-            "name": "Cheese Cake",
-            "description": "A cake.",
+        "zucchini-rice": {
+            "name": "Zucchini, Rice & Minced Meat",
+            "description": "Rice with zucchini and minced meat.",
             "steps": {
                 "mix-all": "Mix all ingredients."
             }
@@ -100,6 +116,14 @@
             "name": "Milk",
             "description": "mjölk."
         },
+        "minced-beef": {
+            "name": "Minced Beef",
+            "description": "köttfärs."
+        },
+        "rice": {
+            "name": "Rice",
+            "description": "ris."
+        },
         "salt": {
             "name": "Salt",
             "description": "salt."
@@ -123,6 +147,14 @@
         "wheat-flour": {
             "name": "Wheat Flour",
             "description": "flooor."
+        },
+        "whole-grain-wheat-flour": {
+            "name": "Whole Grain Wheat Flour",
+            "description": "fullkornsmjöl."
+        },
+        "zucchini": {
+            "name": "Zucchini",
+            "description": "zucchini."
         }
     }
 }

@@ -1,5 +1,5 @@
 import type { PageLoad } from "./$types";
-import { Recipes } from "$lib/recipe_list";
+import { Recipes } from "$lib/recipes";
 import { redirect } from "@sveltejs/kit";
 
 export const load: PageLoad = async ({ params }) => {

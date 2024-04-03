@@ -5,7 +5,8 @@
         "sort-by": "Sortieren nach",
         "sort": {
             "name": "Name",
-            "amount": "Menge"
+            "amount": "Menge",
+            "category": "Kategorie"
         },
         "export": "Exportieren",
         "import": "Importieren"
@@ -51,6 +52,14 @@
                 "tbsp": "EL",
                 "x": "x",
                 "none": ""
+            },
+            "categories": {
+                "breakfast": "Frühstück",
+                "lunch": "Mittagessen",
+                "dinner": "Abendessen",
+                "dessert": "Dessert",
+                "snack": "Snack",
+                "drink": "Getränk"
             }
         },
         "crepes": {
@@ -63,6 +72,13 @@
         "cheese-cake": {
             "name": "Käsekuchen",
             "description": "Ein einfaches Rezept für Käsekuchen.",
+            "steps": {
+                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+            }
+        },
+        "zucchini-rice": {
+            "name": "Zucchini-Reis-Hack-Pfanne",
+            "description": "Ein einfaches Rezept für Zucchini Reis.",
             "steps": {
                 "mix-all": "Alle Zutaten in einer Schüssel vermischen."
             }
@@ -100,6 +116,14 @@
             "name": "Milch",
             "description": "mölk."
         },
+        "minced-beef": {
+            "name": "Rinderhackfleisch",
+            "description": "hack."
+        },
+        "rice": {
+            "name": "Reis",
+            "description": "reis."
+        },
         "salt": {
             "name": "Salz",
             "description": "solt."
@@ -123,6 +147,14 @@
         "wheat-flour": {
             "name": "Weizenmehl",
             "description": "mell."
+        },
+        "whole-grain-wheat-flour": {
+            "name": "Vollkornweizenmehl",
+            "description": "mell."
+        },
+        "zucchini": {
+            "name": "Zucchini",
+            "description": "zucc."
         }
     }
 }

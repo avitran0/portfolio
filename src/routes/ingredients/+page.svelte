@@ -1,7 +1,7 @@
 <script>
     import { fadeIn, fadeOut } from "$lib/transition";
     import { fmt } from "$lib/intl";
-    import { Ingredients } from "$lib/ingredient_list";
+    import { Ingredients, ingredient as ing } from "$lib/ingredients";
 </script>
 
 <svelte:head>
@@ -11,19 +11,28 @@
 
 <main in:fadeIn out:fadeOut>
     <h1>{$fmt("ingredients._meta.title")}</h1>
-    {#each Object.values(Ingredients) as i}
-        {@const ingredient = i(0)}
-        <a href={`/ingredients/${ingredient.id}`}>
-            <img src={"/ingredients/" + ingredient.id + ".jpg"} alt="" />
-            <div>
-                <p>{$fmt(`ingredients.${ingredient.id}.name`)}</p>
-                <p>{$fmt(`ingredients.${ingredient.id}.description`)}</p>
-            </div>
-        </a>
-    {/each}
+    <div class="ingredients">
+        {#each Object.values(Ingredients) as i}
+            {@const ingredient = ing(i)}
+            <a href={`/ingredients/${ingredient.id}`}>
+                <!--img src={"/ingredients/" + ingredient.id + ".jpg"} alt="" /-->
+                <div>
+                    <p>{$fmt(`ingredients.${ingredient.id}.name`)}</p>
+                    <p>{$fmt(`ingredients.${ingredient.id}.description`)}</p>
+                </div>
+            </a>
+        {/each}
+    </div>
 </main>
 
 <style>
+    .ingredients {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+    }
+
     a {
         display: flex;
         border: var(--border-text);
@@ -31,7 +40,9 @@
         padding: 0.5rem;
         gap: 0.5rem;
         color: var(--color-text);
+        min-width: 8rem;
         max-width: 32rem;
+        background-color: var(--color-highlight);
     }
 
     a:hover {

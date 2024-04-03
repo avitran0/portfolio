@@ -1,5 +1,3 @@
-import { Unit, type IngredientFunction, type Ingredient } from "$lib/recipe_types";
-
 export function ingredient(fn: IngredientFunction): Ingredient {
     return fn(0, Unit.NONE);
 }
@@ -60,6 +58,22 @@ export const Milk: IngredientFunction = (amount: number, unit: Unit) => {
     };
 };
 
+export const MincedBeef: IngredientFunction = (amount: number, unit: Unit) => {
+    return {
+        id: "minced-beef",
+        amount,
+        unit,
+    };
+}
+
+export const Rice: IngredientFunction = (amount: number, unit: Unit) => {
+    return {
+        id: "rice",
+        amount,
+        unit,
+    };
+}
+
 export const Salt: IngredientFunction = (amount: number, unit: Unit) => {
     return {
         id: "salt",
@@ -115,3 +129,51 @@ export const WholeGrainWheatFlour: IngredientFunction = (amount: number, unit: U
         unit,
     };
 };
+
+export const Zucchini: IngredientFunction = (amount: number, unit: Unit) => {
+    return {
+        id: "zucchini",
+        amount,
+        unit,
+    };
+}
+
+export const Ingredients = {
+    [ingredient(Butter).id]: Butter,
+    [ingredient(CookingOil).id]: CookingOil,
+    [ingredient(Eggs).id]: Eggs,
+    [ingredient(LemonZest).id]: LemonZest,
+    [ingredient(LowFatQuark).id]: LowFatQuark,
+    [ingredient(Margarine).id]: Margarine,
+    [ingredient(Milk).id]: Milk,
+    [ingredient(MincedBeef).id]: MincedBeef,
+    [ingredient(Salt).id]: Salt,
+    [ingredient(Sugar).id]: Sugar,
+    [ingredient(VanillaBean).id]: VanillaBean,
+    [ingredient(VanillaPuddingPowder).id]: VanillaPuddingPowder,
+    [ingredient(VanillaSugar).id]: VanillaSugar,
+    [ingredient(WheatFlour).id]: WheatFlour,
+    [ingredient(WholeGrainWheatFlour).id]: WholeGrainWheatFlour,
+    [ingredient(Zucchini).id]: Zucchini,
+};
+
+export type IngredientFunction = (amount: number, unit: Unit) => Ingredient;
+
+export type Ingredient = {
+    id: string;
+    amount: number;
+    unit: Unit;
+};
+
+export enum Unit {
+    GRAM = "g",
+    KILOGRAM = "kg",
+    MILLILITER = "ml",
+    LITER = "l",
+    PACK = "pack",
+    PINCH = "pinch",
+    TEASPOON = "tsp",
+    TABLESPOON = "tbsp",
+    PIECE = "x",
+    NONE = "none",
+}

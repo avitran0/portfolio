@@ -1,12 +1,12 @@
 <script lang="ts">
     import { fadeIn, fadeOut } from "$lib/transition";
     import type { PageData } from "./$types";
-    import { DefaultAmounts } from "$lib/recipe_list";
     import { fmt } from "$lib/intl";
+    import { recipe as rec } from "$lib/recipes";
 
     export let data: PageData;
 
-    let amount = DefaultAmounts[data.recipe(0).id];
+    let amount = rec(data.recipe).defaultAmount;
 
     let recipe = data.recipe(amount);
     $: recipe = data.recipe(amount);

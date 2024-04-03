@@ -252,6 +252,7 @@
         border: 2px solid var(--color-text);
         border-radius: 0.5rem;
         z-index: 1;
+        background-color: var(--color-highlight);
     }
 
     a > svg {
