@@ -80,7 +80,7 @@
     :root {
         --color-backdrop: #181820;
         --color-base: #1e1e28;
-        --color-highlight: #3c3c4b;
+        --color-highlight: #323246;
         --color-subtext: #c8c8dc;
         --color-text: #ffffff;
         --color-red: #f06464;
