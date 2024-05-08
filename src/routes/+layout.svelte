@@ -81,7 +81,7 @@
         --color-backdrop: #181820;
         --color-base: #1e1e28;
         --color-highlight: #323246;
-        --color-subtext: #c8c8dc;
+        --color-subtext: #c8c8c8;
         --color-text: #ffffff;
         --color-red: #f06464;
         --color-orange: #f08c5a;
