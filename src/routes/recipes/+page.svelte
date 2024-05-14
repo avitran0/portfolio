@@ -82,11 +82,6 @@
         color: var(--color-blue);
     }
 
-    a > img {
-        width: 6rem;
-        height: 6rem;
-    }
-
     a > div {
         display: flex;
         flex-direction: column;

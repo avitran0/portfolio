@@ -251,7 +251,7 @@
         padding: 0.2rem;
         border: 2px solid var(--color-text);
         border-radius: 0.5rem;
-        z-index: 1;
+        z-index: 5;
         background-color: var(--color-highlight);
     }
 
@@ -275,7 +275,7 @@
         color: var(--color-text);
         font-family: var(--font-zilla-slab);
         font-size: var(--font-size-medium);
-        z-index: 1;
+        z-index: 5;
         height: 2.4rem;
         cursor: pointer;
         padding: 0 0.5rem;
