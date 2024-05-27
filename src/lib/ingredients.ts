@@ -2,9 +2,25 @@ export function ingredient(fn: IngredientFunction): Ingredient {
     return fn(0, Unit.NONE);
 }
 
+export const Broccoli: IngredientFunction = (amount: number, unit: Unit) => {
+    return {
+        id: "broccoli",
+        amount,
+        unit,
+    };
+};
+
 export const Butter: IngredientFunction = (amount: number, unit: Unit) => {
     return {
         id: "butter",
+        amount,
+        unit,
+    };
+};
+
+export const Carrots: IngredientFunction = (amount: number, unit: Unit) => {
+    return {
+        id: "carrots",
         amount,
         unit,
     };
@@ -64,7 +80,7 @@ export const MincedBeef: IngredientFunction = (amount: number, unit: Unit) => {
         amount,
         unit,
     };
-}
+};
 
 export const Rice: IngredientFunction = (amount: number, unit: Unit) => {
     return {
@@ -72,7 +88,7 @@ export const Rice: IngredientFunction = (amount: number, unit: Unit) => {
         amount,
         unit,
     };
-}
+};
 
 export const Salt: IngredientFunction = (amount: number, unit: Unit) => {
     return {
@@ -85,6 +101,14 @@ export const Salt: IngredientFunction = (amount: number, unit: Unit) => {
 export const Sugar: IngredientFunction = (amount: number, unit: Unit) => {
     return {
         id: "sugar",
+        amount,
+        unit,
+    };
+};
+
+export const Tofu: IngredientFunction = (amount: number, unit: Unit) => {
+    return {
+        id: "tofu",
         amount,
         unit,
     };
@@ -136,10 +160,12 @@ export const Zucchini: IngredientFunction = (amount: number, unit: Unit) => {
         amount,
         unit,
     };
-}
+};
 
 export const Ingredients = {
+    [ingredient(Broccoli).id]: Broccoli,
     [ingredient(Butter).id]: Butter,
+    [ingredient(Carrots).id]: Carrots,
     [ingredient(CookingOil).id]: CookingOil,
     [ingredient(Eggs).id]: Eggs,
     [ingredient(LemonZest).id]: LemonZest,
@@ -147,8 +173,10 @@ export const Ingredients = {
     [ingredient(Margarine).id]: Margarine,
     [ingredient(Milk).id]: Milk,
     [ingredient(MincedBeef).id]: MincedBeef,
+    [ingredient(Rice).id]: Rice,
     [ingredient(Salt).id]: Salt,
     [ingredient(Sugar).id]: Sugar,
+    [ingredient(Tofu).id]: Tofu,
     [ingredient(VanillaBean).id]: VanillaBean,
     [ingredient(VanillaPuddingPowder).id]: VanillaPuddingPowder,
     [ingredient(VanillaSugar).id]: VanillaSugar,

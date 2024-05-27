@@ -76,6 +76,13 @@
                 "mix-all": "Alle Zutaten in einer Schüssel vermischen."
             }
         },
+        "tofu-bowl": {
+            "name": "Tofu-Bowl",
+            "description": "Eine Bowl mit Tofu, Blumenkohl und Brokkoli.",
+            "steps": {
+                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+            }
+        },
         "zucchini-rice": {
             "name": "Zucchini-Reis-Hack-Pfanne",
             "description": "Ein einfaches Rezept für Zucchini Reis.",
@@ -88,9 +95,17 @@
         "_meta": {
             "title": "Zutaten"
         },
+        "broccoli": {
+            "name": "Brokkoli",
+            "description": "brokk."
+        },
         "butter": {
             "name": "Butter",
             "description": "butter"
+        },
+        "carrots": {
+            "name": "Karotten",
+            "description": "karott."
         },
         "cooking-oil": {
             "name": "Speiseöl",
@@ -131,6 +146,10 @@
         "sugar": {
             "name": "Zucker",
             "description": "zugga."
+        },
+        "tofu": {
+            "name": "Tofu",
+            "description": "tofu"
         },
         "vanilla-bean": {
             "name": "Vanilleschote",

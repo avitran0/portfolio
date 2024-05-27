@@ -51,6 +51,22 @@ const CheeseCake: RecipeFunction = (amount: number) => {
     };
 };
 
+const TofuBowl: RecipeFunction = (amount: number) => {
+    return {
+        id: "tofu-bowl",
+        category: Category.LUNCH,
+        ingredients: {
+            "": [
+                I.Tofu(amount * 200, Unit.GRAM),
+                I.Rice(amount * 100, Unit.GRAM),
+                I.Broccoli(amount * 100, Unit.GRAM),
+            ],
+        },
+        steps: ["mix-all"],
+        defaultAmount: 2,
+    }
+}
+
 const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
     return {
         id: "zucchini-rice",
@@ -71,6 +87,7 @@ const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
 export const Recipes = {
     [recipe(CheeseCake).id]: CheeseCake,
     [recipe(Crepes).id]: Crepes,
+    [recipe(TofuBowl).id]: TofuBowl,
     [recipe(ZucchiniRiceMincedMeat).id]: ZucchiniRiceMincedMeat,
 } as Record<string, RecipeFunction>;
 

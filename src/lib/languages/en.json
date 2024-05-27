@@ -76,6 +76,13 @@
                 "mix-all": "Mix all ingredients."
             }
         },
+        "tofu-bowl": {
+            "name": "Tofu Bowl",
+            "description": "A bowl with tofu.",
+            "steps": {
+                "mix-all": "Mix all ingredients."
+            }
+        },
         "zucchini-rice": {
             "name": "Zucchini, Rice & Minced Meat",
             "description": "Rice with zucchini and minced meat.",
@@ -88,9 +95,17 @@
         "_meta": {
             "title": "Ingredients"
         },
+        "broccoli": {
+            "name": "Broccoli",
+            "description": "broccoli."
+        },
         "butter": {
             "name": "Butter",
             "description": "smör."
+        },
+        "carrots": {
+            "name": "Carrots",
+            "description": "morötter."
         },
         "cooking-oil": {
             "name": "Cooking Oil",
@@ -131,6 +146,10 @@
         "sugar": {
             "name": "Sugar",
             "description": "sugg ma."
+        },
+        "tofu": {
+            "name": "Tofu",
+            "description": "tofu."
         },
         "vanilla-bean": {
             "name": "Vanilla Bean",
