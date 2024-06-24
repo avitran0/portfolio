@@ -1,5 +1,5 @@
 import { Unit } from "./ingredients";
-import * as I from "$lib/ingredients";
+import { ingredient, Ingredients as I } from "$lib/ingredients";
 import { type Ingredient } from "./ingredients";
 
 export function recipe(fn: RecipeFunction): Recipe {
@@ -12,10 +12,10 @@ const Crepes: RecipeFunction = (amount: number) => {
         category: Category.DESSERT,
         ingredients: {
             "": [
-                I.WheatFlour(amount * 25, Unit.GRAM),
-                I.Milk(amount * 50, Unit.MILLILITER),
-                I.Eggs(amount / 2.5, Unit.PIECE),
-                I.Margarine(amount * 5, Unit.GRAM),
+                ingredient(I.WheatFlour, amount * 25, Unit.GRAM),
+                ingredient(I.Milk, amount * 50, Unit.MILLILITER),
+                ingredient(I.Eggs, amount / 2.5, Unit.PIECE),
+                ingredient(I.Margarine, amount * 5, Unit.GRAM),
             ],
         },
         steps: ["mix-all"],
@@ -29,21 +29,21 @@ const CheeseCake: RecipeFunction = (amount: number) => {
         category: Category.BREAKFAST,
         ingredients: {
             Teig: [
-                I.WheatFlour(amount * 150, Unit.GRAM),
-                I.Sugar(amount * 60, Unit.GRAM),
-                I.Butter(amount * 100, Unit.GRAM),
-                I.VanillaSugar(amount, Unit.PACK),
-                I.Salt(amount, Unit.PINCH),
+                ingredient(I.WheatFlour, amount * 150, Unit.GRAM),
+                ingredient(I.Sugar, amount * 60, Unit.GRAM),
+                ingredient(I.Butter, amount * 100, Unit.GRAM),
+                ingredient(I.VanillaSugar, amount, Unit.PACK),
+                ingredient(I.Salt, amount, Unit.PINCH),
             ],
             Füllung: [
-                I.Milk(amount * 600, Unit.MILLILITER),
-                I.VanillaPuddingPowder(amount * 2, Unit.PACK),
-                I.LowFatQuark(amount, Unit.KILOGRAM),
-                I.Sugar(amount * 200, Unit.GRAM),
-                I.Eggs(amount * 2, Unit.PIECE),
-                I.VanillaBean(amount, Unit.PIECE),
-                I.LemonZest(amount * 2, Unit.TEASPOON),
-                I.CookingOil(amount * 200, Unit.MILLILITER),
+                ingredient(I.Milk, amount * 600, Unit.MILLILITER),
+                ingredient(I.VanillaPuddingPowder, amount * 2, Unit.PACK),
+                ingredient(I.LowFatQuark, amount, Unit.KILOGRAM),
+                ingredient(I.Sugar, amount * 200, Unit.GRAM),
+                ingredient(I.Eggs, amount * 2, Unit.PIECE),
+                ingredient(I.VanillaBean, amount, Unit.PIECE),
+                ingredient(I.LemonZest, amount * 2, Unit.TEASPOON),
+                ingredient(I.CookingOil, amount * 200, Unit.MILLILITER),
             ],
         },
         steps: ["mix-all"],
@@ -57,15 +57,15 @@ const TofuBowl: RecipeFunction = (amount: number) => {
         category: Category.LUNCH,
         ingredients: {
             "": [
-                I.Tofu(amount * 200, Unit.GRAM),
-                I.Rice(amount * 100, Unit.GRAM),
-                I.Broccoli(amount * 100, Unit.GRAM),
+                ingredient(I.Tofu, amount * 200, Unit.GRAM),
+                ingredient(I.Rice, amount * 100, Unit.GRAM),
+                ingredient(I.Broccoli, amount * 100, Unit.GRAM),
             ],
         },
         steps: ["mix-all"],
         defaultAmount: 2,
-    }
-}
+    };
+};
 
 const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
     return {
@@ -73,10 +73,10 @@ const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
         category: Category.LUNCH,
         ingredients: {
             "": [
-                I.Zucchini(amount * 0.5, Unit.PIECE),
-                I.Rice(amount * 100, Unit.GRAM),
-                I.MincedBeef(amount * 100, Unit.GRAM),
-                I.Salt(amount, Unit.PINCH),
+                ingredient(I.Zucchini, amount * 0.5, Unit.PIECE),
+                ingredient(I.Rice, amount * 100, Unit.GRAM),
+                ingredient(I.MincedBeef, amount * 100, Unit.GRAM),
+                ingredient(I.Salt, amount, Unit.PINCH),
             ],
         },
         steps: ["mix-all"],

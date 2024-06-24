@@ -1,5 +1,5 @@
-export function ingredient(fn: IngredientFunction): Ingredient {
-    return fn(0, Unit.NONE);
+export function ingredient(ingredient: Ingredients, amount: number, unit: Unit): Ingredient {
+    return {id: ingredient, amount, unit};
 }
 
 export const Broccoli: IngredientFunction = (amount: number, unit: Unit) => {
@@ -162,28 +162,27 @@ export const Zucchini: IngredientFunction = (amount: number, unit: Unit) => {
     };
 };
 
-export const Ingredients = {
-    [ingredient(Broccoli).id]: Broccoli,
-    [ingredient(Butter).id]: Butter,
-    [ingredient(Carrots).id]: Carrots,
-    [ingredient(CookingOil).id]: CookingOil,
-    [ingredient(Eggs).id]: Eggs,
-    [ingredient(LemonZest).id]: LemonZest,
-    [ingredient(LowFatQuark).id]: LowFatQuark,
-    [ingredient(Margarine).id]: Margarine,
-    [ingredient(Milk).id]: Milk,
-    [ingredient(MincedBeef).id]: MincedBeef,
-    [ingredient(Rice).id]: Rice,
-    [ingredient(Salt).id]: Salt,
-    [ingredient(Sugar).id]: Sugar,
-    [ingredient(Tofu).id]: Tofu,
-    [ingredient(VanillaBean).id]: VanillaBean,
-    [ingredient(VanillaPuddingPowder).id]: VanillaPuddingPowder,
-    [ingredient(VanillaSugar).id]: VanillaSugar,
-    [ingredient(WheatFlour).id]: WheatFlour,
-    [ingredient(WholeGrainWheatFlour).id]: WholeGrainWheatFlour,
-    [ingredient(Zucchini).id]: Zucchini,
-};
+export enum Ingredients {
+    Broccoli = "broccoli",
+    Butter = "butter",
+    Carrots = "carrots",
+    CookingOil = "cooking-oil",
+    Eggs = "eggs",
+    LemonZest = "lemon-zest",
+    LowFatQuark = "low-fat-quark",
+    Margarine = "margarine",
+    Milk = "milk",
+    MincedBeef = "minced-beef",
+    Rice = "rice",
+    Salt = "salt",
+    Sugar = "sugar",
+    Tofu = "tofu",
+    VanillaBean = "vanilla-bean",
+    VanillaPuddingPowder = "vanilla-pudding-powder",
+    VanillaSugar = "vanilla-sugar",
+    WheatFlour = "wheat-flour",WholeGrainWheatFlour = "whole-grain-wheat-flour",
+    Zucchini = "zucchini",
+}
 
 export type IngredientFunction = (amount: number, unit: Unit) => Ingredient;
 

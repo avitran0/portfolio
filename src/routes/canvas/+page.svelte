@@ -52,10 +52,6 @@
 </main>
 
 <style>
-    :global(body) {
-        overflow: hidden;
-    }
-
     canvas {
         position: absolute;
         top: 0;
