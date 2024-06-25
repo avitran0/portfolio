@@ -19,6 +19,7 @@
 <main in:fadeIn out:fadeOut>
     <h1>{$fmt(`recipes.${recipe.id}.name`)}</h1>
     <div id="amount-container">
+        <label for="amount-input" class="hide">{$fmt("recipes._meta.amount")}</label>
         <button
             id="minus"
             on:click={() => (amount <= 1 ? (amount = 1) : amount--)}
@@ -27,7 +28,6 @@
                 <path d="M5 12l14 0" />
             </svg>
         </button>
-        <label for="amount-input" class="hide">{$fmt("recipes._meta.amount")}</label>
         <input
             type="number"
             name="amount-input"
@@ -48,7 +48,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">{name === "" ? $fmt("ingredients._meta.title") : $fmt(`recipes.${recipe.id}.ingredient-steps.${name}`)}</th>
+                        <th colspan="2"
+                            >{name === ""
+                                ? $fmt("ingredients._meta.title")
+                                : $fmt(`recipes.${recipe.id}.ingredient-steps.${name}`)}</th>
                     </tr>
                 </thead>
                 {#each ingredientList as ingredient}
