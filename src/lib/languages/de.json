@@ -74,6 +74,10 @@
             "description": "Ein einfaches Rezept für Käsekuchen.",
             "steps": {
                 "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+            },
+            "ingredient-steps": {
+                "dough": "Teig",
+                "filling": "Füllung"
             }
         },
         "tofu-bowl": {
@@ -106,6 +110,10 @@
         "carrots": {
             "name": "Karotten",
             "description": "karott."
+        },
+        "cauliflower": {
+            "name": "Blumenkohl",
+            "description": "blum."
         },
         "cooking-oil": {
             "name": "Speiseöl",

@@ -2,10 +2,12 @@
     import { fadeIn, fadeOut } from "$lib/transition";
     import type { PageData } from "./$types";
     import { fmt } from "$lib/intl";
+    import { ingredient as ing } from "$lib/ingredients";
 
     export let data: PageData;
 
-    const ingredient = data.ingredient(0);
+    const ingredient = ing(data.ingredient);
+    console.info(ingredient);
 </script>
 
 <svelte:head>

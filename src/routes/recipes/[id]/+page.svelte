@@ -48,7 +48,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">{name === "" ? $fmt("ingredients._meta.title") : name}</th>
+                        <th colspan="2">{name === "" ? $fmt("ingredients._meta.title") : $fmt(`recipes.${recipe.id}.ingredient-steps.${name}`)}</th>
                     </tr>
                 </thead>
                 {#each ingredientList as ingredient}

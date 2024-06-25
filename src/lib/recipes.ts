@@ -1,10 +1,38 @@
 import { Unit } from "./ingredients";
-import { ingredient, Ingredients as I } from "$lib/ingredients";
+import { ingredient as ing, Ingredients as I } from "$lib/ingredients";
 import { type Ingredient } from "./ingredients";
 
 export function recipe(fn: RecipeFunction): Recipe {
     return fn(0);
 }
+
+const CheeseCake: RecipeFunction = (amount: number) => {
+    return {
+        id: "cheese-cake",
+        category: Category.BREAKFAST,
+        ingredients: {
+            dough: [
+                ing(I.WheatFlour, amount * 150, Unit.GRAM),
+                ing(I.Sugar, amount * 60, Unit.GRAM),
+                ing(I.Butter, amount * 100, Unit.GRAM),
+                ing(I.VanillaSugar, amount, Unit.PACK),
+                ing(I.Salt, amount, Unit.PINCH),
+            ],
+            filling: [
+                ing(I.Milk, amount * 600, Unit.MILLILITER),
+                ing(I.VanillaPuddingPowder, amount * 2, Unit.PACK),
+                ing(I.LowFatQuark, amount, Unit.KILOGRAM),
+                ing(I.Sugar, amount * 200, Unit.GRAM),
+                ing(I.Eggs, amount * 2, Unit.PIECE),
+                ing(I.VanillaBean, amount, Unit.PIECE),
+                ing(I.LemonZest, amount * 2, Unit.TEASPOON),
+                ing(I.CookingOil, amount * 200, Unit.MILLILITER),
+            ],
+        },
+        steps: ["mix-all"],
+        defaultAmount: 1,
+    };
+};
 
 const Crepes: RecipeFunction = (amount: number) => {
     return {
@@ -12,42 +40,14 @@ const Crepes: RecipeFunction = (amount: number) => {
         category: Category.DESSERT,
         ingredients: {
             "": [
-                ingredient(I.WheatFlour, amount * 25, Unit.GRAM),
-                ingredient(I.Milk, amount * 50, Unit.MILLILITER),
-                ingredient(I.Eggs, amount / 2.5, Unit.PIECE),
-                ingredient(I.Margarine, amount * 5, Unit.GRAM),
+                ing(I.WheatFlour, amount * 25, Unit.GRAM),
+                ing(I.Milk, amount * 50, Unit.MILLILITER),
+                ing(I.Eggs, amount / 2.5, Unit.PIECE),
+                ing(I.Margarine, amount * 5, Unit.GRAM),
             ],
         },
         steps: ["mix-all"],
         defaultAmount: 10,
-    };
-};
-
-const CheeseCake: RecipeFunction = (amount: number) => {
-    return {
-        id: "cheese-cake",
-        category: Category.BREAKFAST,
-        ingredients: {
-            Teig: [
-                ingredient(I.WheatFlour, amount * 150, Unit.GRAM),
-                ingredient(I.Sugar, amount * 60, Unit.GRAM),
-                ingredient(I.Butter, amount * 100, Unit.GRAM),
-                ingredient(I.VanillaSugar, amount, Unit.PACK),
-                ingredient(I.Salt, amount, Unit.PINCH),
-            ],
-            Füllung: [
-                ingredient(I.Milk, amount * 600, Unit.MILLILITER),
-                ingredient(I.VanillaPuddingPowder, amount * 2, Unit.PACK),
-                ingredient(I.LowFatQuark, amount, Unit.KILOGRAM),
-                ingredient(I.Sugar, amount * 200, Unit.GRAM),
-                ingredient(I.Eggs, amount * 2, Unit.PIECE),
-                ingredient(I.VanillaBean, amount, Unit.PIECE),
-                ingredient(I.LemonZest, amount * 2, Unit.TEASPOON),
-                ingredient(I.CookingOil, amount * 200, Unit.MILLILITER),
-            ],
-        },
-        steps: ["mix-all"],
-        defaultAmount: 1,
     };
 };
 
@@ -57,9 +57,10 @@ const TofuBowl: RecipeFunction = (amount: number) => {
         category: Category.LUNCH,
         ingredients: {
             "": [
-                ingredient(I.Tofu, amount * 200, Unit.GRAM),
-                ingredient(I.Rice, amount * 100, Unit.GRAM),
-                ingredient(I.Broccoli, amount * 100, Unit.GRAM),
+                ing(I.Tofu, amount * 200, Unit.GRAM),
+                ing(I.Rice, amount * 200, Unit.GRAM),
+                ing(I.Broccoli, amount * 250, Unit.GRAM),
+                ing(I.Cauliflower, amount * 250, Unit.GRAM),
             ],
         },
         steps: ["mix-all"],
@@ -73,10 +74,10 @@ const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
         category: Category.LUNCH,
         ingredients: {
             "": [
-                ingredient(I.Zucchini, amount * 0.5, Unit.PIECE),
-                ingredient(I.Rice, amount * 100, Unit.GRAM),
-                ingredient(I.MincedBeef, amount * 100, Unit.GRAM),
-                ingredient(I.Salt, amount, Unit.PINCH),
+                ing(I.Zucchini, amount * 0.5, Unit.PIECE),
+                ing(I.Rice, amount * 100, Unit.GRAM),
+                ing(I.MincedBeef, amount * 100, Unit.GRAM),
+                ing(I.Salt, amount, Unit.PINCH),
             ],
         },
         steps: ["mix-all"],
