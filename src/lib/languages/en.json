@@ -36,6 +36,9 @@
     "canvas": {
         "title": "Canvas"
     },
+    "zeit": {
+        "title": "Zeit"
+    },
     "recipes": {
         "_meta": {
             "title": "Recipes",
