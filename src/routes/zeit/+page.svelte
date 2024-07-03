@@ -48,7 +48,7 @@
     }
 
     async function main() {
-        const res = await fetch("http://avitrano.ddns.net:25565");
+        const res = await fetch("https://avitrano.ddns.net:25565");
         const data = await res.json();
         const articles: Article[] = [];
         for (const a of data) {
