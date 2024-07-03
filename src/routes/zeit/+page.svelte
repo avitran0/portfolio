@@ -3,10 +3,10 @@
     import { fmt } from "$lib/intl";
     import Chart from "chart.js/auto";
     import ChartDataLabels from "chartjs-plugin-datalabels";
+    import { type ChartComponentLike } from "chart.js";
     import { onMount } from "svelte";
     import { getWeek } from "date-fns";
     import { ForceDirectedGraphController, EdgeLine } from "chartjs-chart-graph";
-    import * as d3 from "d3";
 
     class Article {
         uuid: string;
@@ -28,9 +28,20 @@
         }
     }
 
+    interface Node {
+        id: string;
+    }
+
+    interface Link {
+        source: number;
+        target: number;
+        strength: number;
+    }
+
     let finishedLoading = false;
     let chartTime: HTMLCanvasElement;
     let chartDepartments: HTMLCanvasElement;
+    let chartTags: HTMLCanvasElement;
 
     function week(date: Date) {
         return `${date.getFullYear()}-${getWeek(date)}`;
@@ -45,7 +56,7 @@
         }
         const departments: { [key: string]: number } = {};
         const times: { [key: string]: number } = {};
-        const tag_data: { nodes: { id: string }[]; links: { source: string; target: string; value: number }[] } = {
+        const tag_data: { nodes: Node[]; links: Link[] } = {
             nodes: [],
             links: [],
         };
@@ -64,6 +75,9 @@
             }
 
             for (const tag of article.tags) {
+                if (tag === "" || tag === "Aktuelle Themen") {
+                    continue;
+                }
                 let t = tag_data.nodes.find((node) => node.id === tag);
                 if (!t) {
                     t = { id: tag };
@@ -72,18 +86,25 @@
             }
             const combinations = article.tags.flatMap((v, i) => article.tags.slice(i + 1).map((w) => [v, w]));
             for (const combination of combinations) {
-                const left = combination[0];
-                const right = combination[1];
+                if (combination[0] === "Aktuelle Themen" || combination[1] === "Aktuelle Themen") {
+                    continue;
+                }
+                const left = tag_data.nodes.findIndex((tag) => tag.id === combination[0]);
+                const right = tag_data.nodes.findIndex((tag) => tag.id === combination[1]);
+                if (left === -1 || right === -1) {
+                    console.warn("node not found!", combination);
+                    continue;
+                }
                 let link = tag_data.links.find(
                     (link) =>
                         (link.source === left && link.target === right) ||
                         (link.source === right && link.target === left),
                 );
                 if (!link) {
-                    link = { source: left, target: right, value: 1 };
+                    link = { source: left, target: right, strength: 1 };
                     tag_data.links.push(link);
                 } else {
-                    link.value++;
+                    link.strength++;
                 }
             }
         }
@@ -91,7 +112,8 @@
 
         const sortedDepartments = Object.fromEntries(Object.entries(departments).sort(([, a], [, b]) => b - a));
 
-        Chart.register(ChartDataLabels, ForceDirectedGraphController, EdgeLine);
+        const zoomPlugin = (await import("chartjs-plugin-zoom")).default as unknown as ChartComponentLike;
+        Chart.register(ChartDataLabels, ForceDirectedGraphController, EdgeLine, zoomPlugin);
         Chart.defaults.backgroundColor = "#00000000";
         Chart.defaults.borderColor = "#8c8c8c";
         Chart.defaults.color = "#ffffff";
@@ -134,6 +156,42 @@
                 ],
             },
         });
+        new Chart(chartTags, {
+            type: "forceDirectedGraph",
+            data: {
+                labels: tag_data.nodes.map((x) => x.id),
+                datasets: [
+                    {
+                        label: "Tags",
+                        data: tag_data.nodes,
+                        edges: tag_data.links,
+                        pointRadius: 5,
+                        backgroundColor: "#6496f0",
+                        borderColor: "#ffffff8c",
+                    },
+                ],
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: false,
+                    },
+                    zoom: {
+                        zoom: {
+                            wheel: {
+                                enabled: true,
+                            },
+                            pinch: {
+                                enabled: true,
+                            },
+                        },
+                        pan: {
+                            enabled: true,
+                        },
+                    },
+                },
+            },
+        });
         finishedLoading = true;
     }
 
@@ -151,6 +209,7 @@
     {#if !finishedLoading}
         <p>Loading...</p>
     {/if}
+    <canvas bind:this={chartTags}></canvas>
     <canvas bind:this={chartTime}></canvas>
     <canvas bind:this={chartDepartments}></canvas>
 </main>
