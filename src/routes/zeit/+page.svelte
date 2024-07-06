@@ -31,6 +31,7 @@
     interface Node {
         id: string;
         count: number;
+        departments: Record<string, number>;
     }
 
     interface Link {
@@ -48,6 +49,15 @@
         return `${date.getFullYear()}-${getWeek(date)}`;
     }
 
+    function generateColors(n: number) {
+        let colors = [];
+        for (let i = 0; i < n; i++) {
+            let hue = i * (360 / n);
+            colors.push(`hsl(${hue}, 100%, 50%)`);
+        }
+        return colors;
+    }
+
     async function main() {
         const res = await fetch("https://avitrano.ddns.net:25565");
         const data = await res.json();
@@ -55,8 +65,9 @@
         for (const a of data) {
             articles.push(new Article(a));
         }
-        const departments: { [key: string]: number } = {};
-        const times: { [key: string]: number } = {};
+        const departments: Record<string, number> = {};
+        const times: Record<string, number> = {};
+        const colors: Record<string, string> = {};
         const tag_data: { nodes: Node[]; links: Link[] } = {
             nodes: [],
             links: [],
@@ -81,10 +92,15 @@
                 }
                 let t = tag_data.nodes.find((node) => node.id === tag);
                 if (!t) {
-                    t = { id: tag, count: 1 };
+                    t = { id: tag, count: 1, departments: { [article.department]: 1 } };
                     tag_data.nodes.push(t);
                 } else {
                     t.count++;
+                    if (t.departments[article.department]) {
+                        t.departments[article.department]++;
+                    } else {
+                        t.departments[article.department] = 1;
+                    }
                 }
             }
             const combinations = article.tags.flatMap((v, i) => article.tags.slice(i + 1).map((w) => [v, w]));
@@ -113,6 +129,10 @@
         }
         console.info(tag_data);
 
+        const col = generateColors(Object.keys(departments).length);
+        Object.keys(departments).forEach((department, index) => {
+            colors[department] = col[index];
+        });
         const sortedDepartments = Object.fromEntries(Object.entries(departments).sort(([, a], [, b]) => b - a));
 
         const zoomPlugin = (await import("chartjs-plugin-zoom")).default as unknown as ChartComponentLike;
@@ -168,8 +188,21 @@
                         label: "Tags",
                         data: tag_data.nodes,
                         edges: tag_data.links,
-                        pointRadius: (ctx) => {return Math.log(tag_data.nodes[ctx.dataIndex].count) * 1.5 + 3;},
-                        backgroundColor: "#6496f0",
+                        pointRadius: (ctx) => {
+                            return Math.log(tag_data.nodes[ctx.dataIndex].count) + 3;
+                        },
+                        pointHoverRadius: (ctx) => {
+                            return Math.log(tag_data.nodes[ctx.dataIndex].count) + 3;
+                        },
+                        backgroundColor: (ctx) => {
+                            //@ts-ignore
+                            if (!ctx.parsed.source && !ctx.parsed.target) {
+                                const dep = tag_data.nodes[ctx.dataIndex].departments;
+                                const max = Object.keys(dep).reduce((a, b) => (dep[a] > dep[b] ? a : b));
+                                return colors[max];
+                            }
+                            return "#fff";
+                        },
                         borderColor: "#ffffff00",
                     },
                 ],
@@ -197,8 +230,8 @@
                     forces: {
                         link: {
                             // @ts-ignore
-                            strength: () => (link, i) => {
-                                return tag_data.links[i].strength / 20;
+                            distance: () => (_, i) => {
+                                return 50 / tag_data.links[i].strength;
                             },
                         },
                     },
