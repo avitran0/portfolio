@@ -58,6 +58,9 @@
         return colors;
     }
 
+    let deps: string[] = [];
+    const colors: Record<string, string> = {};
+
     async function main() {
         const res = await fetch("https://avitrano.ddns.net:25565");
         const data = await res.json();
@@ -67,7 +70,6 @@
         }
         const departments: Record<string, number> = {};
         const times: Record<string, number> = {};
-        const colors: Record<string, string> = {};
         const tag_data: { nodes: Node[]; links: Link[] } = {
             nodes: [],
             links: [],
@@ -86,8 +88,11 @@
                 departments[article.department] = 1;
             }
 
+            if (article.tags.length < 3) {
+                continue;
+            }
             for (const tag of article.tags) {
-                if (tag === "" || tag === "Aktuelle Themen") {
+                if (tag === "") {// || tag === "Aktuelle Themen") {
                     continue;
                 }
                 let t = tag_data.nodes.find((node) => node.id === tag);
@@ -105,9 +110,9 @@
             }
             const combinations = article.tags.flatMap((v, i) => article.tags.slice(i + 1).map((w) => [v, w]));
             for (const combination of combinations) {
-                if (combination[0] === "Aktuelle Themen" || combination[1] === "Aktuelle Themen") {
+                /* if (combination[0] === "Aktuelle Themen" || combination[1] === "Aktuelle Themen") {
                     continue;
-                }
+                } */
                 const left = tag_data.nodes.findIndex((tag) => tag.id === combination[0]);
                 const right = tag_data.nodes.findIndex((tag) => tag.id === combination[1]);
                 if (left === -1 || right === -1) {
@@ -129,11 +134,14 @@
         }
         console.info(tag_data);
 
-        const col = generateColors(Object.keys(departments).length);
-        Object.keys(departments).forEach((department, index) => {
-            colors[department] = col[index];
-        });
         const sortedDepartments = Object.fromEntries(Object.entries(departments).sort(([, a], [, b]) => b - a));
+        const col = generateColors(10);
+        Object.keys(sortedDepartments).forEach((department, index) => {
+            colors[department] = col[index];
+            if (index < 10) {
+                deps.push(department);
+            }
+        });
 
         const zoomPlugin = (await import("chartjs-plugin-zoom")).default as unknown as ChartComponentLike;
         Chart.register(ChartDataLabels, ForceDirectedGraphController, EdgeLine, zoomPlugin);
@@ -189,33 +197,39 @@
                         data: tag_data.nodes,
                         edges: tag_data.links,
                         pointRadius: (ctx) => {
-                            return Math.log(tag_data.nodes[ctx.dataIndex].count) + 3;
+                            return Math.log2(tag_data.nodes[ctx.dataIndex].count) + 3;
                         },
                         pointHoverRadius: (ctx) => {
-                            return Math.log(tag_data.nodes[ctx.dataIndex].count) + 3;
+                            return Math.log2(tag_data.nodes[ctx.dataIndex].count) + 3;
                         },
                         backgroundColor: (ctx) => {
                             //@ts-ignore
                             if (!ctx.parsed.source && !ctx.parsed.target) {
                                 const dep = tag_data.nodes[ctx.dataIndex].departments;
                                 const max = Object.keys(dep).reduce((a, b) => (dep[a] > dep[b] ? a : b));
-                                return colors[max];
+                                if (deps.includes(max)) {
+                                    return colors[max];
+                                }
                             }
-                            return "#fff";
+                            return "#ffffff";
                         },
-                        borderColor: "#ffffff00",
+                        borderColor: "#ffffff1a",
+                        borderWidth: 1,
                     },
                 ],
             },
             options: {
                 plugins: {
+                    legend: {
+                        display: false,
+                    },
                     datalabels: {
                         display: false,
                     },
                     zoom: {
                         zoom: {
                             wheel: {
-                                enabled: true,
+                                enabled: false,
                             },
                             pinch: {
                                 enabled: true,
@@ -231,8 +245,12 @@
                         link: {
                             // @ts-ignore
                             distance: () => (_, i) => {
-                                return 50 / tag_data.links[i].strength;
+                                return 50 / tag_data.links[i].strength + 30;
                             },
+                            // @ts-ignore
+                            /* strength: () => (_, i) => {
+                                return tag_data.links[i].strength / 30;
+                            } */
                         },
                     },
                 },
@@ -255,6 +273,14 @@
     {#if !finishedLoading}
         <p>Loading...</p>
     {/if}
+    <div id="legend">
+        {#each deps as department}
+            <div>
+                <div class="display-color" style="background-color: {colors[department]};"></div>
+                <p>{department}</p>
+            </div>
+        {/each}
+    </div>
     <canvas bind:this={chartTags}></canvas>
     <canvas bind:this={chartTime}></canvas>
     <canvas bind:this={chartDepartments}></canvas>
@@ -263,5 +289,27 @@
 <style>
     main {
         width: 90dvw;
+    }
+
+    #legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 1rem;
+    }
+
+    #legend > div {
+        display: flex;
+        gap: 0.2rem;
+        align-items: center;
+    }
+
+    .display-color {
+        width: 3rem;
+        height: 1rem;
+    }
+
+    #legend p {
+        font-size: var(--font-size-xsmall);
     }
 </style>
