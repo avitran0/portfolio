@@ -30,6 +30,7 @@
 
     interface Node {
         id: string;
+        count: number;
     }
 
     interface Link {
@@ -80,8 +81,10 @@
                 }
                 let t = tag_data.nodes.find((node) => node.id === tag);
                 if (!t) {
-                    t = { id: tag };
+                    t = { id: tag, count: 1 };
                     tag_data.nodes.push(t);
+                } else {
+                    t.count++;
                 }
             }
             const combinations = article.tags.flatMap((v, i) => article.tags.slice(i + 1).map((w) => [v, w]));
@@ -165,9 +168,9 @@
                         label: "Tags",
                         data: tag_data.nodes,
                         edges: tag_data.links,
-                        pointRadius: 5,
+                        pointRadius: (ctx) => {return Math.log(tag_data.nodes[ctx.dataIndex].count) * 1.5 + 3;},
                         backgroundColor: "#6496f0",
-                        borderColor: "#ffffff8c",
+                        borderColor: "#ffffff00",
                     },
                 ],
             },
@@ -187,6 +190,16 @@
                         },
                         pan: {
                             enabled: true,
+                        },
+                    },
+                },
+                simulation: {
+                    forces: {
+                        link: {
+                            // @ts-ignore
+                            strength: () => (link, i) => {
+                                return tag_data.links[i].strength / 20;
+                            },
                         },
                     },
                 },
