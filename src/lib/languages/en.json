@@ -37,7 +37,9 @@
         "title": "Canvas"
     },
     "zeit": {
-        "title": "Zeit"
+        "title": "Zeit",
+        "chart-publish-weeks": "Articles per week",
+        "chart-publish-weeks-topics": "Articles per week per topic"
     },
     "recipes": {
         "_meta": {
