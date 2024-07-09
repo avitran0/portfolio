@@ -112,10 +112,7 @@
         prev_time = t;
         console.info("creating graphs...");
 
-        Chart.defaults.font.family = "JetBrainsMono";
-        Chart.defaults.font.size = 16;
-        Chart.defaults.color = "#ffffff";
-        Chart.defaults.borderColor = "#ffffff1e";
+        setChartDefaults();
 
         charts["publish-weeks"] = new Chart(chartPublishWeeks, {
             type: "line",
@@ -174,6 +171,21 @@
         t = performance.now();
         console.info(`done in ${(t - prev_time).toLocaleString()}ms`);
         prev_time = t;
+    }
+
+    function setChartDefaults() {
+        // font
+        Chart.defaults.font.family = "JetBrainsMono";
+        Chart.defaults.font.size = 16;
+
+        // colors
+        Chart.defaults.color = "#ffffff";
+        Chart.defaults.borderColor = "#ffffff1e";
+
+        // point styling
+        Chart.defaults.elements.point.radius = 5;
+        Chart.defaults.elements.point.hoverRadius = 5;
+        Chart.defaults.elements.point.hitRadius = 3;
     }
 
     onMount(() => {
