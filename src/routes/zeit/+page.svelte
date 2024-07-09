@@ -28,10 +28,11 @@
     interface Node {
         id: string;
         count: number;
-        departments: Record<string, number>;
+        topics: Record<string, number>;
     }
 
     interface Link {
+        id: string;
         source: string;
         target: string;
         strength: number;
@@ -45,11 +46,30 @@
     let chartPublishWeeks: HTMLCanvasElement;
     let chartPublishWeeksTopics: HTMLCanvasElement;
 
-    const charts: Record<string, Chart> = {};
+    let publishWeeksTopicsStacked = true;
+
+    const charts: Record<string, Chart<"line", number[], string>> = {};
 
     function week(date: Date) {
         // 1 is monday, 0 is sunday
         return `${date.getFullYear()}-${getWeek(date, { weekStartsOn: 1 })}`;
+    }
+
+    const BORDER_COLORS = ["#6496f0", "#f06464", "#a0f082", "#f08c5a", "#b478f0", "#f0c878", "#50c8c8"];
+    const BACKGROUND_COLORS = [
+        "#6496f07f",
+        "#f064647f",
+        "#a0f0827f",
+        "#f08c5a7f",
+        "#b478f07f",
+        "#f0c8787f",
+        "#50c8c87f",
+    ];
+    function getBorderColor(i: number) {
+        return BORDER_COLORS[i % BORDER_COLORS.length];
+    }
+    function getBackgroundColor(i: number) {
+        return BACKGROUND_COLORS[i % BACKGROUND_COLORS.length];
     }
 
     async function main() {
@@ -99,14 +119,47 @@
             } else {
                 topicCounts[article.topic] = 1;
             }
+
+            // nodes and links
+            for (const tag of article.tags) {
+                if ((DISABLE_AT && tag === AT) || tag === "") {
+                    continue;
+                }
+                let node = tag_data.nodes.find((node) => node.id === tag);
+                if (node) {
+                    node.count++;
+                } else {
+                    const new_node = { id: tag, count: 1, topics: { [article.topic]: 1 } };
+                    tag_data.nodes.push(new_node);
+                }
+
+                const combinations = article.tags.flatMap((v, i) => article.tags.slice(i + 1).map((w) => [v, w]));
+                for (const [tag1, tag2] of combinations) {
+                    if (DISABLE_AT && (tag1 === AT || tag2 === AT)) {
+                        continue;
+                    }
+                    let link = tag_data.links.find(
+                        (link) =>
+                            (link.source === tag1 && link.target === tag2) ||
+                            (link.source === tag2 && link.target === tag1),
+                    );
+                    if (link) {
+                        link.strength++;
+                    } else {
+                        const new_link = { id: tag1 + tag2, source: tag1, target: tag2, strength: 1 };
+                        tag_data.links.push(new_link);
+                    }
+                }
+            }
         }
+        // end article loop
+        console.info(tag_data);
 
         const relevantTopics = Object.entries(topicCounts)
             .sort((a, b) => b[1] - a[1])
             .flatMap((val) => val[0])
             .slice(0, RELEVANT_TOPICS);
 
-        // end article loop
         t = performance.now();
         console.info(`done in ${(t - prev_time).toLocaleString()}ms`);
         prev_time = t;
@@ -125,6 +178,8 @@
                         cubicInterpolationMode: "monotone",
                         // todo: better tension?
                         tension: 0.2,
+                        borderColor: getBorderColor(0),
+                        backgroundColor: getBackgroundColor(0),
                     },
                 ],
             },
@@ -145,15 +200,17 @@
             type: "line",
             data: {
                 labels: Object.keys(publishWeeks),
-                datasets: relevantTopics.map((topic) => {
+                datasets: relevantTopics.map((topic, index) => {
                     return {
                         label: topic,
                         data: Object.values(publishWeeksTopics[topic]),
                         // todo: switch for fill option
-                        fill: false,
+                        fill: publishWeeksTopicsStacked,
                         cubicInterpolationMode: "monotone",
                         // todo: better tension?
                         tension: 0.2,
+                        borderColor: getBorderColor(index),
+                        backgroundColor: getBackgroundColor(index),
                     };
                 }),
             },
@@ -162,7 +219,7 @@
                     y: {
                         beginAtZero: true,
                         // todo: switch for stacked option
-                        stacked: false,
+                        stacked: publishWeeksTopicsStacked,
                     },
                 },
             },
@@ -185,7 +242,9 @@
         // point styling
         Chart.defaults.elements.point.radius = 5;
         Chart.defaults.elements.point.hoverRadius = 5;
-        Chart.defaults.elements.point.hitRadius = 3;
+
+        // intersection
+        Chart.defaults.interaction.intersect = false;
     }
 
     onMount(() => {
@@ -203,6 +262,25 @@
     <canvas bind:this={chartPublishWeeks}></canvas>
     <h2>{$fmt("zeit.chart-publish-weeks-topics")}</h2>
     <canvas bind:this={chartPublishWeeksTopics}></canvas>
+    <button
+        on:click={() => {
+            const chart = charts["publish-weeks-topics"];
+            if (publishWeeksTopicsStacked) {
+                // @ts-ignore
+                chart.options.scales.y.stacked = false;
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.fill = false;
+                });
+            } else {
+                // @ts-ignore
+                chart.options.scales.y.stacked = true;
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.fill = true;
+                });
+            }
+            chart.update();
+            publishWeeksTopicsStacked = !publishWeeksTopicsStacked;
+        }}>Toggle Stacked</button>
 </main>
 
 <style>
