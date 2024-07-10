@@ -13,6 +13,7 @@
         authors: string[];
         tags: string[];
         isMultipage: boolean;
+        textLength: number;
 
         constructor(article: Array<string[] | number | string>) {
             this.uuid = article[0] as string;
@@ -22,6 +23,7 @@
             this.authors = article[4] as string[];
             this.tags = article[5] as string[];
             this.isMultipage = Boolean(article[6] as number);
+            this.textLength = article[7] as number;
         }
     }
 
@@ -45,10 +47,11 @@
 
     let chartPublishWeeks: HTMLCanvasElement;
     let chartPublishWeeksTopics: HTMLCanvasElement;
+    let chartTextLengthTopics: HTMLCanvasElement;
 
-    let publishWeeksTopicsStacked = true;
+    let chartsStacked = true;
 
-    const charts: Record<string, Chart<"line", number[], string>> = {};
+    const charts: Record<string, Chart<"line", number[], string> | Chart<"bar", number[], string>> = {};
 
     function week(date: Date) {
         // 1 is monday, 0 is sunday
@@ -95,6 +98,7 @@
         // { topic: { week: count }}
         const publishWeeksTopics: Record<string, Record<string, number>> = {};
         const topicCounts: Record<string, number> = {};
+        const textLengthTopics: Record<string, number[]> = {};
 
         for (const article of articles) {
             const w = week(article.publishTime);
@@ -118,6 +122,12 @@
                 topicCounts[article.topic]++;
             } else {
                 topicCounts[article.topic] = 1;
+            }
+
+            if (article.topic in textLengthTopics) {
+                textLengthTopics[article.topic].push(article.textLength);
+            } else {
+                textLengthTopics[article.topic] = [article.textLength];
             }
 
             // nodes and links
@@ -153,12 +163,18 @@
             }
         }
         // end article loop
-        console.info(tag_data);
 
         const relevantTopics = Object.entries(topicCounts)
             .sort((a, b) => b[1] - a[1])
             .flatMap((val) => val[0])
             .slice(0, RELEVANT_TOPICS);
+
+        const averageTextLengths = Object.fromEntries(
+            Object.entries(textLengthTopics).map(([key, value]) =>
+                relevantTopics.includes(key) ? [key, value.reduce((a, b) => a + b) / value.length] : [],
+            ),
+        );
+        console.info(averageTextLengths);
 
         t = performance.now();
         console.info(`done in ${(t - prev_time).toLocaleString()}ms`);
@@ -205,7 +221,7 @@
                         label: topic,
                         data: Object.values(publishWeeksTopics[topic]),
                         // todo: switch for fill option
-                        fill: publishWeeksTopicsStacked,
+                        fill: chartsStacked,
                         cubicInterpolationMode: "monotone",
                         // todo: better tension?
                         tension: 0.2,
@@ -219,7 +235,30 @@
                     y: {
                         beginAtZero: true,
                         // todo: switch for stacked option
-                        stacked: publishWeeksTopicsStacked,
+                        stacked: chartsStacked,
+                    },
+                },
+            },
+        });
+        charts["text-length-topics"] = new Chart(chartTextLengthTopics, {
+            type: "bar",
+            data: {
+                labels: Object.keys(averageTextLengths),
+                datasets: [
+                    {
+                        label: "",
+                        data: Object.values(averageTextLengths),
+                        borderColor: getBorderColor(0),
+                        backgroundColor: getBorderColor(0),
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        // todo: switch for stacked option
+                        stacked: chartsStacked,
                     },
                 },
             },
@@ -264,23 +303,28 @@
     <canvas bind:this={chartPublishWeeksTopics}></canvas>
     <button
         on:click={() => {
-            const chart = charts["publish-weeks-topics"];
-            if (publishWeeksTopicsStacked) {
-                // @ts-ignore
-                chart.options.scales.y.stacked = false;
-                chart.data.datasets.forEach((dataset) => {
-                    dataset.fill = false;
-                });
+            const chartsToChange = [charts["publish-weeks-topics"], charts["text-length-topics"]];
+            if (chartsStacked) {
+                for (const chart of chartsToChange) {
+                    // @ts-ignore
+                    chart.options.scales.y.stacked = false;
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.fill = false;
+                    });
+                }
             } else {
-                // @ts-ignore
-                chart.options.scales.y.stacked = true;
-                chart.data.datasets.forEach((dataset) => {
-                    dataset.fill = true;
-                });
+                for (const chart of chartsToChange) {
+                    // @ts-ignore
+                    chart.options.scales.y.stacked = true;
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.fill = true;
+                    });
+                }
             }
-            chart.update();
-            publishWeeksTopicsStacked = !publishWeeksTopicsStacked;
+            chartsToChange.forEach((chart) => chart.update());
+            chartsStacked = !chartsStacked;
         }}>Toggle Stacked</button>
+    <canvas bind:this={chartTextLengthTopics}></canvas>
 </main>
 
 <style>
