@@ -48,10 +48,13 @@
     let chartPublishWeeks: HTMLCanvasElement;
     let chartPublishWeeksTopics: HTMLCanvasElement;
     let chartTextLengthTopics: HTMLCanvasElement;
+    let chartPublishTimesTopics: HTMLCanvasElement;
 
     let chartsStacked = true;
+    const TENSION = 0.5;
 
-    const charts: Record<string, Chart<"line", number[], string> | Chart<"bar", number[], string>> = {};
+    const lineCharts: Record<string, Chart<"line", number[], string>> = {};
+    const barCharts: Record<string, Chart<"bar", number[], string>> = {};
 
     function week(date: Date) {
         // 1 is monday, 0 is sunday
@@ -99,9 +102,11 @@
         const publishWeeksTopics: Record<string, Record<string, number>> = {};
         const topicCounts: Record<string, number> = {};
         const textLengthTopics: Record<string, number[]> = {};
+        const topicCountsTimes: Record<string, Record<string, number>> = {};
 
         for (const article of articles) {
             const w = week(article.publishTime);
+            const hour = article.publishTime.getHours().toString();
             if (w in publishWeeks) {
                 publishWeeks[w]++;
             } else {
@@ -128,6 +133,16 @@
                 textLengthTopics[article.topic].push(article.textLength);
             } else {
                 textLengthTopics[article.topic] = [article.textLength];
+            }
+
+            if (article.topic in topicCountsTimes) {
+                if (hour in topicCountsTimes[article.topic]) {
+                    topicCountsTimes[article.topic][hour]++;
+                } else {
+                    topicCountsTimes[article.topic][hour] = 1;
+                }
+            } else {
+                topicCountsTimes[article.topic] = { [hour]: 1 };
             }
 
             // nodes and links
@@ -164,17 +179,25 @@
         }
         // end article loop
 
+        if ("video" in topicCounts) {
+            delete topicCounts["video"];
+        }
         const relevantTopics = Object.entries(topicCounts)
             .sort((a, b) => b[1] - a[1])
             .flatMap((val) => val[0])
             .slice(0, RELEVANT_TOPICS);
 
         const averageTextLengths = Object.fromEntries(
-            Object.entries(textLengthTopics).map(([key, value]) =>
-                relevantTopics.includes(key) ? [key, value.reduce((a, b) => a + b) / value.length] : [],
-            ),
+            Object.entries(textLengthTopics)
+                .map(([key, value]) => [key, Math.round(value.reduce((a, b) => a + b) / value.length)])
+                // @ts-ignore
+                .sort(([, a], [, b]) => a - b),
         );
-        console.info(averageTextLengths);
+        Object.keys(averageTextLengths).forEach((key) => {
+            if (!relevantTopics.includes(key)) {
+                delete averageTextLengths[key];
+            }
+        });
 
         t = performance.now();
         console.info(`done in ${(t - prev_time).toLocaleString()}ms`);
@@ -183,7 +206,7 @@
 
         setChartDefaults();
 
-        charts["publish-weeks"] = new Chart(chartPublishWeeks, {
+        lineCharts["publish-weeks"] = new Chart(chartPublishWeeks, {
             type: "line",
             data: {
                 labels: Object.keys(publishWeeks),
@@ -192,8 +215,7 @@
                         data: Object.values(publishWeeks),
                         fill: true,
                         cubicInterpolationMode: "monotone",
-                        // todo: better tension?
-                        tension: 0.2,
+                        tension: TENSION,
                         borderColor: getBorderColor(0),
                         backgroundColor: getBackgroundColor(0),
                     },
@@ -212,7 +234,7 @@
                 },
             },
         });
-        charts["publish-weeks-topics"] = new Chart(chartPublishWeeksTopics, {
+        lineCharts["publish-weeks-topics"] = new Chart(chartPublishWeeksTopics, {
             type: "line",
             data: {
                 labels: Object.keys(publishWeeks),
@@ -220,11 +242,9 @@
                     return {
                         label: topic,
                         data: Object.values(publishWeeksTopics[topic]),
-                        // todo: switch for fill option
                         fill: chartsStacked,
                         cubicInterpolationMode: "monotone",
-                        // todo: better tension?
-                        tension: 0.2,
+                        tension: TENSION,
                         borderColor: getBorderColor(index),
                         backgroundColor: getBackgroundColor(index),
                     };
@@ -234,13 +254,12 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        // todo: switch for stacked option
                         stacked: chartsStacked,
                     },
                 },
             },
         });
-        charts["text-length-topics"] = new Chart(chartTextLengthTopics, {
+        barCharts["text-length-topics"] = new Chart(chartTextLengthTopics, {
             type: "bar",
             data: {
                 labels: Object.keys(averageTextLengths),
@@ -254,10 +273,33 @@
                 ],
             },
             options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+            },
+        });
+        lineCharts["publish-times-topics"] = new Chart(chartPublishTimesTopics, {
+            type: "line",
+            data: {
+                labels: [...Array(24).keys()].map((key) => key.toString()),
+                datasets: relevantTopics.map((topic, index) => {
+                    return {
+                        label: topic,
+                        data: Object.values(topicCountsTimes[topic]),
+                        fill: chartsStacked,
+                        cubicInterpolationMode: "monotone",
+                        tension: TENSION,
+                        borderColor: getBorderColor(index),
+                        backgroundColor: getBackgroundColor(index),
+                    };
+                }),
+            },
+            options: {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        // todo: switch for stacked option
                         stacked: chartsStacked,
                     },
                 },
@@ -283,7 +325,7 @@
         Chart.defaults.elements.point.hoverRadius = 5;
 
         // intersection
-        Chart.defaults.interaction.intersect = false;
+        // Chart.defaults.interaction.intersect = false;
     }
 
     onMount(() => {
@@ -301,9 +343,14 @@
     <canvas bind:this={chartPublishWeeks}></canvas>
     <h2>{$fmt("zeit.chart-publish-weeks-topics")}</h2>
     <canvas bind:this={chartPublishWeeksTopics}></canvas>
+    <h2>{$fmt("zeit.chart-text-length-topics")}</h2>
+    <canvas bind:this={chartTextLengthTopics}></canvas>
+    <h2>{$fmt("zeit.chart-publish-times-topics")}</h2>
+    <canvas bind:this={chartPublishTimesTopics}></canvas>
     <button
+        id="stack-button"
         on:click={() => {
-            const chartsToChange = [charts["publish-weeks-topics"], charts["text-length-topics"]];
+            const chartsToChange = [lineCharts["publish-weeks-topics"], lineCharts["publish-times-topics"]];
             if (chartsStacked) {
                 for (const chart of chartsToChange) {
                     // @ts-ignore
@@ -324,12 +371,16 @@
             chartsToChange.forEach((chart) => chart.update());
             chartsStacked = !chartsStacked;
         }}>Toggle Stacked</button>
-    <canvas bind:this={chartTextLengthTopics}></canvas>
 </main>
 
 <style>
     main {
         max-width: min(90dvw, 64rem);
         width: 100%;
+    }
+
+    #stack-button {
+        position: fixed;
+        top: 1rem;
     }
 </style>

@@ -224,7 +224,8 @@
         flex-direction: row;
         width: 100dvw;
         padding: 1rem;
-        padding-bottom: 0;
+        backdrop-filter: blur(0.5rem);
+        border-bottom: var(--border-text);
     }
 
     header > div {

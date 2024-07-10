@@ -39,7 +39,9 @@
     "zeit": {
         "title": "Zeit",
         "chart-publish-weeks": "Articles per week",
-        "chart-publish-weeks-topics": "Articles per week per topic"
+        "chart-publish-weeks-topics": "Articles per week per topic",
+        "chart-text-length-topics": "Text length per topic",
+        "chart-publish-times-topics": "publish times per topic"
     },
     "recipes": {
         "_meta": {
