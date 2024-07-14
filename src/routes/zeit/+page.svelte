@@ -81,7 +81,7 @@
     async function main() {
         let prev_time = performance.now();
         console.info("fetching data...");
-        const res = await fetch("https://avitrano.ddns.net:25565");
+        const res = await fetch("https://avitrano.ddns.net:8000");
         const data = await res.json();
         const articles: Article[] = [];
         for (const a of data) {
