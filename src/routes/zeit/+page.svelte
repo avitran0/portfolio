@@ -42,6 +42,32 @@
 
     const DISABLE_AT = true;
     const AT = "Aktuelle Themen";
+    const EMPTY_TOD = {
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: 0,
+        16: 0,
+        17: 0,
+        18: 0,
+        19: 0,
+        20: 0,
+        21: 0,
+        22: 0,
+        23: 0,
+    };
 
     const RELEVANT_TOPICS = 10;
 
@@ -136,13 +162,10 @@
             }
 
             if (article.topic in topicCountsTimes) {
-                if (hour in topicCountsTimes[article.topic]) {
-                    topicCountsTimes[article.topic][hour]++;
-                } else {
-                    topicCountsTimes[article.topic][hour] = 1;
-                }
+                topicCountsTimes[article.topic][hour]++;
             } else {
-                topicCountsTimes[article.topic] = { [hour]: 1 };
+                topicCountsTimes[article.topic] = structuredClone(EMPTY_TOD);
+                topicCountsTimes[article.topic][hour]++;
             }
 
             // nodes and links
