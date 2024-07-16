@@ -38,6 +38,8 @@
     },
     "zeit": {
         "title": "Zeit",
+        "articles-total": "Gesamtanzahl Artikel",
+        "chart-total-articles-topics": "Anzahl Artikel pro Rubrik",
         "chart-publish-weeks": "Artikel pro Woche",
         "chart-publish-weeks-topics": "Artikel pro Woche pro Rubrik",
         "chart-text-length-topics": "Textlänge pro Rubrik",

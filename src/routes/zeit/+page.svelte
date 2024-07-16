@@ -71,6 +71,7 @@
 
     const RELEVANT_TOPICS = 10;
 
+    let chartTotalArticlesTopics: HTMLCanvasElement;
     let chartPublishWeeks: HTMLCanvasElement;
     let chartPublishWeeksTopics: HTMLCanvasElement;
     let chartTextLengthTopics: HTMLCanvasElement;
@@ -79,6 +80,7 @@
     let chartsStacked = true;
     const TENSION = 0.5;
 
+    let articlesTotal = 0;
     const lineCharts: Record<string, Chart<"line", number[], string>> = {};
     const barCharts: Record<string, Chart<"bar", number[], string>> = {};
 
@@ -113,6 +115,7 @@
         for (const a of data) {
             articles.push(new Article(a));
         }
+        articlesTotal = articles.length;
         let t = performance.now();
         console.info(`done in ${(t - prev_time).toLocaleString()}ms`);
         prev_time = t;
@@ -214,7 +217,7 @@
             Object.entries(textLengthTopics)
                 .map(([key, value]) => [key, Math.round(value.reduce((a, b) => a + b) / value.length)])
                 // @ts-ignore
-                .sort(([, a], [, b]) => a - b),
+                .sort(([, a], [, b]) => b - a),
         );
         Object.keys(averageTextLengths).forEach((key) => {
             if (!relevantTopics.includes(key)) {
@@ -229,6 +232,32 @@
 
         setChartDefaults();
 
+        const topicCountsSorted = Object.fromEntries(Object.entries(topicCounts).sort(([, a], [, b]) => b - a));
+        Object.keys(topicCountsSorted).forEach((key) => {
+            if (!relevantTopics.includes(key)) {
+                delete topicCountsSorted[key];
+            }
+        });
+        barCharts["total-articles-topics"] = new Chart(chartTotalArticlesTopics, {
+            type: "bar",
+            data: {
+                labels: Object.keys(topicCountsSorted),
+                datasets: [
+                    {
+                        data: Object.values(topicCountsSorted),
+                        borderColor: getBorderColor(0),
+                        backgroundColor: getBorderColor(0),
+                    },
+                ],
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+            },
+        });
         lineCharts["publish-weeks"] = new Chart(chartPublishWeeks, {
             type: "line",
             data: {
@@ -307,6 +336,7 @@
             type: "line",
             data: {
                 labels: [...Array(24).keys()].map((key) => key.toString()),
+                // @ts-ignore
                 datasets: relevantTopics.map((topic, index) => {
                     return {
                         label: topic,
@@ -362,6 +392,9 @@
 
 <main in:fadeIn out:fadeOut>
     <h1>{$fmt("zeit.title")}</h1>
+    <h2>{$fmt("zeit.articles-total")}: {articlesTotal}</h2>
+    <h2>{$fmt("zeit.chart-total-articles-topics")}</h2>
+    <canvas bind:this={chartTotalArticlesTopics}></canvas>
     <h2>{$fmt("zeit.chart-publish-weeks")}</h2>
     <canvas bind:this={chartPublishWeeks}></canvas>
     <h2>{$fmt("zeit.chart-publish-weeks-topics")}</h2>
