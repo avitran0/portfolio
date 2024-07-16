@@ -43,10 +43,10 @@ const Crepes: RecipeFunction = (amount: number) => {
                 ing(I.WheatFlour, amount * 25, Unit.GRAM),
                 ing(I.Milk, amount * 50, Unit.MILLILITER),
                 ing(I.Eggs, amount / 2.5, Unit.PIECE),
-                ing(I.Margarine, amount * 5, Unit.GRAM),
+                ing(I.Butter, amount * 5, Unit.GRAM),
             ],
         },
-        steps: ["mix-all"],
+        steps: ["whisk-eggs", "heat-butter", "mix-all"],
         defaultAmount: 10,
     };
 };

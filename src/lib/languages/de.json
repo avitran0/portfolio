@@ -75,14 +75,16 @@
             "name": "Crepes",
             "description": "Ein einfaches Rezept für Crepes.",
             "steps": {
-                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+                "whisk-eggs": "Alle Einer in eine Schüssel geben und aufschlagen",
+                "heat-butter": "Butter in der Mikrowelle erhitzen, bis sie flüssig ist",
+                "mix-all": "Alle restlichen Zutaten in die Schüssel geben und vermischen"
             }
         },
         "cheese-cake": {
             "name": "Käsekuchen",
             "description": "Ein einfaches Rezept für Käsekuchen.",
             "steps": {
-                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+                "mix-all": "Alle Zutaten in einer Schüssel vermischen"
             },
             "ingredient-steps": {
                 "dough": "Teig",
@@ -93,14 +95,14 @@
             "name": "Tofu-Bowl",
             "description": "Eine Bowl mit Tofu, Blumenkohl und Brokkoli.",
             "steps": {
-                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+                "mix-all": "Alle Zutaten in einer Schüssel vermischen"
             }
         },
         "zucchini-rice": {
             "name": "Zucchini-Reis-Hack-Pfanne",
             "description": "Ein einfaches Rezept für Zucchini Reis.",
             "steps": {
-                "mix-all": "Alle Zutaten in einer Schüssel vermischen."
+                "mix-all": "Alle Zutaten in einer Schüssel vermischen"
             }
         }
     },

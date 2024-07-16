@@ -48,28 +48,30 @@
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2"
-                            >{name === ""
+                        <th colspan="2">
+                            {name === ""
                                 ? $fmt("ingredients._meta.title")
                                 : $fmt(`recipes.${recipe.id}.ingredient-steps.${name}`)}</th>
                     </tr>
                 </thead>
                 {#each ingredientList as ingredient}
                     <tr>
-                        <td class="bold"
-                            >{ingredient.amount.toLocaleString()} {$fmt(`recipes._meta.units.${ingredient.unit}`)}</td>
-                        <td
-                            ><a href={`/ingredients/${ingredient.id}`}>{$fmt(`ingredients.${ingredient.id}.name`)}</a
-                            ></td>
+                        <td class="bold">
+                            {ingredient.amount.toLocaleString()} {$fmt(`recipes._meta.units.${ingredient.unit}`)}</td>
+                        <td>
+                            <a href={`/ingredients/${ingredient.id}`}>{$fmt(`ingredients.${ingredient.id}.name`)}</a>
+                        </td>
                     </tr>
                 {/each}
             </table>
         {/each}
     </div>
     <h2>{$fmt("recipes._meta.steps")}</h2>
-    {#each recipe.steps as step, i}
-        <p>{i + 1}: {$fmt(`recipes.${recipe.id}.steps.${step}`)}</p>
-    {/each}
+    <div id="recipe-steps">
+        {#each recipe.steps as step, i}
+            <p>{i + 1}: {$fmt(`recipes.${recipe.id}.steps.${step}`)}</p>
+        {/each}
+    </div>
 </main>
 
 <style>
@@ -187,6 +189,12 @@
 
     #amount-input:hover + #plus {
         border-left-color: var(--color-blue);
+    }
+
+    #recipe-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 
     .hide {

@@ -86,7 +86,9 @@
             "name": "Crepes",
             "description": "A thin pancake.",
             "steps": {
-                "mix-all": "Mix all ingredients."
+                "whisk-eggs": "Put all eggs in a bowl and whish them",
+                "heat-butter": "Heat butter in a microwave until it is liquid",
+                "mix-all": "Put all remaining ingredients in the bowl and mix them"
             }
         },
         "tofu-bowl": {
