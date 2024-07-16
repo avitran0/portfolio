@@ -290,6 +290,7 @@
             type: "line",
             data: {
                 labels: Object.keys(publishWeeks),
+                // @ts-ignore
                 datasets: relevantTopics.map((topic, index) => {
                     return {
                         label: topic,
