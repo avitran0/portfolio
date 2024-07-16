@@ -172,7 +172,8 @@
             }
 
             // nodes and links
-            for (const tag of article.tags) {
+            // todo: add graph for tag relations
+            /* for (const tag of article.tags) {
                 if ((DISABLE_AT && tag === AT) || tag === "") {
                     continue;
                 }
@@ -201,7 +202,7 @@
                         tag_data.links.push(new_link);
                     }
                 }
-            }
+            } */
         }
         // end article loop
 
