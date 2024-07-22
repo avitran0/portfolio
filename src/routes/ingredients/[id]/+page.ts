@@ -1,6 +1,6 @@
 import type { PageLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import { Ingredients } from "$lib/ingredients";
+import { Ingredients } from "$lib/recipes/ingredients";
 
 export const load: PageLoad = async ({ params }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,5 +1,5 @@
 import { Unit } from "./ingredients";
-import { ingredient as ing, Ingredients as I } from "$lib/ingredients";
+import { ingredient as ing, Ingredients as I } from "$lib/recipes/ingredients";
 import { type Ingredient } from "./ingredients";
 
 export function recipe(fn: RecipeFunction): Recipe {

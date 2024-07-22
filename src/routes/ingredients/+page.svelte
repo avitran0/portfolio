@@ -1,7 +1,7 @@
 <script>
     import { fadeIn, fadeOut } from "$lib/transition";
     import { fmt } from "$lib/intl";
-    import { Ingredients, ingredient as ing } from "$lib/ingredients";
+    import { Ingredients, ingredient as ing } from "$lib/recipes/ingredients";
 </script>
 
 <svelte:head>

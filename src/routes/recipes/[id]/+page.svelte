@@ -2,7 +2,7 @@
     import { fadeIn, fadeOut } from "$lib/transition";
     import type { PageData } from "./$types";
     import { fmt } from "$lib/intl";
-    import { recipe as rec } from "$lib/recipes";
+    import { recipe as rec } from "$lib/recipes/recipes";
 
     export let data: PageData;
 
