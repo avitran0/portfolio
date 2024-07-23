@@ -22,7 +22,7 @@ onmessage = async function (e) {
                 time.toLocaleString() +
                 "ms (" +
                 blockThroughput.toLocaleString() +
-                " blocks/s)"
+                " blocks/s)",
         );
         this.postMessage(items);
     } catch (e) {
@@ -31,6 +31,10 @@ onmessage = async function (e) {
     }
 };
 
+/**
+ * @param {ArrayBuffer} data
+ * @returns {import("./types.js").BlockList}
+ */
 function loadSchematic(data) {
     if (hasGzipHeader(data)) {
         data = inflate(data).buffer;
@@ -39,77 +43,101 @@ function loadSchematic(data) {
     const view = new DataView(data);
 
     const nbt = parse(view, data);
+    console.info(nbt);
 
     if (nbt["Regions"]) {
+        console.info("detected litematica format");
         return getLitematicaBlocks(nbt);
     }
     if (nbt["Schematic"]) {
-        return getSchematicaBlocks(nbt);
+        console.info("detected sponge v3 format");
+        return getSpongeSchematicV3Blocks(nbt);
     }
     if (nbt["BlockData"]) {
-        return getWorldEditSchemBlocks(nbt);
+        console.info("detected sponge v1 format");
+        return getSpongeSchematicV1Blocks(nbt);
     }
     if (nbt["Blocks"]) {
-        return getOldSchematicBlocks(nbt);
+        console.info("detected schematica format");
+        return getSchematicaBlocks(nbt);
     }
     if (nbt["palette"]) {
+        console.info("detected structure nbt format");
         return getStructureBlocks(nbt);
     }
     if (nbt["palettes"]) {
+        console.info("detected structure nbt multi palette format");
         return getStructureBlocksMultiPalette(nbt);
     }
 
-    console.error("Unknown schematic format", nbt);
+    console.error("unknown schematic format", nbt);
     return {};
 }
 
+/**
+ * @param {import("./types.js").StructureNBT} nbt
+ * @returns {import("./types.js").BlockList}
+ */
 function getStructureBlocks(nbt) {
+    /** @type {import("./types.js").BlockList} */
     const blocks = {};
 
+    /** @type {Record<string, string>} */
     const blockStates = {};
-    for (const [key, value] of Object.entries(nbt["palette"])) {
-        blockStates[key] = value["Name"].split(":").pop();
+    for (const [key, value] of Object.entries(nbt.palette)) {
+        blockStates[key] = value.Name.split(":").pop();
     }
 
-    for (const block of nbt["blocks"]) {
-        const id = block["state"];
+    for (const block of nbt.blocks) {
+        const id = block.state;
         blocks[blockStates[id]] = (blocks[blockStates[id]] || 0) + 1;
     }
 
     return blocks;
 }
 
+/**
+ * @param {import("./types.js").StructureNBTMultiPalette} nbt
+ * @returns {import("./types.js").BlockList}
+ */
 function getStructureBlocksMultiPalette(nbt) {
+    /** @type {import("./types.js").BlockList} */
     const blocks = {};
 
-    const palette = nbt["palettes"][0];
+    const palette = nbt.palettes[0];
+    /** @type {Record<string, string>} */
     const blockStates = {};
     for (const [key, value] of Object.entries(palette)) {
-        blockStates[key] = value["Name"].split(":").pop();
+        blockStates[key] = value.Name.split(":").pop();
     }
 
-    for (const block of nbt["blocks"]) {
-        const id = block["state"];
+    for (const block of nbt.blocks) {
+        const id = block.state;
         blocks[blockStates[id]] = (blocks[blockStates[id]] || 0) + 1;
     }
 
     return blocks;
 }
 
+/**
+ * @param {import("./types.js").Litematica} nbt
+ * @returns {import("./types.js").BlockList}
+ */
 function getLitematicaBlocks(nbt) {
+    /** @type {import("./types.js").BlockList} */
     const blocks = {};
 
-    for (const [, region] of Object.entries(nbt["Regions"])) {
+    for (const [, region] of Object.entries(nbt.Regions)) {
         const blockStates = {};
-        for (const [key, value] of Object.entries(region["BlockStatePalette"])) {
-            blockStates[key] = value["Name"].split(":").pop();
+        for (const [key, value] of Object.entries(region.BlockStatePalette)) {
+            blockStates[key] = value.Name.split(":").pop();
         }
         const length = Object.keys(blockStates).length;
         // minimum of 2 bits per block
         const bitsPerBlock = Math.max(2, Math.ceil(Math.log2(length)));
 
         /** @type {BigUint64Array} */
-        const blockArray = region["BlockStates"];
+        const blockArray = region.BlockStates;
 
         //const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
 
@@ -134,58 +162,74 @@ function getLitematicaBlocks(nbt) {
     return blocks;
 }
 
+/**
+ * @param {import("./types.js").SpongeSchematicV3} data
+ * @returns {import("./types.js").BlockList}
+ */
+function getSpongeSchematicV3Blocks(data) {
+    const nbt = data.Schematic;
+    /** @type {import("./types.js").BlockList} */
+    const blocks = {};
+
+    const blockPalette = {};
+    // entries are in format "minecraft:stone[type=...]": id
+    // convert to id: "stone"
+    for (const [name, id] of Object.entries(nbt.Blocks.Palette)) {
+        blockPalette[id] = name.split(":")[1].split("[")[0];
+    }
+
+    const numBlocks = nbt.Width * nbt.Length * nbt.Height;
+    /** @type {Int8Array} */
+    const blockArray = nbt.Blocks.Data;
+
+    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
+    for (const [key, value] of blocksTemp.entries()) {
+        blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
+    }
+
+    return blocks;
+}
+
+/**
+ * @param {import("./types.js").SpongeSchematicV1} nbt
+ * @returns {import("./types.js").BlockList}
+ */
+function getSpongeSchematicV1Blocks(nbt) {
+    /** @type {import("./types.js").BlockList} */
+    const blocks = {};
+
+    /** @type {Record<number, string>} */
+    const blockPalette = {};
+    // entries are in format "minecraft:stone[type=...]": id
+    // convert to id: "stone"
+    for (const [name, id] of Object.entries(nbt.Palette)) {
+        blockPalette[id] = name.split(":")[1].split("[")[0];
+    }
+
+    const numBlocks = nbt.Width * nbt.Length * nbt.Height;
+    /** @type {Int8Array} */
+    const blockArray = nbt.BlockData;
+
+    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
+    for (const [key, value] of blocksTemp.entries()) {
+        blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
+    }
+
+    return blocks;
+}
+
+/**
+ * @param {import("./types.js").Schematica} nbt
+ * @returns {import("./types.js").BlockList}
+ */
 function getSchematicaBlocks(nbt) {
-    nbt = nbt["Schematic"];
+    /** @type {import("./types.js").BlockList} */
     const blocks = {};
 
-    const blockPalette = {};
-    // entries are in format "minecraft:stone[type=...]": id
-    // convert to id: "stone"
-    for (const [name, id] of Object.entries(nbt["Blocks"]["Palette"])) {
-        blockPalette[id] = name.split(":")[1].split("[")[0];
-    }
-
-    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
-    /** @type {Int8Array} */
-    const blockArray = nbt["Blocks"]["Data"];
-
-    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
-    for (const [key, value] of blocksTemp.entries()) {
-        blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
-    }
-
-    return blocks;
-}
-
-function getWorldEditSchemBlocks(nbt) {
-    const blocks = {};
-
-    const blockPalette = {};
-    // entries are in format "minecraft:stone[type=...]": id
-    // convert to id: "stone"
-    for (const [name, id] of Object.entries(nbt["Palette"])) {
-        blockPalette[id] = name.split(":")[1].split("[")[0];
-    }
-
-    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
-    /** @type {Int8Array} */
-    const blockArray = nbt["BlockData"];
-
-    const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
-    for (const [key, value] of blocksTemp.entries()) {
-        blocks[blockPalette[key]] = (blocks[blockPalette[key]] || 0) + value;
-    }
-
-    return blocks;
-}
-
-function getOldSchematicBlocks(nbt) {
-    const blocks = {};
-
-    const numBlocks = nbt["Width"] * nbt["Length"] * nbt["Height"];
+    const numBlocks = nbt.Width * nbt.Length * nbt.Height;
     const blocksTemp = {};
     for (let i = 0; i < numBlocks; i++) {
-        const block = nbt["Blocks"][i];
+        const block = nbt.Blocks[i];
         // convert to unsigned
         const id = block < 0 ? block + 256 : block;
         blocksTemp[id] = (blocksTemp[id] || 0) + 1;
@@ -200,6 +244,9 @@ function getOldSchematicBlocks(nbt) {
 
 //-----------NBT-------------//
 
+/**
+ * @param {ArrayBuffer} data
+ */
 function hasGzipHeader(data) {
     const header = new Uint8Array(data, 0, 2);
     return header[0] === 0x1f && header[1] === 0x8b;
@@ -218,12 +265,13 @@ const Tags = Object.freeze({
     List: 9,
     Compound: 10,
     IntArray: 11,
-    LongArray: 12
+    LongArray: 12,
 });
 
 /**
  * @param {DataView} view
  * @param {ArrayBuffer} buffer
+ * @returns {import("./types.js").Schematic}
  */
 function parse(view, buffer) {
     const parser = new Parser(view, buffer);
@@ -239,6 +287,10 @@ class Parser {
     /** @type {ArrayBuffer} */
     buffer;
 
+    /**
+     * @param {DataView} view
+     * @param {ArrayBuffer} buffer
+     */
     constructor(view, buffer) {
         this.view = view;
         this.buffer = buffer;
@@ -593,5 +645,5 @@ const BlockIDs = Object.freeze({
     250: "black_glazed_terracotta",
     251: "white_concrete",
     252: "white_concrete_powder",
-    255: "structure_block"
+    255: "structure_block",
 });
