@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { fadeIn, fadeOut } from "$lib/transition";
-    import { fmt } from "$lib/intl";
     import { page } from "$app/stores";
+    import { fadeIn, fadeOut } from "$lib/transition";
 </script>
 
 <svelte:head>

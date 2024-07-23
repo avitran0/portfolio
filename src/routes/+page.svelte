@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { fadeIn, fadeOut } from "$lib/transition";
     import { fmt } from "$lib/intl";
+    import { fadeIn, fadeOut } from "$lib/transition";
 </script>
 
 <svelte:head>
@@ -9,7 +9,6 @@
 </svelte:head>
 
 <main in:fadeIn out:fadeOut>
-    <h1>Felix Fröhlich</h1>
     <h2>{$fmt("home.projects")}</h2>
     <a href="/resource-calculator">{$fmt("resource_calculator.title")}</a>
     <a href="/colors">{$fmt("color_scheme.title")}</a>

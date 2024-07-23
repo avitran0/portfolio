@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { fadeIn, fadeOut } from "$lib/transition";
     import { fmt } from "$lib/intl";
+    import { fadeIn, fadeOut } from "$lib/transition";
     import { onMount } from "svelte";
 
     let canvas: HTMLCanvasElement;

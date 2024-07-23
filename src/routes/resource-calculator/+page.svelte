@@ -1,12 +1,12 @@
 <script lang="ts">
     import { onDestroy } from "svelte";
 
-    import { fadeIn, fadeOut } from "$lib/transition";
     import { fmt, language } from "$lib/intl";
+    import { fadeIn, fadeOut } from "$lib/transition";
 
     import { ItemConversion, Items } from "./ts/recipes";
-    import { type Item } from "./ts/types";
     import SchematicWorker from "./ts/schematic-webworker?worker";
+    import { type Item } from "./ts/types";
 
     const sampleFiles = {
         "very_small.nbt": "Very Small",

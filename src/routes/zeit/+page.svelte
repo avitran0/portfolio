@@ -1,9 +1,9 @@
 <script lang="ts">
     import { fmt } from "$lib/intl";
     import { fadeIn, fadeOut } from "$lib/transition";
-    import { onMount } from "svelte";
     import Chart from "chart.js/auto";
     import { getWeek } from "date-fns";
+    import { onMount } from "svelte";
 
     class Article {
         uuid: string;

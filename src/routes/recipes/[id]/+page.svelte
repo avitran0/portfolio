@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { fadeIn, fadeOut } from "$lib/transition";
-    import type { PageData } from "./$types";
     import { fmt } from "$lib/intl";
     import { recipe as rec } from "$lib/recipes/recipes";
+    import { fadeIn, fadeOut } from "$lib/transition";
+    import type { PageData } from "./$types";
 
     export let data: PageData;
 

@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import { inflate } from "./pako.js";
 import init, { get_litematica_blocks, get_schematica_blocks } from "../wasm/schematics.js";
+import { inflate } from "./pako.js";
 
 onmessage = async function (e) {
     try {

@@ -6967,5 +6967,5 @@ export {
     gzip_1 as gzip,
     inflate_1 as inflate,
     inflateRaw_1 as inflateRaw,
-    ungzip_1 as ungzip,
+    ungzip_1 as ungzip
 };

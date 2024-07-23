@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Languages, language, getLanguageFromNavigator } from "$lib/intl";
+    import { Languages, getLanguageFromNavigator, language } from "$lib/intl";
     import { onMount } from "svelte";
 
     let lang: Languages;

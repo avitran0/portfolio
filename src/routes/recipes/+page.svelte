@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { fadeIn, fadeOut } from "$lib/transition";
     import { fmt, language } from "$lib/intl";
     import { Recipes, recipe as rec } from "$lib/recipes/recipes";
+    import { fadeIn, fadeOut } from "$lib/transition";
     import { onDestroy } from "svelte";
 
     let sortedRecipes = Recipes;
