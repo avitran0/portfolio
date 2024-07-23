@@ -2,7 +2,7 @@
     "general": {
         "close": "Close",
         "browse": "Browse",
-        "sort-by": "Sort By",
+        "sort_by": "Sort By",
         "sort": {
             "name": "Name",
             "amount": "Amount",
@@ -14,23 +14,42 @@
     "home": {
         "projects": "Projects"
     },
-    "resource-calculator": {
+    "auth": {
+        "error": "Error",
+        "register": {
+            "title": "Register",
+            "submit": "Register"
+        },
+        "login": {
+            "title": "Login",
+            "submit": "Submit"
+        },
+        "account": {
+            "title": "Account",
+            "logout": "Log Out"
+        },
+        "errors": {
+            "invalid_credential": "E-Mail or Password incorrect",
+            "too_many-requests": "Please wait before trying again"
+        }
+    },
+    "resource_calculator": {
         "title": "Resource Calculator",
-        "load-sample": "Load Sample",
-        "select-sample-size": "Select Sample Size",
+        "load_sample": "Load Sample",
+        "select_sample_size": "Select Sample Size",
         "sample": {
-            "very-small": "Very Small",
+            "very_small": "Very Small",
             "small": "Small",
             "medium": "Medium",
             "large": "Large",
-            "very-large": "Very Large"
+            "very_large": "Very Large"
         },
-        "select-file": "Select File",
-        "add-items": "Add Items",
-        "clear-items": "Clear Items",
-        "export-import-data": "Export or Import Data"
+        "select_file": "Select File",
+        "add_items": "Add Items",
+        "clear_items": "Clear Items",
+        "export_import_data": "Export or Import Data"
     },
-    "color-scheme": {
+    "color_scheme": {
         "title": "Color Scheme"
     },
     "canvas": {
@@ -38,12 +57,12 @@
     },
     "zeit": {
         "title": "Zeit",
-        "articles-total": "Total number of articles",
-        "chart-total-articles-topics": "Number of articles per topic",
-        "chart-publish-weeks": "Articles per week",
-        "chart-publish-weeks-topics": "Articles per week per topic",
-        "chart-text-length-topics": "Text length per topic",
-        "chart-publish-times-topics": "publish times per topic"
+        "articles_total": "Total number of articles",
+        "chart_total_articles_topics": "Number of articles per topic",
+        "chart_publish_weeks": "Articles per week",
+        "chart_publish_weeks_topics": "Articles per week per topic",
+        "chart_text_length_topics": "Text length per topic",
+        "chart_publish_times_topics": "publish times per topic"
     },
     "recipes": {
         "_meta": {
@@ -71,13 +90,13 @@
                 "drink": "Drink"
             }
         },
-        "cheese-cake": {
+        "cheese_cake": {
             "name": "Cheese Cake",
             "description": "A cake.",
             "steps": {
-                "mix-all": "Mix all ingredients."
+                "mix_all": "Mix all ingredients."
             },
-            "ingredient-steps": {
+            "ingredient_steps": {
                 "dough": "Dough",
                 "filling": "Filling"
             }
@@ -86,23 +105,30 @@
             "name": "Crepes",
             "description": "A thin pancake.",
             "steps": {
-                "whisk-eggs": "Put all eggs in a bowl and whish them",
-                "heat-butter": "Heat butter in a microwave until it is liquid",
-                "mix-all": "Put all remaining ingredients in the bowl and mix them"
+                "whisk_eggs": "Put all eggs in a bowl and whish them",
+                "heat_butter": "Heat butter in a microwave until it is liquid",
+                "mix_all": "Put all remaining ingredients in the bowl and mix them"
             }
         },
-        "tofu-bowl": {
+        "soba_chicken": {
+            "name": "Soba-Noodles",
+            "description": "mh",
+            "steps": {
+                "mix_all": "nö"
+            }
+        },
+        "tofu_bowl": {
             "name": "Tofu Bowl",
             "description": "A bowl with tofu.",
             "steps": {
-                "mix-all": "Mix all ingredients."
+                "mix_all": "Mix all ingredients."
             }
         },
-        "zucchini-rice": {
+        "zucchini_rice": {
             "name": "Zucchini, Rice & Minced Meat",
             "description": "Rice with zucchini and minced meat.",
             "steps": {
-                "mix-all": "Mix all ingredients."
+                "mix_all": "Mix all ingredients."
             }
         }
     },
@@ -110,89 +136,29 @@
         "_meta": {
             "title": "Ingredients"
         },
-        "broccoli": {
-            "name": "Broccoli",
-            "description": "broccoli."
-        },
-        "butter": {
-            "name": "Butter",
-            "description": "smör."
-        },
-        "carrots": {
-            "name": "Carrots",
-            "description": "morötter."
-        },
-        "cauliflower": {
-            "name": "Cauliflower",
-            "description": "caul."
-        },
-        "cooking-oil": {
-            "name": "Cooking Oil",
-            "description": "matolja."
-        },
-        "eggs": {
-            "name": "Eggs",
-            "description": "ägg."
-        },
-        "lemon-zest": {
-            "name": "Lemon Zest",
-            "description": "citronskal."
-        },
-        "low-fat-quark": {
-            "name": "Low Fat Quark",
-            "description": "kvarg."
-        },
-        "margarine": {
-            "name": "Margarine",
-            "description": "margarin."
-        },
-        "milk": {
-            "name": "Milk",
-            "description": "mjölk."
-        },
-        "minced-beef": {
-            "name": "Minced Beef",
-            "description": "köttfärs."
-        },
-        "rice": {
-            "name": "Rice",
-            "description": "ris."
-        },
-        "salt": {
-            "name": "Salt",
-            "description": "salt."
-        },
-        "sugar": {
-            "name": "Sugar",
-            "description": "sugg ma."
-        },
-        "tofu": {
-            "name": "Tofu",
-            "description": "tofu."
-        },
-        "vanilla-bean": {
-            "name": "Vanilla Bean",
-            "description": "vaniljstång."
-        },
-        "vanilla-pudding-powder": {
-            "name": "Vanilla Pudding Powder",
-            "description": "vaniljpuddingpulver."
-        },
-        "vanilla-sugar": {
-            "name": "Vanilla Sugar",
-            "description": "vaniljsocker."
-        },
-        "wheat-flour": {
-            "name": "Wheat Flour",
-            "description": "flooor."
-        },
-        "whole-grain-wheat-flour": {
-            "name": "Whole Grain Wheat Flour",
-            "description": "fullkornsmjöl."
-        },
-        "zucchini": {
-            "name": "Zucchini",
-            "description": "zucchini."
-        }
+        "broccoli": "Broccoli",
+        "butter": "Butter",
+        "carrots": "Carrots",
+        "cauliflower": "Cauliflower",
+        "chicken_fillet": "Chicken Fillet",
+        "cooking_oil": "Cooking Oil",
+        "cucumber": "Cucumber",
+        "eggs": "Eggs",
+        "lemon_zest": "Lemon Zest",
+        "low_fat_quark":"Low Fat Quark",
+        "margarine": "Margarine",
+        "milk": "Milk",
+        "minced_beef": "Minced Beef",
+        "rice": "Rice",
+        "salt": "Salt",
+        "soba_noodles": "Soba Noodles",
+        "sugar": "Sugar",
+        "tofu": "Tofu",
+        "vanilla_bean": "Vanilla Bean",
+        "vanilla_pudding_powder": "Vanilla Pudding Powder",
+        "vanilla_sugar": "Vanilla Sugar",
+        "wheat_flour": "Wheat Flour",
+        "whole_grain_wheat_flour": "Whole Grain Wheat Flour",
+        "zucchini": "Zucchini"
     }
 }

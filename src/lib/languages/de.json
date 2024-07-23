@@ -2,7 +2,7 @@
     "general": {
         "close": "Schließen",
         "browse": "Auswählen",
-        "sort-by": "Sortieren nach",
+        "sort_by": "Sortieren nach",
         "sort": {
             "name": "Name",
             "amount": "Menge",
@@ -14,23 +14,42 @@
     "home": {
         "projects": "Projekte"
     },
-    "resource-calculator": {
+    "auth": {
+        "error": "Fehler",
+        "register": {
+            "title": "Registrieren",
+            "submit": "Registrieren"
+        },
+        "login": {
+            "title": "Anmelden",
+            "submit": "Anmelden"
+        },
+        "account": {
+            "title": "Account",
+            "logout": "Abmelden"
+        },
+        "errors": {
+            "invalid_credential": "E-Mail oder Passwort sind ungültig",
+            "too_many-requests": "Bitte warten sie, bevor sie es erneut versuchen"
+        }
+    },
+    "resource_calculator": {
         "title": "Ressourcenrechner",
-        "load-sample": "Beispieldatei Laden",
-        "select-sample-size": "Wähle Beispielgröße",
+        "load_sample": "Beispieldatei Laden",
+        "select_sample_size": "Wähle Beispielgröße",
         "sample": {
-            "very-small": "Sehr Klein",
+            "very_small": "Sehr Klein",
             "small": "Klein",
             "medium": "Medium",
             "large": "Groß",
-            "very-large": "Sehr Groß"
+            "very_large": "Sehr Groß"
         },
-        "select-file": "Wähle Datei",
-        "add-items": "Items hinzufügen",
-        "clear-items": "Items löschen",
-        "export-import-data": "Daten Exportieren/Importieren"
+        "select_file": "Wähle Datei",
+        "add_items": "Items hinzufügen",
+        "clear_items": "Items löschen",
+        "export_import_data": "Daten Exportieren/Importieren"
     },
-    "color-scheme": {
+    "color_scheme": {
         "title": "Farbschema"
     },
     "canvas": {
@@ -38,12 +57,12 @@
     },
     "zeit": {
         "title": "Zeit",
-        "articles-total": "Gesamtanzahl Artikel",
-        "chart-total-articles-topics": "Anzahl Artikel pro Rubrik",
-        "chart-publish-weeks": "Artikel pro Woche",
-        "chart-publish-weeks-topics": "Artikel pro Woche pro Rubrik",
-        "chart-text-length-topics": "Textlänge pro Rubrik",
-        "chart-publish-times-topics": "Veröffentlichungszeiten pro Rubrik"
+        "articles_total": "Gesamtanzahl Artikel",
+        "chart_total_articles_topics": "Anzahl Artikel pro Rubrik",
+        "chart_publish_weeks": "Artikel pro Woche",
+        "chart_publish_weeks_topics": "Artikel pro Woche pro Rubrik",
+        "chart_text_length_topics": "Textlänge pro Rubrik",
+        "chart_publish_times_topics": "Veröffentlichungszeiten pro Rubrik"
     },
     "recipes": {
         "_meta": {
@@ -75,34 +94,41 @@
             "name": "Crepes",
             "description": "Ein einfaches Rezept für Crepes.",
             "steps": {
-                "whisk-eggs": "Alle Einer in eine Schüssel geben und aufschlagen",
-                "heat-butter": "Butter in der Mikrowelle erhitzen, bis sie flüssig ist",
-                "mix-all": "Alle restlichen Zutaten in die Schüssel geben und vermischen"
+                "whisk_eggs": "Alle Einer in eine Schüssel geben und aufschlagen",
+                "heat_butter": "Butter in der Mikrowelle erhitzen, bis sie flüssig ist",
+                "mix_all": "Alle restlichen Zutaten in die Schüssel geben und vermischen"
             }
         },
-        "cheese-cake": {
+        "cheese_cake": {
             "name": "Käsekuchen",
             "description": "Ein einfaches Rezept für Käsekuchen.",
             "steps": {
-                "mix-all": "Alle Zutaten in einer Schüssel vermischen"
+                "mix_all": "Alle Zutaten in einer Schüssel vermischen"
             },
-            "ingredient-steps": {
+            "ingredient_steps": {
                 "dough": "Teig",
                 "filling": "Füllung"
             }
         },
-        "tofu-bowl": {
+        "soba_chicken": {
+            "name": "Soba-Nudel-Pfanne mit Hähnchen",
+            "description": "mh",
+            "steps": {
+                "mix_all": "nö"
+            }
+        },
+        "tofu_bowl": {
             "name": "Tofu-Bowl",
             "description": "Eine Bowl mit Tofu, Blumenkohl und Brokkoli.",
             "steps": {
-                "mix-all": "Alle Zutaten in einer Schüssel vermischen"
+                "mix_all": "Alle Zutaten in einer Schüssel vermischen"
             }
         },
-        "zucchini-rice": {
+        "zucchini_rice": {
             "name": "Zucchini-Reis-Hack-Pfanne",
             "description": "Ein einfaches Rezept für Zucchini Reis.",
             "steps": {
-                "mix-all": "Alle Zutaten in einer Schüssel vermischen"
+                "mix_all": "Alle Zutaten in einer Schüssel vermischen"
             }
         }
     },
@@ -110,89 +136,29 @@
         "_meta": {
             "title": "Zutaten"
         },
-        "broccoli": {
-            "name": "Brokkoli",
-            "description": "brokk."
-        },
-        "butter": {
-            "name": "Butter",
-            "description": "butter"
-        },
-        "carrots": {
-            "name": "Karotten",
-            "description": "karott."
-        },
-        "cauliflower": {
-            "name": "Blumenkohl",
-            "description": "blum."
-        },
-        "cooking-oil": {
-            "name": "Speiseöl",
-            "description": "öl."
-        },
-        "eggs": {
-            "name": "Eier",
-            "description": "ägs."
-        },
-        "lemon-zest": {
-            "name": "Zitronenabrieb",
-            "description": "zitron."
-        },
-        "low-fat-quark": {
-            "name": "Magerquark",
-            "description": "quark."
-        },
-        "margarine": {
-            "name": "Margarine",
-            "description": "marg."
-        },
-        "milk": {
-            "name": "Milch",
-            "description": "mölk."
-        },
-        "minced-beef": {
-            "name": "Rinderhackfleisch",
-            "description": "hack."
-        },
-        "rice": {
-            "name": "Reis",
-            "description": "reis."
-        },
-        "salt": {
-            "name": "Salz",
-            "description": "solt."
-        },
-        "sugar": {
-            "name": "Zucker",
-            "description": "zugga."
-        },
-        "tofu": {
-            "name": "Tofu",
-            "description": "tofu"
-        },
-        "vanilla-bean": {
-            "name": "Vanilleschote",
-            "description": "vani."
-        },
-        "vanilla-pudding-powder": {
-            "name": "Vanillepuddingpulver",
-            "description": "vani."
-        },
-        "vanilla-sugar": {
-            "name": "Vanillezucker",
-            "description": "vani."
-        },
-        "wheat-flour": {
-            "name": "Weizenmehl",
-            "description": "mell."
-        },
-        "whole-grain-wheat-flour": {
-            "name": "Vollkornweizenmehl",
-            "description": "mell."
-        },
-        "zucchini": {
-            "name": "Zucchini",
-            "description": "zucc."
-        }
+        "broccoli": "Brokkoli",
+        "butter": "Butter",
+        "carrots": "Karotten",
+        "cauliflower": "Blumenkohl",
+        "chicken_fillet": "Hähnchenfilet",
+        "cooking_oil": "Speiseöl",
+        "cucumber": "Salatgurke",
+        "eggs": "Eier",
+        "lemon_zest": "Zitronenabrieb",
+        "low_fat_quark": "Magerquark",
+        "margarine": "Margarine",
+        "milk": "Milch",
+        "minced_beef": "Rinderhackfleisch",
+        "rice": "Reis",
+        "salt": "Salz",
+        "soba_noodles": "Soba-Nudeln",
+        "sugar": "Zucker",
+        "tofu": "Tofu",
+        "vanilla_bean": "Vanilleschote",
+        "vanilla_pudding_powder": "Vanillepuddingpulver",
+        "vanilla_sugar": "Vanillezucker",
+        "wheat_flour": "Weizenmehl",
+        "whole_grain_wheat_flour": "Vollkornweizenmehl",
+        "zucchini": "Zucchini"
     }
 }

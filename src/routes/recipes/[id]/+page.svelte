@@ -51,7 +51,7 @@
                         <th colspan="2">
                             {name === ""
                                 ? $fmt("ingredients._meta.title")
-                                : $fmt(`recipes.${recipe.id}.ingredient-steps.${name}`)}</th>
+                                : $fmt(`recipes.${recipe.id}.ingredient_steps.${name}`)}</th>
                     </tr>
                 </thead>
                 {#each ingredientList as ingredient}
@@ -59,7 +59,7 @@
                         <td class="bold">
                             {ingredient.amount.toLocaleString()} {$fmt(`recipes._meta.units.${ingredient.unit}`)}</td>
                         <td>
-                            <a href={`/ingredients/${ingredient.id}`}>{$fmt(`ingredients.${ingredient.id}.name`)}</a>
+                            <p>{$fmt(`ingredients.${ingredient.id}`)}</p>
                         </td>
                     </tr>
                 {/each}

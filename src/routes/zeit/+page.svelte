@@ -394,16 +394,16 @@
 
 <main in:fadeIn out:fadeOut>
     <h1>{$fmt("zeit.title")}</h1>
-    <h2>{$fmt("zeit.articles-total")}: {articlesTotal}</h2>
-    <h2>{$fmt("zeit.chart-total-articles-topics")}</h2>
+    <h2>{$fmt("zeit.articles_total")}: {articlesTotal}</h2>
+    <h2>{$fmt("zeit.chart_total_articles_topics")}</h2>
     <canvas bind:this={chartTotalArticlesTopics}></canvas>
-    <h2>{$fmt("zeit.chart-publish-weeks")}</h2>
+    <h2>{$fmt("zeit.chart_publish_weeks")}</h2>
     <canvas bind:this={chartPublishWeeks}></canvas>
-    <h2>{$fmt("zeit.chart-publish-weeks-topics")}</h2>
+    <h2>{$fmt("zeit.chart_publish_weeks_topics")}</h2>
     <canvas bind:this={chartPublishWeeksTopics}></canvas>
-    <h2>{$fmt("zeit.chart-text-length-topics")}</h2>
+    <h2>{$fmt("zeit.chart_text_length_topics")}</h2>
     <canvas bind:this={chartTextLengthTopics}></canvas>
-    <h2>{$fmt("zeit.chart-publish-times-topics")}</h2>
+    <h2>{$fmt("zeit.chart_publish_times_topics")}</h2>
     <canvas bind:this={chartPublishTimesTopics}></canvas>
     <button
         id="stack-button"

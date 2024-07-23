@@ -9,11 +9,11 @@
     import SchematicWorker from "./ts/schematic-webworker?worker";
 
     const sampleFiles = {
-        "very-small.nbt": "Very Small",
+        "very_small.nbt": "Very Small",
         "small.litematic": "Small",
         "medium.schematic": "Medium",
         "large.litematic": "Large",
-        "very-large.litematic": "Very Large",
+        "very_large.litematic": "Very Large",
     };
 
     const enableItemSelect = false;
@@ -23,7 +23,7 @@
 
     let schematicInput: HTMLInputElement;
     let schematicFiles: FileList | null = null;
-    let schematicFileName: string = $fmt("resource-calculator.select-file");
+    let schematicFileName: string = $fmt("resource_calculator.select_file");
 
     let itemDialog: HTMLDialogElement;
     let itemInput: HTMLInputElement;
@@ -87,7 +87,7 @@
 
     function getSchematicName(): string {
         if (!schematicFiles || schematicFiles.length <= 0) {
-            return $fmt("resource-calculator.select-file");
+            return $fmt("resource_calculator.select_file");
         }
         let name = "";
         // comma separate names, remove extension
@@ -102,7 +102,7 @@
 
     function schematicInputChange() {
         if (!schematicInput.files || schematicInput.files.length <= 0) {
-            schematicFileName = $fmt("resource-calculator.select-file");
+            schematicFileName = $fmt("resource_calculator.select_file");
             return;
         }
         working = true;
@@ -164,7 +164,7 @@
     function clearSchematicInput() {
         schematicInput.value = "";
         schematicFiles = null;
-        schematicFileName = $fmt("resource-calculator.select-file");
+        schematicFileName = $fmt("resource_calculator.select_file");
     }
 
     async function loadSampleFile(fileName: string) {
@@ -430,21 +430,21 @@
 </script>
 
 <svelte:head>
-    <title>{$fmt("resource-calculator.title")}</title>
+    <title>{$fmt("resource_calculator.title")}</title>
     <meta name="description" content="Calculate raw ingredients for schematics" />
 </svelte:head>
 
 <main in:fadeIn out:fadeOut>
-    <h1>{$fmt("resource-calculator.title")}</h1>
+    <h1>{$fmt("resource_calculator.title")}</h1>
     <div id="schematic-controls">
         <button on:click={() => sampleDialog.showModal()} aria-label="Load a sample file"
-            >{$fmt("resource-calculator.load-sample")}</button>
+            >{$fmt("resource_calculator.load_sample")}</button>
         <dialog id="sample-select" bind:this={sampleDialog}>
-            <h2>{$fmt("resource-calculator.select-sample-size")}</h2>
+            <h2>{$fmt("resource_calculator.select_sample_size")}</h2>
             <div class="dialog-btns" bind:this={sampleSizeButtons}>
                 {#each Object.entries(sampleFiles) as [file, name]}
                     <button on:click={() => loadSampleFile(file)} aria-label="Load the {name} sample"
-                        >{$fmt(`resource-calculator.sample.${file.split(".")[0]}`)}</button>
+                        >{$fmt(`resource_calculator.sample.${file.split(".")[0]}`)}</button>
                 {/each}
             </div>
             <button on:click={() => sampleDialog.close()} aria-label="Close sample dialog"
@@ -468,18 +468,18 @@
         </label>
         <div>
             {#if enableItemSelect}
-                <button on:click={openItemDialog}>{$fmt("resource-calculator.add-items")}</button>
+                <button on:click={openItemDialog}>{$fmt("resource_calculator.add_items")}</button>
             {/if}
             <button
                 id="clear"
                 on:click={() => {
                     clearItems();
                 }}
-                aria-label="Clear items shown">{$fmt("resource-calculator.clear-items")}</button>
+                aria-label="Clear items shown">{$fmt("resource_calculator.clear_items")}</button>
         </div>
         <div id="sort-container">
-            <span>{$fmt("general.sort-by")}:</span>
-            <label for="sort" class="hide">{$fmt("general.sort-by")}</label>
+            <span>{$fmt("general.sort_by")}:</span>
+            <label for="sort" class="hide">{$fmt("general.sort_by")}</label>
             <select name="sort" id="sort" bind:value={sortMethod} on:change={() => display()}>
                 <option value="name">{$fmt("general.sort.name")}</option>
                 <option value="amount">{$fmt("general.sort.amount")}</option>
@@ -553,10 +553,11 @@
         </dialog>
     {/if}
     <dialog bind:this={exportImportDialog}>
-        <h2>{$fmt("resource-calculator.export-import-data")}</h2>
+        <h2>{$fmt("resource_calculator.export_import_data")}</h2>
         <button on:click={exportItems} aria-label="Export item data">{$fmt("general.export")}</button>
         <button on:click={importItems} aria-label="Import item data">{$fmt("general.import")}</button>
-        <button on:click={() => exportImportDialog.close()} aria-label="Close export/import dialog">{$fmt("general.close")}</button>
+        <button on:click={() => exportImportDialog.close()} aria-label="Close export/import dialog"
+            >{$fmt("general.close")}</button>
     </dialog>
 
     <div id="items" bind:this={itemDisplay}>

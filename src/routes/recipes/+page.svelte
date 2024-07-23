@@ -37,8 +37,8 @@
 <main in:fadeIn out:fadeOut>
     <h1>{$fmt("recipes._meta.title")}</h1>
     <div id="sort-container">
-        <span>{$fmt("general.sort-by")}:</span>
-        <label for="sort" class="hide">{$fmt("general.sort-by")}</label>
+        <span>{$fmt("general.sort_by")}:</span>
+        <label for="sort" class="hide">{$fmt("general.sort_by")}</label>
         <select name="sort" id="sort" bind:value={sortMethod} on:change={() => sortRecipes()}>
             <option value="name">{$fmt("general.sort.name")}</option>
             <option value="category">{$fmt("general.sort.category")}</option>

@@ -32,11 +32,11 @@
 </script>
 
 <svelte:head>
-    <title>{$fmt("color-scheme.title")}</title>
+    <title>{$fmt("color_scheme.title")}</title>
 </svelte:head>
 
 <main in:fadeIn out:fadeOut>
-    <h1>{$fmt("color-scheme.title")}</h1>
+    <h1>{$fmt("color_scheme.title")}</h1>
     <div id="color-scheme">
         {#each Object.entries(colorVars) as [key, color]}
             <div class="color">

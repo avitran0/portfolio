@@ -8,7 +8,7 @@ export function recipe(fn: RecipeFunction): Recipe {
 
 const CheeseCake: RecipeFunction = (amount: number) => {
     return {
-        id: "cheese-cake",
+        id: "cheese_cake",
         category: Category.BREAKFAST,
         ingredients: {
             dough: [
@@ -29,7 +29,7 @@ const CheeseCake: RecipeFunction = (amount: number) => {
                 ing(I.CookingOil, amount * 200, Unit.MILLILITER),
             ],
         },
-        steps: ["mix-all"],
+        steps: ["mix_all"],
         defaultAmount: 1,
     };
 };
@@ -46,14 +46,30 @@ const Crepes: RecipeFunction = (amount: number) => {
                 ing(I.Butter, amount * 5, Unit.GRAM),
             ],
         },
-        steps: ["whisk-eggs", "heat-butter", "mix-all"],
+        steps: ["whisk_eggs", "heat_butter", "mix_all"],
         defaultAmount: 10,
     };
 };
 
+const SobaChicken: RecipeFunction = (amount: number) => {
+    return {
+        id: "soba_chicken",
+        category: Category.LUNCH,
+        ingredients: {
+            "": [
+                ing(I.ChickenFillet, amount * 125, Unit.GRAM),
+                ing(I.SobaNoodles, amount * 25, Unit.GRAM),
+                ing(I.Cucumber, amount / 4, Unit.PIECE)
+            ]
+        },
+        steps: ["mix_all"],
+        defaultAmount: 4,
+    }
+}
+
 const TofuBowl: RecipeFunction = (amount: number) => {
     return {
-        id: "tofu-bowl",
+        id: "tofu_bowl",
         category: Category.LUNCH,
         ingredients: {
             "": [
@@ -63,14 +79,14 @@ const TofuBowl: RecipeFunction = (amount: number) => {
                 ing(I.Cauliflower, amount * 250, Unit.GRAM),
             ],
         },
-        steps: ["mix-all"],
+        steps: ["mix_all"],
         defaultAmount: 2,
     };
 };
 
 const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
     return {
-        id: "zucchini-rice",
+        id: "zucchini_rice",
         category: Category.LUNCH,
         ingredients: {
             "": [
@@ -80,7 +96,7 @@ const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
                 ing(I.Salt, amount, Unit.PINCH),
             ],
         },
-        steps: ["mix-all"],
+        steps: ["mix_all"],
         defaultAmount: 2,
     };
 };
@@ -88,6 +104,7 @@ const ZucchiniRiceMincedMeat: RecipeFunction = (amount: number) => {
 export const Recipes = {
     [recipe(CheeseCake).id]: CheeseCake,
     [recipe(Crepes).id]: Crepes,
+    [recipe(SobaChicken).id]: SobaChicken,
     [recipe(TofuBowl).id]: TofuBowl,
     [recipe(ZucchiniRiceMincedMeat).id]: ZucchiniRiceMincedMeat,
 } as Record<string, RecipeFunction>;
