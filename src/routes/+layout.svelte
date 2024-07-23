@@ -154,7 +154,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
     }
 
     :global(main > h1) {
@@ -253,6 +252,7 @@
 
     footer {
         margin: 1rem 0;
+        margin-top: 2.5rem;
         display: flex;
         gap: 1rem;
         align-items: center;
