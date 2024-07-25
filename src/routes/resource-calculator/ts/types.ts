@@ -25,7 +25,7 @@ export interface Vec3 {
 export interface LitematicaRegion {
     BlockStatePalette: { Name: string; Properties?: Record<string, string> }[];
     // bit-packed array
-    BlockStates: number[];
+    BlockStates: BigUint64Array;
     Position: Vec3;
     Size: Vec3;
 }
@@ -78,7 +78,7 @@ export interface SpongeSchematicV1 {
     // same palette format as v3
     Palette: Record<string, number>;
     // varint array
-    BlockData: number[];
+    BlockData: Int8Array;
 }
 
 export interface SpongeSchematicV3 {
@@ -89,7 +89,8 @@ export interface SpongeSchematicV3 {
         Height: number;
         Length: number;
         // palette format: minecraft:planks[variant=oak]
-        Blocks: { Palette: Record<string, number>; Data: number[] };
+        // data is a varint array
+        Blocks: { Palette: Record<string, number>; Data: Int8Array };
     };
 }
 

@@ -24,10 +24,10 @@ onmessage = async function (e) {
                 blockThroughput.toLocaleString() +
                 " blocks/s)",
         );
-        this.postMessage(items);
+        postMessage(items);
     } catch (e) {
         console.error(e);
-        this.postMessage({});
+        postMessage({});
     }
 };
 
@@ -85,7 +85,7 @@ function getStructureBlocks(nbt) {
     /** @type {Record<string, string>} */
     const blockStates = {};
     for (const [key, value] of Object.entries(nbt.palette)) {
-        blockStates[key] = value.Name.split(":").pop();
+        blockStates[key] = value.Name.split(":").at(-1);
     }
 
     for (const block of nbt.blocks) {
@@ -108,7 +108,7 @@ function getStructureBlocksMultiPalette(nbt) {
     /** @type {Record<string, string>} */
     const blockStates = {};
     for (const [key, value] of Object.entries(palette)) {
-        blockStates[key] = value.Name.split(":").pop();
+        blockStates[key] = value.Name.split(":").at(-1);
     }
 
     for (const block of nbt.blocks) {
@@ -136,7 +136,6 @@ function getLitematicaBlocks(nbt) {
         // minimum of 2 bits per block
         const bitsPerBlock = Math.max(2, Math.ceil(Math.log2(length)));
 
-        /** @type {BigUint64Array} */
         const blockArray = region.BlockStates;
 
         //const numBlocks = Math.abs(region["Size"]["x"] * region["Size"]["y"] * region["Size"]["z"]);
@@ -179,7 +178,6 @@ function getSpongeSchematicV3Blocks(data) {
     }
 
     const numBlocks = nbt.Width * nbt.Length * nbt.Height;
-    /** @type {Int8Array} */
     const blockArray = nbt.Blocks.Data;
 
     const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
@@ -207,7 +205,6 @@ function getSpongeSchematicV1Blocks(nbt) {
     }
 
     const numBlocks = nbt.Width * nbt.Length * nbt.Height;
-    /** @type {Int8Array} */
     const blockArray = nbt.BlockData;
 
     const blocksTemp = get_schematica_blocks(blockArray, numBlocks);
