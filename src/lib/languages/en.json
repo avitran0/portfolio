@@ -64,6 +64,9 @@
         "chart_text_length_topics": "Text length per topic",
         "chart_publish_times_topics": "publish times per topic"
     },
+    "radar": {
+        "title": "CS2 Radar"
+    },
     "recipes": {
         "_meta": {
             "title": "Recipes",
