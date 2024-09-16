@@ -5,6 +5,7 @@
     export let player: Player;
     export let position: Vec2;
     export let friendly: boolean;
+    export let sameLevel: boolean;
 </script>
 
 <svg
@@ -12,7 +13,8 @@
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    style="transform: rotate({-player.rotation + 90}deg); left: {position.x}px; top: {-position.y}px;">
+    style="transform: rotate({-player.rotation +
+        90}deg); left: {position.x}px; top: {-position.y}px; opacity: {sameLevel ? 1 : 0.5};">
     <path
         fill={friendly ? getColor(player.color) : "var(--color-red)"}
         stroke={player.active_player ? "var(--color-text)" : "none"}

@@ -169,7 +169,11 @@
                     x: ((player.position.x - mapData.x) / mapData.scale) * (radar.clientWidth / 1024),
                     y: ((player.position.y - mapData.y) / mapData.scale) * (radar.clientHeight / 1024),
                 }}
-                friendly={player.team === activePlayer.team} />
+                friendly={player.team === activePlayer.team}
+                sameLevel={radarLayer ===
+                    (mapData.lowerThreshold && player.position.z < mapData.lowerThreshold
+                        ? MapLayers.Default
+                        : MapLayers.Lower)} />
         {/each}
     </div>
     <div class="data">
