@@ -19,6 +19,8 @@
 
     let ws: WebSocket;
     let reconnectTimeout: NodeJS.Timeout;
+    let wsConnected = false;
+
     function startWS() {
         try {
             ws = new WebSocket(`ws://${ip}:${port}`);
@@ -26,8 +28,11 @@
             return;
         }
         ws.onmessage = wsMessage;
+        ws.onopen = () => {
+            wsConnected = true;
+        };
         ws.onclose = () => {
-            console.log("reconnect");
+            wsConnected = false;
             reconnectTimeout = setTimeout(startWS, 1000);
         };
     }
@@ -144,6 +149,7 @@
         <option value="elevations">Elevations</option>
         <option value="both">Both</option>
     </select>
+    <div class="status" style="background-color: var(--color-{wsConnected ? 'green' : 'red'});">WebSocket</div>
 </header>
 <main in:fadeIn out:fadeOut>
     <div class="data">
@@ -224,6 +230,16 @@
         appearance: textfield;
     }
 
+    .status {
+        color: var(--color-base);
+        background-color: var(--color-highlight);
+        border: var(--border-text);
+        border-radius: 0.5rem;
+        font-family: var(--font-jetbrains-mono);
+        font-size: var(--font-size-small);
+        padding: 0.2rem 0.5rem;
+    }
+
     main {
         position: fixed;
         z-index: 1;
@@ -235,6 +251,7 @@
         flex-direction: row;
         justify-content: space-evenly;
         gap: 1rem;
+        transition: none;
     }
 
     #radar {
