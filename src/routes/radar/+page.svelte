@@ -196,6 +196,7 @@
         align-items: center;
         width: 100%;
         padding-top: 1rem;
+        flex-wrap: wrap;
     }
 
     label {
