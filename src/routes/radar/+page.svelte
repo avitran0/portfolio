@@ -21,7 +21,7 @@
     let wsConnected = false;
 
     function startWS() {
-        ws = new WebSocket(`wss://${ip}:${port}`);
+        ws = new WebSocket(`ws://${ip}:${port}`);
         ws.onmessage = wsMessage;
         ws.onopen = () => {
             wsConnected = true;
