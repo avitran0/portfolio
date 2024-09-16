@@ -12,7 +12,7 @@
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    style="transform: rotate({player.rotation + 90}deg); left: {position.x}px; top: {-position.y}px;">
+    style="transform: rotate({-player.rotation}deg); left: {position.x}px; top: {-position.y}px;">
     <path
         fill={friendly ? getColor(player.color) : "var(--color-red)"}
         stroke="var(--color-text)"
