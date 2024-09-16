@@ -18,34 +18,24 @@
     let port: number = 9001;
 
     let ws: WebSocket;
-    let reconnectTimeout: NodeJS.Timeout;
     let wsConnected = false;
 
     function startWS() {
-        try {
-            ws = new WebSocket(`ws://${ip}:${port}`);
-        } catch (error) {
-            return;
-        }
+        ws = new WebSocket(`ws://${ip}:${port}`);
         ws.onmessage = wsMessage;
         ws.onopen = () => {
             wsConnected = true;
         };
         ws.onclose = () => {
             wsConnected = false;
-            reconnectTimeout = setTimeout(startWS, 1000);
         };
     }
 
-    function stopWS() {
-        ws.close();
-        clearTimeout(reconnectTimeout);
-    }
-
-    function restartWS() {
-        stopWS();
-        startWS();
-    }
+    setInterval(() => {
+        if (ws && ws.readyState !== WebSocket.OPEN) {
+            startWS();
+        }
+    }, 5000);
 
     let players: Player[] = [];
     let activePlayer: Player;
@@ -94,11 +84,17 @@
     onMount(() => {
         startWS();
         let mapStorage = localStorage.getItem("map");
-        if (mapStorage) {
+        let ipStorage = localStorage.getItem("ip");
+        let portStorage = localStorage.getItem("port");
+        if (mapStorage && ipStorage && portStorage) {
             map = mapStorage;
+            ip = ipStorage;
+            port = Number(portStorage);
             changeMap();
         } else {
             localStorage.setItem("map", map);
+            localStorage.setItem("ip", ip);
+            localStorage.setItem("port", port.toString());
         }
     });
 
@@ -128,11 +124,21 @@
 <header in:fadeIn out:fadeOut>
     <label>
         IP
-        <input type="text" bind:value={ip} on:input={restartWS} />
+        <input
+            type="text"
+            bind:value={ip}
+            on:input={() => {
+                localStorage.setItem("ip", ip);
+            }} />
     </label>
     <label>
         Port
-        <input type="number" bind:value={port} on:input={restartWS} />
+        <input
+            type="number"
+            bind:value={port}
+            on:input={() => {
+                localStorage.setItem("port", port.toString());
+            }} />
     </label>
     <select bind:value={map} on:change={changeMap}>
         <option value="de_ancient">Ancient</option>
