@@ -41,6 +41,7 @@
         display: flex;
         flex-direction: column;
         font-family: var(--font-jetbrains-mono);
+        width: 100%;
     }
 
     .horizontal {
