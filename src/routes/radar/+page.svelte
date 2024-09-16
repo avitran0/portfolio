@@ -65,7 +65,6 @@
 </svelte:head>
 
 <main in:fadeIn out:fadeOut>
-    <h1>{$fmt("radar.title")}</h1>
     {#each players.filter((player) => player.team === Team.T) as player}
         <div>
             <h2>{player.name}</h2>
@@ -74,4 +73,12 @@
 </main>
 
 <style>
+    main {
+        position: fixed;
+        width: 100dvw;
+        height: 100dvh;
+        top: 0;
+        left: 0;
+        background-color: var(--color-backdrop);
+    }
 </style>
