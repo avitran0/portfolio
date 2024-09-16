@@ -172,8 +172,8 @@
                 friendly={player.team === activePlayer.team}
                 sameLevel={radarLayer ===
                     (mapData.lowerThreshold && player.position.z < mapData.lowerThreshold
-                        ? MapLayers.Default
-                        : MapLayers.Lower)} />
+                        ? MapLayers.Lower
+                        : MapLayers.Default)} />
         {/each}
     </div>
     <div class="data">
