@@ -41,6 +41,7 @@
         display: flex;
         flex-direction: column;
         font-family: var(--font-jetbrains-mono);
+        font-size: var(--font-size-medium);
         width: 100%;
     }
 

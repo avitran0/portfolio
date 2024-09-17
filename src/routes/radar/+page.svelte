@@ -1,12 +1,12 @@
 <script lang="ts">
     import { fmt } from "$lib/intl";
     import { fadeIn, fadeOut } from "$lib/transition";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
+    import { MapData } from "./mapdata";
     import type { Player } from "./player";
+    import PlayerDot from "./PlayerDot.svelte";
     import PlayerInfo from "./PlayerInfo.svelte";
     import { WeaponCategories } from "./weapons";
-    import { MapData } from "./mapdata";
-    import PlayerDot from "./PlayerDot.svelte";
 
     enum Team {
         Spectator = 1,
@@ -14,28 +14,32 @@
         CT = 3,
     }
 
-    let ip: string = "localhost";
-    let port: number = 9001;
-
-    let ws: WebSocket;
+    let ws: WebSocket | null = null;
     let wsConnected = false;
 
     function startWS() {
-        ws = new WebSocket(`ws://${ip}:${port}`);
+        stopWS();
+
+        ws = new WebSocket(`ws://localhost:9001`);
         ws.onmessage = wsMessage;
         ws.onopen = () => {
             wsConnected = true;
+            console.info("websocket connection established");
         };
         ws.onclose = () => {
             wsConnected = false;
+            console.info("websocket connection closed");
+        };
+        ws.onerror = () => {
+            wsConnected = false;
+            console.info("websocket could not connect");
         };
     }
 
-    setInterval(() => {
-        if (ws && ws.readyState !== WebSocket.OPEN) {
-            startWS();
-        }
-    }, 5000);
+    function stopWS() {
+        ws?.close();
+        ws = null;
+    }
 
     let players: Player[] = [];
     let activePlayer: Player;
@@ -83,20 +87,26 @@
 
     onMount(() => {
         startWS();
-        let mapStorage = localStorage.getItem("map");
-        let ipStorage = localStorage.getItem("ip");
-        let portStorage = localStorage.getItem("port");
-        if (mapStorage && ipStorage && portStorage) {
+
+        setInterval(() => {
+            if (ws && ws.readyState !== 1) {
+                startWS();
+            }
+        }, 1000);
+
+        const mapStorage = localStorage.getItem("map");
+        const radarTypeStorage = localStorage.getItem("radarType");
+        if (mapStorage && radarTypeStorage) {
             map = mapStorage;
-            ip = ipStorage;
-            port = Number(portStorage);
+            radarType = radarTypeStorage;
             changeMap();
         } else {
             localStorage.setItem("map", map);
-            localStorage.setItem("ip", ip);
-            localStorage.setItem("port", port.toString());
+            localStorage.setItem("radarType", radarType);
         }
     });
+
+    onDestroy(stopWS);
 
     enum MapLayers {
         Default,
@@ -122,24 +132,26 @@
 </svelte:head>
 
 <header in:fadeIn out:fadeOut>
-    <label>
-        IP
-        <input
-            type="text"
-            bind:value={ip}
-            on:input={() => {
-                localStorage.setItem("ip", ip);
-            }} />
-    </label>
-    <label>
-        Port
-        <input
-            type="number"
-            bind:value={port}
-            on:input={() => {
-                localStorage.setItem("port", port.toString());
-            }} />
-    </label>
+    <div class="status">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class={wsConnected ? "connected" : "disconnected"}>
+            <path d="M7 12l5 5l-1.5 1.5a3.536 3.536 0 1 1 -5 -5l1.5 -1.5z" />
+            <path d="M17 12l-5 -5l1.5 -1.5a3.536 3.536 0 1 1 5 5l-1.5 1.5z" />
+            <path d="M3 21l2.5 -2.5" />
+            <path d="M18.5 5.5l2.5 -2.5" />
+            <path d="M10 11l-2 2" />
+            <path d="M13 14l-2 2" />
+        </svg>
+    </div>
     <select bind:value={map} on:change={changeMap}>
         <option value="de_ancient">Ancient</option>
         <option value="de_dust2">Dust 2</option>
@@ -149,13 +161,16 @@
         <option value="de_overpass">Overpass</option>
         <option value="de_vertigo">Vertigo</option>
     </select>
-    <select bind:value={radarType}>
+    <select
+        bind:value={radarType}
+        on:change={() => {
+            localStorage.setItem("radarType", radarType);
+        }}>
         <option value="clean">Clean</option>
         <option value="callouts">Callouts</option>
         <option value="elevations">Elevations</option>
         <option value="both">Both</option>
     </select>
-    <div class="status" style="background-color: var(--color-{wsConnected ? 'green' : 'red'});">WebSocket</div>
 </header>
 <main in:fadeIn out:fadeOut>
     <div class="data">
@@ -196,7 +211,7 @@
         top: 0;
         z-index: 2;
         display: flex;
-        gap: 2rem;
+        gap: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -204,13 +219,6 @@
         padding-top: 1rem;
         flex-wrap: wrap;
     }
-
-    label {
-        font-family: var(--font-jetbrains-mono);
-        font-size: var(--font-size-medium);
-    }
-
-    input,
     select {
         color: var(--color-text);
         background-color: var(--color-highlight);
@@ -219,36 +227,46 @@
         font-family: var(--font-jetbrains-mono);
         font-size: var(--font-size-small);
         padding: 0.2rem 0.5rem;
+        height: 2.4rem;
     }
 
     select {
         cursor: pointer;
     }
 
-    input:hover,
     select:hover {
         border-color: var(--color-blue);
     }
 
-    input:focus,
     select:focus {
         outline: none;
         border-color: var(--color-blue);
     }
 
-    input[type="number"] {
-        width: 8rem;
-        appearance: textfield;
-    }
-
     .status {
-        color: var(--color-base);
-        background-color: var(--color-highlight);
         border: var(--border-text);
         border-radius: 0.5rem;
         font-family: var(--font-jetbrains-mono);
         font-size: var(--font-size-small);
-        padding: 0.2rem 0.5rem;
+        padding: 0.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 2.4rem;
+        width: 2.4rem;
+    }
+
+    .status > svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    svg.connected {
+        stroke: var(--color-green);
+    }
+
+    svg.disconnected {
+        stroke: var(--color-red);
     }
 
     main {
