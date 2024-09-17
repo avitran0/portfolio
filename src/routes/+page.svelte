@@ -10,6 +10,7 @@
 
 <main in:fadeIn out:fadeOut>
     <h2>{$fmt("home.projects")}</h2>
+    <a href="/radar">{$fmt("radar.title")}</a>
     <a href="/resource-calculator">{$fmt("resource_calculator.title")}</a>
     <a href="/colors">{$fmt("color_scheme.title")}</a>
     <a href="/canvas">{$fmt("canvas.title")}</a>

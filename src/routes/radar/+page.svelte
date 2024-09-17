@@ -132,6 +132,13 @@
 </svelte:head>
 
 <header in:fadeIn out:fadeOut>
+    <a href="/" id="home-link" aria-label="Go to home page">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+        </svg>
+    </a>
     <div class="status">
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -219,6 +226,31 @@
         padding-top: 1rem;
         flex-wrap: wrap;
     }
+
+    #home-link {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        border: var(--border-text);
+        border-radius: 0.5rem;
+        width: 2.4rem;
+        height: 2.4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--color-highlight);
+        padding: 0.2rem;
+    }
+
+    #home-link:hover {
+        border-color: var(--color-blue);
+    }
+
+    #home-link > svg {
+        width: 100%;
+        height: 100%;
+    }
+
     select {
         color: var(--color-text);
         background-color: var(--color-highlight);

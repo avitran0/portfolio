@@ -6,6 +6,15 @@
 
     const BLUE_FILTER =
         "brightness(0) saturate(100%) invert(57%) sepia(30%) saturate(2260%) hue-rotate(195deg) brightness(97%) contrast(94%)";
+
+    function getPingColor(ping: number) {
+        if (ping <= 50) {
+            return "green";
+        } else if (ping <= 100) {
+            return "yellow";
+        }
+        return "red";
+    }
 </script>
 
 <div class="player gap-small" style="border-color: {getColor(player.color)}; opacity: {player.health > 0 ? 1 : 0.5};">
@@ -21,6 +30,10 @@
         <div class="horizontal">
             <img src="/icons/money.svg" alt="money" />
             <p style="color: var(--color-yellow);">{player.money}</p>
+        </div>
+        <div class="horizontal">
+            <img src="/icons/ping.svg" alt="ping" />
+            <p style="color: var(--color-{getPingColor(player.ping)});">{player.ping}</p>
         </div>
     </div>
     <div class="horizontal gap-small">
