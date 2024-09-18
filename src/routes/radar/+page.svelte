@@ -278,6 +278,7 @@
     .status {
         border: var(--border-text);
         border-radius: 0.5rem;
+        background-color: var(--color-highlight);
         font-family: var(--font-jetbrains-mono);
         font-size: var(--font-size-small);
         padding: 0.2rem;
