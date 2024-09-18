@@ -17,7 +17,11 @@
     }
 </script>
 
-<div class="player gap-small" style="border-color: {getColor(player.color)}; opacity: {player.health > 0 ? 1 : 0.5};{player.active_player ? "background-color: var(--color-highlight);" : ""}">
+<div
+    class="player gap-small"
+    style="border-color: {getColor(player.color)}; opacity: {player.health > 0 ? 1 : 0.5};{player.active_player
+        ? 'background-color: var(--color-highlight);'
+        : ''}">
     <div class="horizontal gap">
         <div class="horizontal">
             <img src="/icons/health.svg" alt="health" />
