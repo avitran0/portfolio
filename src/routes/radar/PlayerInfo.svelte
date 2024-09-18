@@ -8,7 +8,7 @@
         "brightness(0) saturate(100%) invert(57%) sepia(30%) saturate(2260%) hue-rotate(195deg) brightness(97%) contrast(94%)";
 </script>
 
-<div class="player gap-small" style="border-color: {getColor(player.color)}; opacity: {player.health > 0 ? 1 : 0.5};">
+<div class="player gap-small" style="border-color: {getColor(player.color)}; opacity: {player.health > 0 ? 1 : 0.5};{player.active_player ? "background-color: var(--color-highlight);" : ""}">
     <div class="horizontal gap">
         <div class="horizontal">
             <img src="/icons/health.svg" alt="health" />
