@@ -12,6 +12,7 @@ export interface Player {
     color: number;
     position: Vec3;
     rotation: number;
+    ping: number;
     steam_id: number;
     active_player: boolean;
 }
