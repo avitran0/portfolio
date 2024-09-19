@@ -92,7 +92,7 @@
             if (ws && ws.readyState !== 1) {
                 startWS();
             }
-        }, 1000);
+        }, 5000);
 
         const mapStorage = localStorage.getItem("map");
         const radarTypeStorage = localStorage.getItem("radarType");
